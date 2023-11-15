@@ -28,7 +28,7 @@ public class Suspensioncode extends OpMode {
     public void loop() {
         moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
 
-        motor.setPower(gamepad1.left_stick_y);
+        motor.setPower(gamepad1.left_stick_y * 0.5);
 
 
         telemetry.addData("SERVO", servo.getPosition());
