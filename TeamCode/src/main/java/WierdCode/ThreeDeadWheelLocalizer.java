@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package WierdCode;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.DualNum;
