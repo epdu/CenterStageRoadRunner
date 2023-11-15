@@ -11,7 +11,18 @@ public class TeleOpCode extends OpMode {
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
+    DcMotor liftMotorL;
+    DcMotor liftMotorR;
+
+    boolean move = false;
+
+    private static final double SLIDE_POWER = 0.9; // Adjust as needed
+    private static final int POSITION_A = 1000;   // Adjust these positions as needed
+    private static final int POSITION_B = 2000;
+    private static final int POSITION_X = 0;
+    private static final int POSITION_Y = 2500;
     public float speedMultiplier = 0.5f;
+    public float speedLimiter = 0.5f;
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -21,6 +32,20 @@ public class TeleOpCode extends OpMode {
 
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
+
+        int positionL = liftMotorL.getCurrentPosition();
+        int positionR = liftMotorR.getCurrentPosition();
+
+        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     @Override
     public void loop(){
