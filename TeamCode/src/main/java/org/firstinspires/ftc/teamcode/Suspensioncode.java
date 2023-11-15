@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -20,6 +21,7 @@ public class Suspensioncode extends OpMode {
         servo = hardwareMap.get(Servo.class, "Servo");
         motor = hardwareMap.get(DcMotorEx.class, "Motor");
         servo.setPosition(0.5);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -27,6 +29,7 @@ public class Suspensioncode extends OpMode {
         moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
 
         motor.setPower(gamepad1.left_stick_y);
+
 
         telemetry.addData("SERVO", servo.getPosition());
         telemetry.update();

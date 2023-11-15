@@ -11,7 +11,7 @@ public class LauncherServo extends OpMode {
     }
     @Override
     public void loop() {
-        if (gamepad1.left_trigger > 0.3) {
+        if (gamepad2.x) {
             LauncherServo.setPosition(0.25);}
     }
 
