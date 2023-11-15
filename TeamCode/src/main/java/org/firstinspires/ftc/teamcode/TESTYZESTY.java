@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.tuning;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -30,56 +30,36 @@ public class TESTYZESTY extends LinearOpMode {
 
 
         waitForStart();
-        RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+        //test function]
+        public void moveForward(double distance, int power) {
+            RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            RFMotor.setTargetPosition(500);
-            RBMotor.setTargetPosition(500);
-            LFMotor.setTargetPosition(500);
-            LBMotor.setTargetPosition(500);
+            RFMotor.setTargetPosition((int) distance);
+            RBMotor.setTargetPosition((int) distance);
+            LFMotor.setTargetPosition((int) distance);
+            LBMotor.setTargetPosition((int) distance);
             RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            RFMotor.setPower(0.5);
-            RBMotor.setPower(0.5);
-            LFMotor.setPower(0.5);
-            LBMotor.setPower(0.5);
+            RFMotor.setPower(power);
+            RBMotor.setPower(power);
+            LFMotor.setPower(power);
+            LBMotor.setPower(power);
             while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
             RFMotor.setPower(0);
             LFMotor.setPower(0);
             RBMotor.setPower(0);
             LBMotor.setPower(0);
 
-
-        //test function]
-//        public void moveForward(double distance, int power) {
-//            RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            RFMotor.setTargetPosition((int) distance);
-//            RBMotor.setTargetPosition((int) distance);
-//            LFMotor.setTargetPosition((int) distance);
-//            LBMotor.setTargetPosition((int) distance);
-//            RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            RFMotor.setPower(power);
-//            RBMotor.setPower(power);
-//            LFMotor.setPower(power);
-//            LBMotor.setPower(power);
-//            while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-//            RFMotor.setPower(0);
-//            LFMotor.setPower(0);
-//            RBMotor.setPower(0);
-//            LBMotor.setPower(0);}
-
         }
 
 
     }
 
-
+}
