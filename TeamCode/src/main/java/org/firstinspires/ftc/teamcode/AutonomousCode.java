@@ -33,7 +33,9 @@ public class AutonomousCode extends LinearOpMode {
 
 
         moveForward(0.5, 1000);
+        sleep(1000);
         RightTurn(0.5, 500);
+        sleep(1000);
         LeftTurn(0.5, 500);
     }
         //test function]
