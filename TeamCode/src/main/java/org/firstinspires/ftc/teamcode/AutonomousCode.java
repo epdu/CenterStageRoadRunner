@@ -19,8 +19,8 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
 
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
