@@ -32,7 +32,7 @@ public class AutonomousCode extends LinearOpMode {
         waitForStart();
 
 
-        moveForward(0.5, 1000);
+        moveForward(0.5, 500);
         RightTurn(0.5, 500);
         LeftTurn(0.5, 500);
     }
