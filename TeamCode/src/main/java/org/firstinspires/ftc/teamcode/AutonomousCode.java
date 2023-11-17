@@ -56,11 +56,11 @@ public class AutonomousCode extends LinearOpMode {
             RBMotor.setPower(power);
             LFMotor.setPower(power);
             LBMotor.setPower(power);
-            while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-            RFMotor.setPower(0);
-            LFMotor.setPower(0);
-            RBMotor.setPower(0);
-            LBMotor.setPower(0);
+           // while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+           // RFMotor.setPower(0);
+           // LFMotor.setPower(0);
+           // RBMotor.setPower(0);
+           // LBMotor.setPower(0);
         }
     public void RightTurn(double power, double distance) {
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
