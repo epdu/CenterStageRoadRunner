@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -22,6 +23,11 @@ public class TeleOpCode extends OpMode {
     private static final int POSITION_Y = 0;
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.5f;
+    private Servo servo;
+    public boolean previous1 = false;
+    public boolean previous2 = false;
+
+    private DcMotorEx motor;
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -42,6 +48,11 @@ public class TeleOpCode extends OpMode {
 
         LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
 
+        servo = hardwareMap.get(Servo.class, "Servo");
+        motor = hardwareMap.get(DcMotorEx.class, "Motor");
+        servo.setPosition(0.5);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
     }
     @Override
     public void loop(){
@@ -53,7 +64,12 @@ public class TeleOpCode extends OpMode {
             LauncherServo.setPosition(0.25);
         }else {
             liftArmHigh();
-            moveDriveTrain();}
+            moveDriveTrain();
+            moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
+            motor.setPower(gamepad1.left_stick_y * 0.5);
+
+            telemetry.addData("SERVO", servo.getPosition());
+            telemetry.update();}
 
     }
 
@@ -105,6 +121,22 @@ public class TeleOpCode extends OpMode {
         double y = - gamepad1.left_stick_y;
         liftMotorL.setPower(speedLimiter * y);
 
+    }
+    public void moveServo(boolean keybind1, boolean keybind2)
+    {
+        boolean current1 = keybind1;
+        if(current1 && !previous1)
+        {
+            servo.setPosition(servo.getPosition() + 0.1);
+        }
+        previous1 = current1;
+
+        boolean current2 = keybind2;
+        if(current2 && !previous2)
+        {
+            servo.setPosition(servo.getPosition() - 0.1);
+        }
+        previous2=current2;
     }
 
 
