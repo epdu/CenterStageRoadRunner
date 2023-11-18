@@ -79,6 +79,7 @@ public class CHATGPTautonomous extends LinearOpMode {
         RFMotor.setTargetPosition(frontRight);
         LBMotor.setTargetPosition(rearLeft);
         RBMotor.setTargetPosition(rearRight);
+
     }
 
     private void setMotorPower(double power) {
