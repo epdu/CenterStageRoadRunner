@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ActiveIntake extends OpMode {
     DcMotor Intake;
     boolean move = false;
+    public float speedMultiplier = 1;
+    public float speedMultiplier1 = 0.2f;
 
 
     @Override
@@ -18,11 +20,13 @@ public class ActiveIntake extends OpMode {
     @Override
     public void loop(){
         if (gamepad1.y && !move) {
-        moveIntake
+        moveIntake();
         }
     }
 
     public void moveIntake(){
-        Intake = gamepad1
+        double intake = gamepad1.right_trigger;
+        Intake.setPower(intake*speedMultiplier);
     }
+
 }
