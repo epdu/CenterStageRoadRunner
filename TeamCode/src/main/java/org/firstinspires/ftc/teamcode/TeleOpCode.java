@@ -31,7 +31,7 @@ public class TeleOpCode extends OpMode {
     DcMotor Intake;
     public Servo IntakeServo;
     public float speedMultiplier2 = 1;
-    public float speedMultiplier1 = 0.2f;
+    public float speedMultiplier1 = 0.8f;
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -55,11 +55,11 @@ public class TeleOpCode extends OpMode {
         servo = hardwareMap.get(Servo.class, "Servo");
         motor = hardwareMap.get(DcMotorEx.class, "Motor");
         servo.setPosition(0.5);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Intake = hardwareMap.get(DcMotor.class, "Intake");
         IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
-
+        LauncherServo.setPosition(0);
+        IntakeServo.setPosition(0);
     }
     @Override
     public void loop(){
@@ -68,17 +68,22 @@ public class TeleOpCode extends OpMode {
 //            moveSlideToPosition(POSITION_Y);
 //        }  else if (gamepad2.a && !move) {
 //            moveSlideToPosition(POSITION_A);}
-         if (gamepad1.y) {
-             motor.setPower(1);
-         }else if (gamepad2.x) {
-            LauncherServo.setPosition(0.25);
-        } else if (gamepad2.b && !move) {
+//         if (gamepad1.right_trigger > 0.3) {
+//             motor.setPower(0.5);
+//         }
+          if (gamepad2.x && !move) {
+             LauncherServo.setPosition(0.25);
+        }  if (gamepad2.a && !move) {
             IntakeServo.setPosition(0.5);
-        }else if (gamepad2.a && !move){
+        } if (gamepad2.b && !move){
             IntakeServo.setPosition(0);
-        }else {
+      }
+       else {
 //            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
+            moveIntake(gamepad2.dpad_up, gamepad2.dpad_down);
+
+             motor.setPower(gamepad2.left_stick_y * 0.5);
 
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
@@ -153,7 +158,7 @@ public class TeleOpCode extends OpMode {
         previous2=current2;
     }
 
-    public void moveIntake(){
+    public void moveIntake(boolean dpad_up, boolean dpad_down){
         double intake = gamepad2.right_trigger;
         Intake.setPower(-intake*speedMultiplier);
     }
