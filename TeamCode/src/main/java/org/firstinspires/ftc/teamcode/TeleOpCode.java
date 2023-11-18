@@ -56,6 +56,7 @@ public class TeleOpCode extends OpMode {
     }
     @Override
     public void loop(){
+        moveDriveTrain();
         if (gamepad2.y && !move) {
             moveSlideToPosition(POSITION_Y);
         }  else if (gamepad2.a && !move) {
@@ -64,7 +65,6 @@ public class TeleOpCode extends OpMode {
             LauncherServo.setPosition(0.25);
         }else {
             liftArmHigh();
-            moveDriveTrain();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
             motor.setPower(gamepad1.left_stick_y * 0.5);
 
