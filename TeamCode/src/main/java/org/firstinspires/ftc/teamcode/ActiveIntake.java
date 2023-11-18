@@ -18,7 +18,11 @@ public class ActiveIntake extends OpMode {
     @Override
     public void loop(){
         if (gamepad1.y && !move) {
-
+        moveIntake
         }
+    }
+
+    public void moveIntake(){
+        Intake = gamepad1
     }
 }
