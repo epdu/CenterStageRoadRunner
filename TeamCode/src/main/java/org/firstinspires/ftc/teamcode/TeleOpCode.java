@@ -69,7 +69,7 @@ public class TeleOpCode extends OpMode {
 //        }  else if (gamepad2.a && !move) {
 //            moveSlideToPosition(POSITION_A);}
          if (gamepad1.y) {
-             motor.setPower(1);
+             motor.setPower(0.5);
          }else if (gamepad2.x) {
             LauncherServo.setPosition(0.25);
         } else if (gamepad2.b && !move) {
