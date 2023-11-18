@@ -68,9 +68,7 @@ public class TeleOpCode extends OpMode {
 //            moveSlideToPosition(POSITION_Y);
 //        }  else if (gamepad2.a && !move) {
 //            moveSlideToPosition(POSITION_A);}
-         if (gamepad2.y) {
-             motor.setPower(1);
-         }else if (gamepad2.x) {
+         if (gamepad2.x) {
             LauncherServo.setPosition(0.25);
         } else if (gamepad2.b && !move) {
             IntakeServo.setPosition(0.5);
@@ -79,6 +77,7 @@ public class TeleOpCode extends OpMode {
         }else {
 //            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
+            motor.setPower(gamepad2.left_trigger * 0.5);
 
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
