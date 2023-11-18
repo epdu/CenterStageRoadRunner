@@ -18,9 +18,9 @@ public class TeleOpCode extends OpMode {
 
     boolean move = false;
 
-    private static final double SLIDE_POWER = 0.9; // Adjust as needed
-    private static final int POSITION_A = 500;   // Adjust these positions as needed
-    private static final int POSITION_Y = 0;
+//    private static final double SLIDE_POWER = 0.9; // Adjust as needed
+//    private static final int POSITION_A = 500;   // Adjust these positions as needed
+//    private static final int POSITION_Y = 0;
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.5f;
     private Servo servo;
@@ -42,13 +42,13 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-
-        int positionL = liftMotorL.getCurrentPosition();
-
-        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+//
+//        int positionL = liftMotorL.getCurrentPosition();
+//
+//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+//
+//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
 
@@ -64,11 +64,11 @@ public class TeleOpCode extends OpMode {
     @Override
     public void loop(){
         moveDriveTrain();
-        if (gamepad2.y && !move) {
-            moveSlideToPosition(POSITION_Y);
-        }  else if (gamepad2.a && !move) {
-            moveSlideToPosition(POSITION_A);
-        } else if (gamepad2.x) {
+//        if (gamepad2.y && !move) {
+//            moveSlideToPosition(POSITION_Y);
+//        }  else if (gamepad2.a && !move) {
+//            moveSlideToPosition(POSITION_A);}
+         if (gamepad2.x) {
             LauncherServo.setPosition(0.25);
         } else if (gamepad2.b && !move) {
             IntakeServo.setPosition(0.5);
@@ -117,18 +117,18 @@ public class TeleOpCode extends OpMode {
 
 
     }
-    private void moveSlideToPosition(int targetPosition) {
-        liftMotorL.setTargetPosition(targetPosition);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorL.setPower(SLIDE_POWER);
-        move=true;
-        while (liftMotorL.isBusy() && move) {
-            // Wait until the motor reaches the target position
-        }
-        liftMotorL.setPower(0);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        move=false;
-    }
+//    private void moveSlideToPosition(int targetPosition) {
+//        liftMotorL.setTargetPosition(targetPosition);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotorL.setPower(SLIDE_POWER);
+//        move=true;
+//        while (liftMotorL.isBusy() && move) {
+//            // Wait until the motor reaches the target position
+//        }
+//        liftMotorL.setPower(0);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        move=false;
+//    }
 
     public void liftArmHigh(){
         double y = - gamepad1.left_stick_y;
