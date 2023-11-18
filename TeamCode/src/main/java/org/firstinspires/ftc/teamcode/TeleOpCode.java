@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class TeleOpCode extends OpMode {
@@ -12,6 +13,7 @@ public class TeleOpCode extends OpMode {
     DcMotor RBMotor;
     DcMotor LBMotor;
     DcMotor liftMotorL;
+    public Servo LauncherServo;
 
     boolean move = false;
 
@@ -38,6 +40,8 @@ public class TeleOpCode extends OpMode {
 
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
+
     }
     @Override
     public void loop(){
@@ -45,6 +49,8 @@ public class TeleOpCode extends OpMode {
             moveSlideToPosition(POSITION_Y);
         }  else if (gamepad2.a && !move) {
             moveSlideToPosition(POSITION_A);
+        } else if (gamepad2.x) {
+            LauncherServo.setPosition(0.25);
         }else {
             liftArmHigh();
             moveDriveTrain();}
