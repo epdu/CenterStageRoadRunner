@@ -28,6 +28,10 @@ public class TeleOpCode extends OpMode {
     public boolean previous2 = false;
 
     private DcMotorEx motor;
+    DcMotor Intake;
+    public Servo IntakeServo;
+    public float speedMultiplier2 = 1;
+    public float speedMultiplier1 = 0.2f;
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -53,6 +57,9 @@ public class TeleOpCode extends OpMode {
         servo.setPosition(0.5);
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        Intake = hardwareMap.get(DcMotor.class, "Intake");
+        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
+
     }
     @Override
     public void loop(){
@@ -63,13 +70,19 @@ public class TeleOpCode extends OpMode {
             moveSlideToPosition(POSITION_A);
         } else if (gamepad2.x) {
             LauncherServo.setPosition(0.25);
+        } else if (gamepad2.b && !move) {
+            IntakeServo.setPosition(0.5);
+        }else if (gamepad2.x && !move){
+            IntakeServo.setPosition(0);
         }else {
             liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
             motor.setPower(gamepad1.left_stick_y * 0.5);
 
             telemetry.addData("SERVO", servo.getPosition());
-            telemetry.update();}
+            telemetry.update();
+
+            ejectPixel();}
 
     }
 
@@ -139,6 +152,15 @@ public class TeleOpCode extends OpMode {
         previous2=current2;
     }
 
+    public void moveIntake(){
+        double intake = gamepad2.right_trigger;
+        Intake.setPower(intake*speedMultiplier);
+    }
+
+    public void ejectPixel(){
+        double intake = gamepad2.left_trigger;
+        Intake.setPower(intake*speedMultiplier1);
+    }
 
 }
 
