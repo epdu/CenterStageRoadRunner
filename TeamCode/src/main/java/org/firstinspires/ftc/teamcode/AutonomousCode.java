@@ -19,8 +19,8 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
 
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -32,9 +32,11 @@ public class AutonomousCode extends LinearOpMode {
         waitForStart();
 
 
-        moveForward(0.5, 500);
-        RightTurn(0.5, 500);
-        LeftTurn(0.5, 500);
+        moveForward(0.5, 1000);
+//        sleep(1000);
+//        RightTurn(0.5, 500);
+//        sleep(1000);
+//        LeftTurn(0.5, 500);
     }
         //test function]
         public void moveForward(double power, double distance) {
@@ -54,11 +56,11 @@ public class AutonomousCode extends LinearOpMode {
             RBMotor.setPower(power);
             LFMotor.setPower(power);
             LBMotor.setPower(power);
-            while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-            RFMotor.setPower(0);
-            LFMotor.setPower(0);
-            RBMotor.setPower(0);
-            LBMotor.setPower(0);
+           // while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+           // RFMotor.setPower(0);
+           // LFMotor.setPower(0);
+           // RBMotor.setPower(0);
+           // LBMotor.setPower(0);
         }
     public void RightTurn(double power, double distance) {
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
