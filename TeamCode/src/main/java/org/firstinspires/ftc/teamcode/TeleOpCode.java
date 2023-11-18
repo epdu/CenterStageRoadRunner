@@ -13,7 +13,7 @@ public class TeleOpCode extends OpMode {
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
-    DcMotor liftMotorL;
+//    DcMotor liftMotorL;
     public Servo LauncherServo;
 
     boolean move = false;
@@ -75,7 +75,7 @@ public class TeleOpCode extends OpMode {
         }else if (gamepad2.x && !move){
             IntakeServo.setPosition(0);
         }else {
-            liftArmHigh();
+//            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
             motor.setPower(gamepad1.left_stick_y * 0.5);
 
@@ -130,11 +130,11 @@ public class TeleOpCode extends OpMode {
 //        move=false;
 //    }
 
-    public void liftArmHigh(){
-        double y = - gamepad1.left_stick_y;
-        liftMotorL.setPower(speedLimiter * y);
+//    public void liftArmHigh(){
+//        double y = - gamepad1.left_stick_y;
+//        liftMotorL.setPower(speedLimiter * y);
 
-    }
+//    }
     public void moveServo(boolean keybind1, boolean keybind2)
     {
         boolean current1 = keybind1;

@@ -10,7 +10,7 @@ public class CHATGPTautonomous extends LinearOpMode {
     private DcMotor RBMotor;
 
     private double countsPerInch;  // Adjust this based on your robot's calibration
-    private double wheelDiameterInInches = 4.0;  // Adjust this based on your mecanum wheel diameter
+    private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
 
     @Override
     public void runOpMode() {
