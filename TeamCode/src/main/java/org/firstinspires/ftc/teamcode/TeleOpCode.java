@@ -90,7 +90,6 @@ public class TeleOpCode extends OpMode {
         while (liftMotorL.isBusy() && move) {
             // Wait until the motor reaches the target position
         }
-
         liftMotorL.setPower(0);
         liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         move=false;
