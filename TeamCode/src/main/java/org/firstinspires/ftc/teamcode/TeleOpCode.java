@@ -72,12 +72,12 @@ public class TeleOpCode extends OpMode {
             LauncherServo.setPosition(0.25);
         } else if (gamepad2.b && !move) {
             IntakeServo.setPosition(0.5);
-        }else if (gamepad2.x && !move){
+        }else if (gamepad2.a && !move){
             IntakeServo.setPosition(0);
         }else {
 //            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
-            motor.setPower(gamepad1.left_stick_y * 0.5);
+            motor.setPower(gamepad2.y * 0.5);
 
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
@@ -92,10 +92,10 @@ public class TeleOpCode extends OpMode {
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        double fl = y + x + rx;
-        double bl = y - x + rx;
-        double fr = y - x - rx;
-        double br = y + x - rx;
+        double fl = y - x - rx;
+        double bl = y + x - rx;
+        double fr = y + x + rx;
+        double br = y - x + rx;
 
         LFMotor.setPower(fl*speedMultiplier);
         LBMotor.setPower(bl*speedMultiplier);
@@ -154,7 +154,7 @@ public class TeleOpCode extends OpMode {
 
     public void moveIntake(){
         double intake = gamepad2.right_trigger;
-        Intake.setPower(intake*speedMultiplier);
+        Intake.setPower(-intake*speedMultiplier);
     }
 
     public void ejectPixel(){
