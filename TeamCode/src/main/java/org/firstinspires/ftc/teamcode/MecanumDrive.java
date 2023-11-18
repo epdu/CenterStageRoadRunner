@@ -37,17 +37,17 @@ public class MecanumDrive extends OpMode {
 //        double fr = y + x - rx;
 //        double br = y - x - rx;
 
-            double fl = y + x + rx;
-            double bl = y - x + rx;
-            double fr = y - x - rx;
-            double br = y + x - rx;
+            double fl = y - x - rx;
+            double bl = y + x - rx;
+            double fr = y + x + rx;
+            double br = y - x + rx;
 
             LFMotor.setPower(fl*speedMultiplier);
             LBMotor.setPower(bl*speedMultiplier);
             RFMotor.setPower(fr*speedMultiplier);
             RBMotor.setPower(br*speedMultiplier);
 
-            telemetry.addData("y",y);
+            telemetry.addData("y", y);
             telemetry.addData("x",x);
             telemetry.addData("fl",fl);
             telemetry.addData("bl",bl);
