@@ -14,17 +14,20 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        DcMotor LFMotor = hardwareMap.dcMotor.get("LFMotor");
+        DcMotor LBMotor = hardwareMap.dcMotor.get("LBMotor");
+        DcMotor RFMotor = hardwareMap.dcMotor.get("RFMotor");
+        DcMotor RBMotor = hardwareMap.dcMotor.get("RBMotor");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//  why?
+        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -68,10 +71,10 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double frontRightPower = (rotY - rotX - rx) / denominator;
             double backRightPower = (rotY + rotX - rx) / denominator;
 
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
+            LFMotor.setPower(frontLeftPower);
+            LBMotor.setPower(backLeftPower);
+            RFMotor.setPower(frontRightPower);
+            RBMotor.setPower(backRightPower);
         }
     }
 
