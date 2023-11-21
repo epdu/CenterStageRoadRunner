@@ -30,14 +30,21 @@ public class MecanumDrive extends OpMode {
 
         public void moveDriveTrain() {
             double y = gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double x =- gamepad1.left_stick_x;
+            double rx = -gamepad1.right_stick_x;
 
 
-            double fl = y - x - rx;
-            double bl = y + x - rx;
-            double fr = y + x + rx;
-            double br = y - x + rx;
+            double fl = y + x + rx;
+            double bl = y - x + rx;
+            double fr = y - x - rx;
+            double br = y + x - rx;
+//            double y = gamepad1.left_stick_y;
+//            double x = gamepad1.left_stick_x;
+//            double rx = gamepad1.right_stick_x;
+//            double fl = y - x - rx;
+//            double bl = y + x - rx;
+//            double fr = y + x + rx;
+//            double br = y - x + rx;
 
             LFMotor.setPower(fl*0.5);
             LBMotor.setPower(bl*0.5);
