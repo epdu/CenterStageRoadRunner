@@ -23,11 +23,11 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+      //  RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+      //  RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //  why?
-//        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+       LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+       LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -68,10 +68,10 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double frontLeftPower = (rotY + rotX - rx) / denominator;
-            double backLeftPower = (rotY - rotX - rx) / denominator;
-            double frontRightPower = (rotY - rotX + rx) / denominator;
-            double backRightPower = (rotY + rotX + rx) / denominator;
+            double frontLeftPower = (rotY + rotX + rx) / denominator;
+            double backLeftPower = (rotY - rotX + rx) / denominator;
+            double frontRightPower = (rotY - rotX - rx) / denominator;
+            double backRightPower = (rotY + rotX - rx) / denominator;
 
             LFMotor.setPower(frontLeftPower);
             LBMotor.setPower(backLeftPower);
