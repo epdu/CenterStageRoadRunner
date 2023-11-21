@@ -11,7 +11,8 @@ public class MecanumDrive extends OpMode {
         DcMotor LFMotor;
         DcMotor RBMotor;
         DcMotor LBMotor;
-        public float speedMultiplier = 0.5f;
+
+
         @Override
         public void init() {
             RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -32,34 +33,16 @@ public class MecanumDrive extends OpMode {
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
-//        double fl = y + x + rx;
-//        double bl = y - x + rx;
-//        double fr = y + x - rx;
-//        double br = y - x - rx;
 
-            double fl = y + x + rx;
-            double bl = y - x + rx;
-            double fr = y - x - rx;
-            double br = y + x - rx;
+            double fl = y - x - rx;
+            double bl = y + x - rx;
+            double fr = y + x + rx;
+            double br = y - x + rx;
 
-            LFMotor.setPower(fl*speedMultiplier);
-            LBMotor.setPower(bl*speedMultiplier);
-            RFMotor.setPower(fr*speedMultiplier);
-            RBMotor.setPower(br*speedMultiplier);
-
-            telemetry.addData("y",y);
-            telemetry.addData("x",x);
-            telemetry.addData("fl",fl);
-            telemetry.addData("bl",bl);
-            telemetry.addData("fr",fr);
-            telemetry.addData("br",br);
-            telemetry.addData("fl*speedMultiplier",fl*speedMultiplier);
-            telemetry.addData("bl*speedMultiplier",bl*speedMultiplier);
-            telemetry.addData("fr*speedMultiplier",fr*speedMultiplier);
-            telemetry.addData("br*speedMultiplier",br*speedMultiplier);
-
-            telemetry.update();
-
+            LFMotor.setPower(fl*0.5);
+            LBMotor.setPower(bl*0.5);
+            RFMotor.setPower(fr*0.5);
+            RBMotor.setPower(br*0.5);
 
         }
 }

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class LauncherServo extends OpMode {
-
     public Servo LauncherServo;
     @Override
     public void init() {
@@ -16,6 +15,5 @@ public class LauncherServo extends OpMode {
         if (gamepad2.x) {
             LauncherServo.setPosition(0.25);}
     }
-
 }
 

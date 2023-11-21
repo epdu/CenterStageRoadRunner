@@ -13,14 +13,14 @@ public class TeleOpCode extends OpMode {
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
-    DcMotor liftMotorL;
+//    DcMotor liftMotorL;
     public Servo LauncherServo;
 
     boolean move = false;
 
-    private static final double SLIDE_POWER = 0.9; // Adjust as needed
-    private static final int POSITION_A = 500;   // Adjust these positions as needed
-    private static final int POSITION_Y = 0;
+//    private static final double SLIDE_POWER = 0.9; // Adjust as needed
+//    private static final int POSITION_A = 500;   // Adjust these positions as needed
+//    private static final int POSITION_Y = 0;
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.5f;
     private Servo servo;
@@ -31,7 +31,7 @@ public class TeleOpCode extends OpMode {
     DcMotor Intake;
     public Servo IntakeServo;
     public float speedMultiplier2 = 1;
-    public float speedMultiplier1 = 0.2f;
+    public float speedMultiplier1 = 0.8f;
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -42,42 +42,48 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-
-        int positionL = liftMotorL.getCurrentPosition();
-
-        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+//
+//        int positionL = liftMotorL.getCurrentPosition();
+//
+//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+//
+//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
 
         servo = hardwareMap.get(Servo.class, "Servo");
         motor = hardwareMap.get(DcMotorEx.class, "Motor");
         servo.setPosition(0.5);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Intake = hardwareMap.get(DcMotor.class, "Intake");
         IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
-
+        LauncherServo.setPosition(0);
+        IntakeServo.setPosition(0);
     }
     @Override
     public void loop(){
         moveDriveTrain();
-        if (gamepad2.y && !move) {
-            moveSlideToPosition(POSITION_Y);
-        }  else if (gamepad2.a && !move) {
-            moveSlideToPosition(POSITION_A);
-        } else if (gamepad2.x) {
-            LauncherServo.setPosition(0.25);
-        } else if (gamepad2.b && !move) {
+//        if (gamepad2.y && !move) {
+//            moveSlideToPosition(POSITION_Y);
+//        }  else if (gamepad2.a && !move) {
+//            moveSlideToPosition(POSITION_A);}
+//         if (gamepad1.right_trigger > 0.3) {
+//             motor.setPower(0.5);
+//         }
+          if (gamepad2.x && !move) {
+             LauncherServo.setPosition(0.25);
+        }  if (gamepad2.a && !move) {
             IntakeServo.setPosition(0.5);
-        }else if (gamepad2.x && !move){
+        } if (gamepad2.b && !move){
             IntakeServo.setPosition(0);
-        }else {
-            liftArmHigh();
+      }
+       else {
+//            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
-            motor.setPower(gamepad1.left_stick_y * 0.5);
+            moveIntake(gamepad2.dpad_up, gamepad2.dpad_down);
+
+             motor.setPower(gamepad2.left_stick_y * 0.5);
 
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
@@ -92,10 +98,10 @@ public class TeleOpCode extends OpMode {
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        double fl = y + x + rx;
-        double bl = y - x + rx;
-        double fr = y - x - rx;
-        double br = y + x - rx;
+        double fl = y - x - rx;
+        double bl = y + x - rx;
+        double fr = y + x + rx;
+        double br = y - x + rx;
 
         LFMotor.setPower(fl*speedMultiplier);
         LBMotor.setPower(bl*speedMultiplier);
@@ -117,24 +123,24 @@ public class TeleOpCode extends OpMode {
 
 
     }
-    private void moveSlideToPosition(int targetPosition) {
-        liftMotorL.setTargetPosition(targetPosition);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorL.setPower(SLIDE_POWER);
-        move=true;
-        while (liftMotorL.isBusy() && move) {
-            // Wait until the motor reaches the target position
-        }
-        liftMotorL.setPower(0);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        move=false;
-    }
+//    private void moveSlideToPosition(int targetPosition) {
+//        liftMotorL.setTargetPosition(targetPosition);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotorL.setPower(SLIDE_POWER);
+//        move=true;
+//        while (liftMotorL.isBusy() && move) {
+//            // Wait until the motor reaches the target position
+//        }
+//        liftMotorL.setPower(0);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        move=false;
+//    }
 
-    public void liftArmHigh(){
-        double y = - gamepad1.left_stick_y;
-        liftMotorL.setPower(speedLimiter * y);
+//    public void liftArmHigh(){
+//        double y = - gamepad1.left_stick_y;
+//        liftMotorL.setPower(speedLimiter * y);
 
-    }
+//    }
     public void moveServo(boolean keybind1, boolean keybind2)
     {
         boolean current1 = keybind1;
@@ -152,9 +158,9 @@ public class TeleOpCode extends OpMode {
         previous2=current2;
     }
 
-    public void moveIntake(){
+    public void moveIntake(boolean dpad_up, boolean dpad_down){
         double intake = gamepad2.right_trigger;
-        Intake.setPower(intake*speedMultiplier);
+        Intake.setPower(-intake*speedMultiplier);
     }
 
     public void ejectPixel(){
