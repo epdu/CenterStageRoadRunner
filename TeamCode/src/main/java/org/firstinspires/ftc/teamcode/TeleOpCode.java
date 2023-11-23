@@ -102,8 +102,6 @@ public class TeleOpCode extends OpMode {
 
     }
 
-
-
     public void FieldCentricDriveTrain() {
     //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -194,38 +192,39 @@ public class TeleOpCode extends OpMode {
         Intake.setPower(intake*speedMultiplier2);
     }
 
-
-    public void moveDriveTrain() {
-        double y = gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
-
-        double fl = y - x - rx;
-        double bl = y + x - rx;
-        double fr = y + x + rx;
-        double br = y - x + rx;
-
-        LFMotor.setPower(fl*speedMultiplier);
-        LBMotor.setPower(bl*speedMultiplier);
-        RFMotor.setPower(fr*speedMultiplier);
-        RBMotor.setPower(br*speedMultiplier);
-
-        telemetry.addData("y",y);
-        telemetry.addData("x",x);
-        telemetry.addData("fl",fl);
-        telemetry.addData("bl",bl);
-        telemetry.addData("fr",fr);
-        telemetry.addData("br",br);
-        telemetry.addData("fl*speedMultiplier",fl*speedMultiplier);
-        telemetry.addData("bl*speedMultiplier",bl*speedMultiplier);
-        telemetry.addData("fr*speedMultiplier",fr*speedMultiplier);
-        telemetry.addData("br*speedMultiplier",br*speedMultiplier);
-
-        telemetry.update();
-
-
-    }
-
+//*********Robot-Centric
+//
+//    public void moveDriveTrain() {
+//        double y = gamepad1.left_stick_y;
+//        double x = gamepad1.left_stick_x;
+//        double rx = gamepad1.right_stick_x;
+//
+//        double fl = y - x - rx;
+//        double bl = y + x - rx;
+//        double fr = y + x + rx;
+//        double br = y - x + rx;
+//
+//        LFMotor.setPower(fl*speedMultiplier);
+//        LBMotor.setPower(bl*speedMultiplier);
+//        RFMotor.setPower(fr*speedMultiplier);
+//        RBMotor.setPower(br*speedMultiplier);
+//
+//        telemetry.addData("y",y);
+//        telemetry.addData("x",x);
+//        telemetry.addData("fl",fl);
+//        telemetry.addData("bl",bl);
+//        telemetry.addData("fr",fr);
+//        telemetry.addData("br",br);
+//        telemetry.addData("fl*speedMultiplier",fl*speedMultiplier);
+//        telemetry.addData("bl*speedMultiplier",bl*speedMultiplier);
+//        telemetry.addData("fr*speedMultiplier",fr*speedMultiplier);
+//        telemetry.addData("br*speedMultiplier",br*speedMultiplier);
+//
+//        telemetry.update();
+//
+//
+//    }
+//*********
 
 }
 
