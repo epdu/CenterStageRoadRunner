@@ -6,11 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -49,7 +45,7 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Retrieve the IMU from the hardware map
+
 
 
 //        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
@@ -60,16 +56,19 @@ public class TeleOpCode extends OpMode {
 //
 //        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
-
-        servo = hardwareMap.get(Servo.class, "Servo");
-        motor = hardwareMap.get(DcMotorEx.class, "Motor");
-        servo.setPosition(0.5);
-
-        Intake = hardwareMap.get(DcMotor.class, "Intake");
-        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
-        LauncherServo.setPosition(0);
-        IntakeServo.setPosition(0);
+//*********without servo on robot please Comment these lines for debuging
+//
+//        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
+//
+//        servo = hardwareMap.get(Servo.class, "Servo");
+//        motor = hardwareMap.get(DcMotorEx.class, "Motor");
+//        servo.setPosition(0.5);
+//
+//        Intake = hardwareMap.get(DcMotor.class, "Intake");
+//        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
+//        LauncherServo.setPosition(0);
+//        IntakeServo.setPosition(0);
+//**************
     }
     @Override
     public void loop(){
@@ -104,41 +103,14 @@ public class TeleOpCode extends OpMode {
     }
 
 
-    public void moveDriveTrain() {
-        double y = gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
-
-        double fl = y - x - rx;
-        double bl = y + x - rx;
-        double fr = y + x + rx;
-        double br = y - x + rx;
-
-        LFMotor.setPower(fl*speedMultiplier);
-        LBMotor.setPower(bl*speedMultiplier);
-        RFMotor.setPower(fr*speedMultiplier);
-        RBMotor.setPower(br*speedMultiplier);
-
-        telemetry.addData("y",y);
-        telemetry.addData("x",x);
-        telemetry.addData("fl",fl);
-        telemetry.addData("bl",bl);
-        telemetry.addData("fr",fr);
-        telemetry.addData("br",br);
-        telemetry.addData("fl*speedMultiplier",fl*speedMultiplier);
-        telemetry.addData("bl*speedMultiplier",bl*speedMultiplier);
-        telemetry.addData("fr*speedMultiplier",fr*speedMultiplier);
-        telemetry.addData("br*speedMultiplier",br*speedMultiplier);
-
-        telemetry.update();
-
-
-    }
 
     public void FieldCentricDriveTrain() {
+    //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = - gamepad1.left_stick_x;
         double rx = - gamepad1.right_stick_x;
+
+        // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match your robot
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -221,6 +193,39 @@ public class TeleOpCode extends OpMode {
         double intake = gamepad2.left_trigger;
         Intake.setPower(intake*speedMultiplier2);
     }
+
+
+    public void moveDriveTrain() {
+        double y = gamepad1.left_stick_y;
+        double x = gamepad1.left_stick_x;
+        double rx = gamepad1.right_stick_x;
+
+        double fl = y - x - rx;
+        double bl = y + x - rx;
+        double fr = y + x + rx;
+        double br = y - x + rx;
+
+        LFMotor.setPower(fl*speedMultiplier);
+        LBMotor.setPower(bl*speedMultiplier);
+        RFMotor.setPower(fr*speedMultiplier);
+        RBMotor.setPower(br*speedMultiplier);
+
+        telemetry.addData("y",y);
+        telemetry.addData("x",x);
+        telemetry.addData("fl",fl);
+        telemetry.addData("bl",bl);
+        telemetry.addData("fr",fr);
+        telemetry.addData("br",br);
+        telemetry.addData("fl*speedMultiplier",fl*speedMultiplier);
+        telemetry.addData("bl*speedMultiplier",bl*speedMultiplier);
+        telemetry.addData("fr*speedMultiplier",fr*speedMultiplier);
+        telemetry.addData("br*speedMultiplier",br*speedMultiplier);
+
+        telemetry.update();
+
+
+    }
+
 
 }
 
