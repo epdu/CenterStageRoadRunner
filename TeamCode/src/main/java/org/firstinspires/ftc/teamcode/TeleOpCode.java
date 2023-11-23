@@ -57,17 +57,17 @@ public class TeleOpCode extends OpMode {
 //        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //*********without servo on robot please Comment these lines for debuging
-//
-//        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
-//
-//        servo = hardwareMap.get(Servo.class, "Servo");
-//        motor = hardwareMap.get(DcMotorEx.class, "Motor");
-//        servo.setPosition(0.5);
-//
-//        Intake = hardwareMap.get(DcMotor.class, "Intake");
-//        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
-//        LauncherServo.setPosition(0);
-//        IntakeServo.setPosition(0);
+
+        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
+
+        servo = hardwareMap.get(Servo.class, "Servo");
+        motor = hardwareMap.get(DcMotorEx.class, "Motor");
+        servo.setPosition(0.5);
+
+        Intake = hardwareMap.get(DcMotor.class, "Intake");
+        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
+        LauncherServo.setPosition(0);
+        IntakeServo.setPosition(0);
 //**************
     }
     @Override
