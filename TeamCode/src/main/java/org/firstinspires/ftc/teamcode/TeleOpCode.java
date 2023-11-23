@@ -102,6 +102,7 @@ public class TeleOpCode extends OpMode {
 
     }
 
+//*********Beginning of Field Centric
     public void FieldCentricDriveTrain() {
     //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -144,9 +145,11 @@ public class TeleOpCode extends OpMode {
         LBMotor.setPower(backLeftPower);
         RFMotor.setPower(frontRightPower);
         RBMotor.setPower(backRightPower);
-
-
     }
+
+//*********End of Field Centric
+
+
 //    private void moveSlideToPosition(int targetPosition) {
 //        liftMotorL.setTargetPosition(targetPosition);
 //        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -224,7 +227,7 @@ public class TeleOpCode extends OpMode {
 //
 //
 //    }
-//*********
+//*********Robot-Centric
 
 }
 
