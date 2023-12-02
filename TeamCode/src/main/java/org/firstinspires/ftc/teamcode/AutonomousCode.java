@@ -114,27 +114,34 @@ public class AutonomousCode extends LinearOpMode {
 
         waitForStart();
 
-        moveForward(0.5, 1000); // set the distanct from frot of robot to the block of game element
+// set the distanct from frot of robot to the block of game element
      /*Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
       just multiply the distance by the counts / distance you calculated above. Hope that helps!
         */
-        sleep(2000);
-        findCone();
-        sleep(2000);
+
+        findPixel();
+        droppixel();
         moveBackward(0.2, 1000);
         sleep(2000);
+        StrafingRight(0.2, 1000);
+        sleep(1000);//strafing left
+        AprilTagOmni(); //find the right april tag and approach it
+        droppixelbackdrop();
+        goparking();
+
+        moveForward(0.5, 1000);
+        sleep(2000);
+        sleep(2000);
+
         RightTurn(0.2, 500);
         sleep(1000);
         LeftTurn(0.2, 500);
         sleep(1000);
         StrafingLeft(0.2, 1000);
         sleep(1000);//strafing left
-        StrafingRight(0.2, 1000);
-        sleep(1000);//strafing left
 
-        findCone();
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = distanceLeft.getDistance(DistanceUnit.INCH);
@@ -145,7 +152,17 @@ public class AutonomousCode extends LinearOpMode {
         }
 
     }
-        //test function]
+
+    private void goparking() {
+    }
+
+    private void AprilTagOmni() {
+    }
+
+    private void droppixelbackdrop() {
+    }
+
+    //test function]
         public void moveForward(double power, double distance) {
             RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -305,7 +322,9 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
-    public void findCone(){
+    public void droppixel(){}
+    //
+    public void findPixel(){
         double power = .25;
         double multiplier;
         targetheading = getHeading();
@@ -314,7 +333,7 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.addData("Left", leftReading);
         telemetry.addData("Right", rightReading);
         telemetry.update();
-        if(leftReading > 17 && rightReading > 17 || leftReading < 5 || rightReading < 5){
+        if(leftReading > 32 && rightReading > 32 || leftReading < 10 || rightReading < 10){
 //if the cone is too far out, give up
             return;
         }
@@ -341,10 +360,11 @@ public class AutonomousCode extends LinearOpMode {
                     RBMotor.setPower(power);
                 }else if(heading-targetheading<0){
                     multiplier = -.1*(heading-targetheading)+1;
-                    RFMotor.setPower(-power);
-                    RBMotor.setPower(power*multiplier);
                     LFMotor.setPower(power);
                     LBMotor.setPower(-power*multiplier);
+                    RFMotor.setPower(-power);
+                    RBMotor.setPower(power*multiplier);
+
                 }
             }else{ //if we need to go left
                 heading = getHeading();
