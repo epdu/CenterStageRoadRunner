@@ -14,11 +14,21 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
+import java.lang.Double;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import java.lang.Math;
+import java.lang.Long;
 
 @Autonomous
 public class AutonomousWithDistanceSensors extends LinearOpMode {
@@ -31,7 +41,7 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
  //   DcMotor lift;
     DistanceSensor distanceLeft;
     DistanceSensor distanceRight;
-    BNO055IMU imu;
+//    BNO055IMU imu;
     //    Servo clawLeft;
 //    Servo clawRight;
     double ticksPerRotation;
@@ -56,6 +66,17 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
     double blueVal;
     double greenVal;
     int result;
+    double  distanceInInch;
+    double  distanceInInchDouble;
+    private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
+// Retrieve the IMU from the hardware map
+    IMU imu = hardwareMap.get(IMU.class, "imu");
+// Adjust the orientation parameters to match your robot
+    IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+            RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+            RevHubOrientationOnRobot.UsbFacingDirection.UP));
+
+
     // @Override
     @Override
     public void runOpMode() throws InterruptedException {
@@ -73,23 +94,22 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Retrieve the IMU from the hardware map
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
         waitForStart();
 
 // set the distanct from frot of robot to the block of game element
-     /*Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
+/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
       just multiply the distance by the counts / distance you calculated above. Hope that helps!
-        */
+// 11.87374348
+//537 per revolution 11.87374348 inch
+*/
+        distanceInInch=24;//number in unit of inch
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
+
 
         findPixel();
 //        droppixel();
@@ -131,8 +151,8 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
 
     }
     public double getHeading(){
-        return
-                imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+        return imu.getRobotOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
     public double newGetHeading(){
         double currentHeading =
