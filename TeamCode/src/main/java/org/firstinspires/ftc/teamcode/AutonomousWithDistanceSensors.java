@@ -12,6 +12,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Autonomous
 public class AutonomousWithDistanceSensors extends LinearOpMode {
@@ -21,7 +28,7 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
     DcMotor RBMotor;
     DcMotor LBMotor;
     //    Blinker control_Hub;
-    DcMotor lift;
+ //   DcMotor lift;
     DistanceSensor distanceLeft;
     DistanceSensor distanceRight;
     BNO055IMU imu;
@@ -66,8 +73,14 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-
+        // Retrieve the IMU from the hardware map
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+        // Adjust the orientation parameters to match your robot
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+        imu.initialize(parameters);
 
         waitForStart();
 
@@ -99,7 +112,14 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
         StrafingLeft(0.2, 1000);
         sleep(1000);//strafing left
 */
+        // This button choice was made so that it is hard to hit on accident,
+        // it can be freely changed based on preference.
+        // The equivalent button is start on Xbox-style controllers.
+        if (gamepad1.options) {
+            imu.resetYaw();
+        }
 
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = distanceLeft.getDistance(DistanceUnit.INCH);
@@ -110,7 +130,23 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
         }
 
     }
-
+    public double getHeading(){
+        return
+                imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+    }
+    public double newGetHeading(){
+        double currentHeading =
+                imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+        double headingChange = currentHeading - previousHeading;
+        if(headingChange < -180){
+            headingChange += 360;
+        }else if(headingChange > 180){
+            headingChange -= 360;
+        }
+        processedHeading += headingChange;
+        previousHeading = currentHeading;
+        return processedHeading;
+    }
     private void goparking() {
     }
 
@@ -424,23 +460,8 @@ public class AutonomousWithDistanceSensors extends LinearOpMode {
         } //end of the left-right error loop
         stopMotors();
     }
-    public double getHeading(){
-        return
-                imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
-    }
-    public double newGetHeading(){
-        double currentHeading =
-                imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
-        double headingChange = currentHeading - previousHeading;
-        if(headingChange < -180){
-            headingChange += 360;
-        }else if(headingChange > 180){
-            headingChange -= 360;
-        }
-        processedHeading += headingChange;
-        previousHeading = currentHeading;
-        return processedHeading;
-    }
+
+
     public void stopMotors() {
         RFMotor.setPower(0);
         LFMotor.setPower(0);

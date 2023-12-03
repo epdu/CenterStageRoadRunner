@@ -1,10 +1,22 @@
+/*First FDK does not give right information for gobilda motor, at least for this one
+        getTicksPerRev()=2786, but the real number should be 537
+we need
+        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setMotorPower(0.1);
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false)
+        {}
+
+ */
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 @Autonomous
 public class CHATGPTautonomous extends LinearOpMode {
-
+//    added "    RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);" now it works
     private DcMotor LFMotor;
     private DcMotor RFMotor;
     private DcMotor LBMotor;
@@ -12,7 +24,7 @@ public class CHATGPTautonomous extends LinearOpMode {
 
     private double countsPerInch;  // Adjust this based on your robot's calibration
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
-
+    int Tdistance=240;
     @Override
     public void runOpMode() {
 
@@ -23,8 +35,8 @@ public class CHATGPTautonomous extends LinearOpMode {
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
 
 
-        LFMotor.setDirection(DcMotor.Direction.REVERSE);
-        LBMotor.setDirection(DcMotor.Direction.REVERSE);
+        RFMotor.setDirection(DcMotor.Direction.REVERSE);
+        RBMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set up encoders
         resetEncoders();
@@ -56,32 +68,64 @@ public class CHATGPTautonomous extends LinearOpMode {
 
     private double calculateCountsPerInch() {
         double wheelCircumference = Math.PI * wheelDiameterInInches;
-        return (LFMotor.getMotorType().getTicksPerRev() / wheelCircumference);
+        // 11.87374348
+        return(537/wheelCircumference);
+
+/*        return ((LFMotor.getMotorType().getTicksPerRev() / wheelCircumference+
+                LBMotor.getMotorType().getTicksPerRev() / wheelCircumference+
+                RFMotor.getMotorType().getTicksPerRev() / wheelCircumference+
+                RBMotor.getMotorType().getTicksPerRev() / wheelCircumference)/4);
+ //2786
+
+ */
+
+
     }
+
+
 
     private void moveForwardInches(double inches) {
         int targetPosition = (int) (inches * countsPerInch);
 
         setTargetPosition(targetPosition, targetPosition, targetPosition, targetPosition);
 
-        setMotorPower(0.5);
+        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setMotorPower(0.1);
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false)
+        {
 
-        while (opModeIsActive() && LFMotor.isBusy() && RFMotor.isBusy()
-                && LBMotor.isBusy() && RBMotor.isBusy()) {
-            // Wait for the motors to reach the target position
-            // Additional operations or telemetry can be added here
+            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();
         }
 
         stopMotors();
     }
 
+
     private void setTargetPosition(int frontLeft, int frontRight, int rearLeft, int rearRight) {
-        LFMotor.setTargetPosition(frontLeft);
-        RFMotor.setTargetPosition(frontRight);
-        LBMotor.setTargetPosition(rearLeft);
-        RBMotor.setTargetPosition(rearRight);
+      LFMotor.setTargetPosition((int) + frontLeft);
+        RFMotor.setTargetPosition((int) + frontRight);
+        LBMotor.setTargetPosition((int) + rearLeft);
+        RBMotor.setTargetPosition((int)+ rearRight);
+
+
+
+/*      LFMotor.setTargetPosition((int) - frontLeft);
+        RFMotor.setTargetPosition((int) - frontRight);
+        LBMotor.setTargetPosition((int) - rearLeft);
+        RBMotor.setTargetPosition((int) - rearRight);
+ */
 
     }
+
 
     private void setMotorPower(double power) {
         LFMotor.setPower(power);
