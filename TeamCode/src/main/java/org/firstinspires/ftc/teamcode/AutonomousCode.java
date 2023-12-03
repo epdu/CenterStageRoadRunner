@@ -38,8 +38,9 @@ public class AutonomousCode extends LinearOpMode {
 
 
         waitForStart();
-        distanceInInch=24;
-//        distanceInInchDouble=distanceInInch.doubleValue();
+
+        distanceInInch=24;//number in unit of inch
+//      distanceInInchDouble=distanceInInch.doubleValue();
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
 
         // 11.87374348
