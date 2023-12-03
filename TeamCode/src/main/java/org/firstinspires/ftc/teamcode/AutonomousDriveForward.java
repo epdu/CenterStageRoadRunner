@@ -26,11 +26,11 @@ public class AutonomousDriveForward extends LinearOpMode{
     // Autonomous code goes here
     // Example: Move forward for 2 seconds
     //forward
-    mecanumDrive(-0.2, 0, 0);
-    sleep(2000); // Adjust sleep time based on how long you want the robot to move
+   mecanumDrive(-0.2, 0, 0);
+   sleep(2000); // Adjust sleep time based on how long you want the robot to move
     //strafing left
-    mecanumDrive(0, 0.2, 0);
-    sleep(2000); // Adjust sleep time based on how long you want the robot to move
+   mecanumDrive(0, 0.2, 0);
+   sleep(2000); // Adjust sleep time based on how long you want the robot to move
     // turn to left
     mecanumDrive( 0, 0, 0.2);
     sleep(2000);
@@ -51,10 +51,10 @@ public class AutonomousDriveForward extends LinearOpMode{
 
     // Mecanum drive method
     private void mecanumDrive(double forward, double strafe, double rotate) {
-        frontLeft.setPower(forward + strafe + rotate);
-        rearLeft.setPower(forward - strafe + rotate);
-        frontRight.setPower(forward - strafe - rotate);
-        rearRight.setPower(forward + strafe - rotate);
+        frontLeft.setPower(forward+strafe+rotate);
+        rearLeft.setPower(forward-strafe+rotate);
+        frontRight.setPower(forward-strafe-rotate);
+        rearRight.setPower(forward+strafe-rotate);
 
 
     }
