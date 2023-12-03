@@ -122,10 +122,10 @@ public class AutonomousCode extends LinearOpMode {
         */
 
         findPixel();
-        droppixel();
-        moveBackward(0.2, 1000);
+//        droppixel();
+        moveBackward(0.2, 10);
         sleep(2000);
-        StrafingRight(0.2, 1000);
+      /*  StrafingRight(0.2, 1000);
         sleep(1000);//strafing left
         AprilTagOmni(); //find the right april tag and approach it
         droppixelbackdrop();
@@ -141,6 +141,7 @@ public class AutonomousCode extends LinearOpMode {
         sleep(1000);
         StrafingLeft(0.2, 1000);
         sleep(1000);//strafing left
+*/
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
