@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import java.lang.Math;
+import java.lang.Long;
+import java.lang.Double;
+
 
 @Autonomous
 public class AutonomousCode extends LinearOpMode {
@@ -13,6 +17,10 @@ public class AutonomousCode extends LinearOpMode {
 
     DcMotor RBMotor;
     DcMotor LBMotor;
+    double  distanceInInch;
+    double  distanceInInchDouble;
+    private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
+
     @Override
     public void runOpMode() throws InterruptedException {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -31,18 +39,25 @@ public class AutonomousCode extends LinearOpMode {
 
 
         waitForStart();
+        distanceInInch=24;
+//        distanceInInchDouble=distanceInInch.doubleValue();
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
 
-        moveForward(0.5, 1000);
+        // 11.87374348
+
+
+        //537 per revolution 11.87374348 inch
+        moveForward(0.2, distanceInInchDouble);
         sleep(2000);
-        moveBackward(0.2, 1000);
+        moveBackward(0.2, distanceInInchDouble);
         sleep(2000);
-        RightTurn(0.2, 500);
+        RightTurn(0.2, distanceInInchDouble);
         sleep(1000);
-        LeftTurn(0.2, 500);
+        LeftTurn(0.2, distanceInInchDouble);
         sleep(1000);
-        StrafingLeft(0.2, 1000);
+        StrafingLeft(0.2, distanceInInchDouble);
         sleep(1000);//strafing left
-        StrafingRight(0.2, 1000);
+        StrafingRight(0.2, distanceInInchDouble);
         sleep(1000);//strafing left
 
     }
@@ -64,7 +79,15 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
         LFMotor.setPower(+power);
         LBMotor.setPower(+power);
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {
+            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();
+        }
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
@@ -87,7 +110,13 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
         LFMotor.setPower(+power);
         LBMotor.setPower(+power);
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
@@ -114,7 +143,13 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
 
 
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
@@ -141,7 +176,13 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
 
 
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
@@ -171,7 +212,13 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
 
 
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
@@ -200,12 +247,20 @@ public class AutonomousCode extends LinearOpMode {
         RBMotor.setPower(+power);
 
 
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {            // Output telemetry data
+            telemetry.addData("LF Position", LFMotor.getCurrentPosition());
+            telemetry.addData("RF Position", RFMotor.getCurrentPosition());
+            telemetry.addData("LB Position", LBMotor.getCurrentPosition());
+            telemetry.addData("RB Position", RBMotor.getCurrentPosition());
+            telemetry.addData("getTicksPerRev()", LFMotor.getMotorType().getTicksPerRev());
+            telemetry.update();}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
+
+
 }
 
 
