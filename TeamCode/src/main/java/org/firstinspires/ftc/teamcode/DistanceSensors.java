@@ -24,5 +24,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
 
 
+        waitForStart();
+
+
     }
 }
