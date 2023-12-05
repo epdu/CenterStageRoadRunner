@@ -138,6 +138,47 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
+        findteamPropLocations();
+        dropPurplrPixel();
+
+//        AprilTagOmni(); //find the right april tag and approach it
+//        droppixelbackdrop();
+//        goparking();
+
+        // set the distanct from frot of robot to the block of game element
+/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
+     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
+      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
+      just multiply the distance by the counts / distance you calculated above. Hope that helps!
+// 11.87374348
+//537 per revolution 11.87374348 inch
+*/
+        distanceInInch=24;//number in unit of inch
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
+        // This button choice was made so that it is hard to hit on accident,
+        // it can be freely changed based on preference.
+        // The equivalent button is start on Xbox-style controllers.
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+
+
+
+        if (gamepad1.options) {
+            imu.resetYaw();
+        }
+
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+// run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+            double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
+            double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
+            telemetry.addData("Left sensor", (double)(Math.round(leftReading * 10) / 10.0));
+            telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
+            telemetry.update();
+        }
+
 
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
@@ -175,12 +216,7 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.update();
         }
 
-        findteamPropLocations();
-        dropPurplrPixel();
 
-//        AprilTagOmni(); //find the right april tag and approach it
-//        droppixelbackdrop();
-//        goparking();
 
 
 
@@ -206,7 +242,7 @@ public void  findteamPropLocations(){
             telemetry.addData("Right", rightReading);
             telemetry.update();
             return;
-        } else if ( leftReading > 28.56 && leftReading < 32.56) {
+        } else if ( rightReading < 40 && leftReading < 40) {
             teamPropLocations = "Center";
             telemetry.addData("Left", leftReading);
             telemetry.addData("teamPropLocations", teamPropLocations);
