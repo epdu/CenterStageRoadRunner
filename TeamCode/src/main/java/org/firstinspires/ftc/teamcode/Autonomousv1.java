@@ -193,7 +193,7 @@ public class Autonomousv1 extends LinearOpMode {
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+        parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
@@ -206,7 +206,7 @@ public class Autonomousv1 extends LinearOpMode {
             imu.resetYaw();
         }
 
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
