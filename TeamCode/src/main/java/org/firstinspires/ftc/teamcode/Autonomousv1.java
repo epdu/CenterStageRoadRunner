@@ -1,3 +1,11 @@
+// set the distanct from frot of robot to the block of game element
+/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
+     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
+      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
+      just multiply the distance by the counts / distance you calculated above. Hope that helps!
+// 11.87374348
+//537 per revolution 11.87374348 inch
+*/
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -65,31 +73,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import android.os.Environment;
-
-
-
-
 @Autonomous
 public class Autonomousv1 extends LinearOpMode {
-
     DcMotor RFMotor;
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
-    //    Blinker control_Hub;
-    //   DcMotor lift;
     DistanceSensor LeftSensor;
     DistanceSensor RightSensor;
     IMU imu;
-    //    BNO055IMU imu;
-    //    Servo clawLeft;
-//    Servo clawRight;
     double ticksPerRotation;
     double initialFR;
     double initialFL;
     double initialBR;
     double initialBL;
-    double liftInitial;
     double positionFR;
     double positionFL;
     double positionBR;
@@ -98,26 +95,29 @@ public class Autonomousv1 extends LinearOpMode {
     public int i = 0;
     double targetheading;
     double heading;
-    double liftIdealPos;
-    double liftIdealPower;
     double previousHeading;
     double processedHeading;
-    double redVal;
-    double blueVal;
-    double greenVal;
-    int result;
     double  distanceInInch;
     double  distanceInInchDouble;
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
-
     String teamPropLocations;
-
+    double redVal;
+    double blueVal;
+    double greenVal;
+    double liftInitial;
+    double liftIdealPos;
+    double liftIdealPower;
+    int result;
+    //    Blinker control_Hub;
+    //   DcMotor lift;
+    //    BNO055IMU imu;
+    //    Servo clawLeft;
+//    Servo clawRight;
     // @Override
     @Override
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
-
         LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
         RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -128,9 +128,7 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         // right side motors
-/*      RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-*/
+
         // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -138,21 +136,16 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
+        moveForward(0.2, 16);
         findteamPropLocations();
+        moveBackward(0.2, 16);
         dropPurplrPixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
 //        droppixelbackdrop();
 //        goparking();
 
-        // set the distanct from frot of robot to the block of game element
-/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
-     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
-      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
-      just multiply the distance by the counts / distance you calculated above. Hope that helps!
-// 11.87374348
-//537 per revolution 11.87374348 inch
-*/
+
         distanceInInch=24;//number in unit of inch
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         // This button choice was made so that it is hard to hit on accident,
