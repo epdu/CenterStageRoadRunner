@@ -21,6 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.File;
@@ -163,15 +166,17 @@ public class Autonomousv1 extends LinearOpMode {
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-// run until the end of the match (driver presses STOP)
+/*
+        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
             double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
+
             telemetry.addData("Left sensor", (double)(Math.round(leftReading * 10) / 10.0));
             telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
             telemetry.update();
         }
-
+*/
 
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
@@ -227,7 +232,31 @@ public void  findteamPropLocations(){
         telemetry.addData("Right", rightReading);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-        if(leftReading > 22.68 && leftReading < 26.68){
+
+    /*
+            if(reverse == 1){
+                if(distance2.getDistance(DistanceUnit.INCH)<22){
+                    liftLevel = 1;
+                }else if(distance1.getDistance(DistanceUnit.INCH)<22){
+                    liftLevel = 2;
+                }else{
+                    liftLevel = 3;
+                }
+            }else{
+                if(distance1.getDistance(DistanceUnit.INCH)<22){
+                    liftLevel = 1;
+                }else if(distance2.getDistance(DistanceUnit.INCH)<22){
+                    liftLevel = 2;
+                }else{
+                    liftLevel = 3;
+                }
+            }
+
+
+    */
+
+
+    if(leftReading > 20 && leftReading < 30.0 && rightReading >40){
             teamPropLocations="Left";
 
             telemetry.addData("Left", leftReading);
