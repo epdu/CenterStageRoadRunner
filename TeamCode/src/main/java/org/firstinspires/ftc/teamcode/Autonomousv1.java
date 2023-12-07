@@ -194,9 +194,6 @@ public class Autonomousv1 extends LinearOpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
-
-
-
         if (gamepad1.options) {
             imu.resetYaw();
         }
@@ -211,14 +208,8 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
             telemetry.update();
         }
-
 */
-
-
 }
-
-
-
 public void  findteamPropLocations(){
 
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
@@ -227,23 +218,19 @@ public void  findteamPropLocations(){
         telemetry.addData("Right", rightReading);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-
-
         if(leftReading > 23 && leftReading < 28 && rightReading > 40){
             teamPropLocations="Left";
             telemetry.addData("Left", leftReading);
             telemetry.addData("Right", rightReading);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-
         } else if ( leftReading > 28 && leftReading < 40 && rightReading > 28 && rightReading < 40) {
             teamPropLocations = "Center";
             telemetry.addData("Left", leftReading);
             telemetry.addData("Right", rightReading);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-
-        } else {
+        } else if( leftReading > 40 && rightReading > 40) {
             teamPropLocations = "Right";
             telemetry.addData("Left", leftReading);
             telemetry.addData("Right", rightReading);
