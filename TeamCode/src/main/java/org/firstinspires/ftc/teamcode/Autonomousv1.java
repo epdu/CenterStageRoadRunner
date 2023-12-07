@@ -137,9 +137,9 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-        moveForward(0.2, 16);
+//        moveForward(0.2, 16);
         findteamPropLocations();
-        moveBackward(0.2, 16);
+//        moveBackward(0.2, 16);
         dropPurplrPixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
