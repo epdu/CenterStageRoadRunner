@@ -1,3 +1,4 @@
+// Blue left setup
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
@@ -226,35 +227,48 @@ public void  findteamPropLocations(){
         telemetry.addData("Right", rightReading);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-        if(leftReading > 23 && leftReading < 28){
-            teamPropLocations="Left";
 
+
+        if(leftReading > 23 && leftReading < 28 && rightReading > 40){
+            teamPropLocations="Left";
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
-        } else if ( rightReading < 40 && leftReading < 40) {
+
+        } else if ( leftReading > 28 && leftReading < 40 && rightReading > 28 && rightReading < 40) {
             teamPropLocations = "Center";
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
+
         } else {
             teamPropLocations = "Right";
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
         }
 
 }
 
     public void  dropPurplrPixel(){
-        moveForward(0.2, 16);
-        StrafingLeft(0.2, 12);
+
+        if(teamPropLocations == "Left"){
+            moveForward(0.2, 16);
+            StrafingLeft(0.2, 12);
+
+
+        } else if ( teamPropLocations == "Right") {
+            moveForward(0.2, 16);
+            StrafingRight(0.2, 12);
+
+        } else {
+            teamPropLocations = "Right";
+            moveForward(0.2, 30);
+        }
+
 //        checkTeamPropColors();
 //        lineUPteamProp();
     }
