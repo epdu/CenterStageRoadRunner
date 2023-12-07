@@ -163,7 +163,8 @@ public class Autonomousv1 extends LinearOpMode {
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-// run until the end of the match (driver presses STOP)
+/*
+        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
             double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -171,7 +172,7 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
             telemetry.update();
         }
-
+*/
 
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
@@ -200,6 +201,7 @@ public class Autonomousv1 extends LinearOpMode {
         }
 
         botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        /*
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
@@ -209,10 +211,7 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.update();
         }
 
-
-
-
-
+*/
 
 
 }
@@ -227,7 +226,7 @@ public void  findteamPropLocations(){
         telemetry.addData("Right", rightReading);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-        if(leftReading > 22.68 && leftReading < 26.68){
+        if(leftReading > 23 && leftReading < 28){
             teamPropLocations="Left";
 
             telemetry.addData("Left", leftReading);
