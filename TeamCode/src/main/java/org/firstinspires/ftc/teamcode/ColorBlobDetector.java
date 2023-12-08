@@ -61,7 +61,6 @@ public class ColorBlobDetector extends OpenCvPipeline {
         telemetry.addData("Right raw value", (int) Core.sumElems(rightMat).val[0]);
         telemetry.addData("Middle raw value", (int) Core.sumElems(middleMat).val[0]);
 
-
         //Averaging the colors in the zones
         Scalar avgColorLeft = Core.mean(leftMat);
         Scalar avgColorRight = Core.mean(rightMat);
