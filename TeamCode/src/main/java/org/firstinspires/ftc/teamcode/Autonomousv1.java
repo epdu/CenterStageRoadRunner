@@ -1,3 +1,4 @@
+// Blue left setup
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
@@ -21,9 +22,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.File;
@@ -139,9 +137,9 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-        moveForward(0.2, 16);
+//        moveForward(0.2, 16);
         findteamPropLocations();
-        moveBackward(0.2, 16);
+//        moveBackward(0.2, 16);
         dropPurplrPixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
@@ -171,7 +169,6 @@ public class Autonomousv1 extends LinearOpMode {
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
             double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
-
             telemetry.addData("Left sensor", (double)(Math.round(leftReading * 10) / 10.0));
             telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
             telemetry.update();
@@ -197,14 +194,12 @@ public class Autonomousv1 extends LinearOpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
-
-
-
         if (gamepad1.options) {
             imu.resetYaw();
         }
 
         botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        /*
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
@@ -213,17 +208,8 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
             telemetry.update();
         }
-
-
-
-
-
-
-
+*/
 }
-
-
-
 public void  findteamPropLocations(){
 
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
@@ -232,59 +218,44 @@ public void  findteamPropLocations(){
         telemetry.addData("Right", rightReading);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-
-    /*
-            if(reverse == 1){
-                if(distance2.getDistance(DistanceUnit.INCH)<22){
-                    liftLevel = 1;
-                }else if(distance1.getDistance(DistanceUnit.INCH)<22){
-                    liftLevel = 2;
-                }else{
-                    liftLevel = 3;
-                }
-            }else{
-                if(distance1.getDistance(DistanceUnit.INCH)<22){
-                    liftLevel = 1;
-                }else if(distance2.getDistance(DistanceUnit.INCH)<22){
-                    liftLevel = 2;
-                }else{
-                    liftLevel = 3;
-                }
-            }
-
-
-    */
-
-
-    if(leftReading > 20 && leftReading < 30.0 && rightReading >40){
+        if(leftReading > 23 && leftReading < 28 && rightReading > 40){
             teamPropLocations="Left";
-
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
-        } else if ( rightReading < 40 && leftReading < 40) {
+        } else if ( leftReading > 28 && leftReading < 40 && rightReading > 28 && rightReading < 40) {
             teamPropLocations = "Center";
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
-        } else {
+        } else if( leftReading > 40 && rightReading > 40) {
             teamPropLocations = "Right";
             telemetry.addData("Left", leftReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            return;
         }
 
 }
 
     public void  dropPurplrPixel(){
-        moveForward(0.2, 16);
-        StrafingLeft(0.2, 12);
+
+        if(teamPropLocations == "Left"){
+            moveForward(0.2, 16);
+            StrafingLeft(0.2, 12);
+
+
+        } else if ( teamPropLocations == "Right") {
+            moveForward(0.2, 16);
+            StrafingRight(0.2, 12);
+
+        } else {
+            teamPropLocations = "Right";
+            moveForward(0.2, 30);
+        }
+
 //        checkTeamPropColors();
 //        lineUPteamProp();
     }
