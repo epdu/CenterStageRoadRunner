@@ -126,8 +126,8 @@ public class Autonomousv1 extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
         //left side motors
-        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         // right side motors
 
         // ticks per revolution
@@ -137,7 +137,7 @@ public class Autonomousv1 extends LinearOpMode {
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-//        moveForward(0.2, 16);
+        //moveForward(0.2, 16);
         findteamPropLocations();
 //        moveBackward(0.2, 16);
         dropPurplrPixel();
@@ -777,15 +777,17 @@ Returns the absolute orientation of the sensor as a set three angles with indica
     public void droppixel(){}
     //
     //test function]
-    public void moveForward(double power, double distance) {
+    public void moveForward(double power, double distanceInInch) {
+
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RFMotor.setTargetPosition((int) -distance);
-        RBMotor.setTargetPosition((int) -distance);
-        LFMotor.setTargetPosition((int) -distance);
-        LBMotor.setTargetPosition((int) -distance);
+        RFMotor.setTargetPosition((int) -distanceInInchDouble);
+        RBMotor.setTargetPosition((int) -distanceInInchDouble);
+        LFMotor.setTargetPosition((int) -distanceInInchDouble);
+        LBMotor.setTargetPosition((int) -distanceInInchDouble);
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -879,15 +881,16 @@ Returns the absolute orientation of the sensor as a set three angles with indica
     }
 
 
-    public void StrafingLeft(double power, double distance) {
+    public void StrafingLeft(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setTargetPosition((int) +distance);
-        LBMotor.setTargetPosition((int) -distance);
-        RFMotor.setTargetPosition((int) -distance);
-        RBMotor.setTargetPosition((int) +distance);
+        LFMotor.setTargetPosition((int) +distanceInInchDouble);
+        LBMotor.setTargetPosition((int) -distanceInInchDouble);
+        RFMotor.setTargetPosition((int) -distanceInInchDouble);
+        RBMotor.setTargetPosition((int) +distanceInInchDouble);
 
 
 
