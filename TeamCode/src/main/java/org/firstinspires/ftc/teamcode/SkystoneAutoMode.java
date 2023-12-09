@@ -2,11 +2,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -20,26 +23,56 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 @Autonomous(name="Skystone Detecotor", group="Auto")
 public class SkystoneAutoMode extends LinearOpMode {
-    OpenCvCamera phoneCam;
+    OpenCvCamera webcamName;
     @Override
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext
                 .getResources().getIdentifier("cameraMonitorViewId",
                         "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+//        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         SkystoneDetector detector = new SkystoneDetector(telemetry);
-        phoneCam.setPipeline(detector);
+        camera.setPipeline(detector);
 
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        /*
+            // Create an instance of the camera
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+         */
+
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                phoneCam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
             }
             @Override
             public void onError(int errorCode)
@@ -50,7 +83,7 @@ public class SkystoneAutoMode extends LinearOpMode {
             }
         });        
  /*              () -> {
-                   return phoneCam.startStreaming(320, 240, org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT);
+                   return webcamName.startStreaming(320, 240, org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT);
                }
  */
 
@@ -65,6 +98,6 @@ public class SkystoneAutoMode extends LinearOpMode {
             case NOT_FOUND:
                 // ...
         }
-        phoneCam.stopStreaming();
+        camera.stopStreaming();
     }
 }
