@@ -78,7 +78,7 @@ public class SkystoneAutoMode extends LinearOpMode {
 
 
         waitForStart();
-        switch (detector.getLocation()) {
+ /*       switch (detector.getLocation()) {
             case LEFT:
                 // ...
                 break;
@@ -88,6 +88,8 @@ public class SkystoneAutoMode extends LinearOpMode {
             case NOT_FOUND:
                 // ...
         }
+
+  */
         camera.stopStreaming();
     }
 }
