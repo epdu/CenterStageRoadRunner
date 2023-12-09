@@ -32,9 +32,13 @@ public class SkystoneDetector extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = new Scalar(237, 50, 70);
-        Scalar highHSV = new Scalar(242, 255, 255);
+// yellow
+        Scalar lowHSV = new Scalar(200, 50, 70);
+        Scalar highHSV = new Scalar(250, 255, 255);
 
+ //yellow
+//        Scalar lowHSV = new Scalar(200, 50, 70);
+//        Scalar highHSV = new Scalar(250, 255, 255);
         Core.inRange(mat, lowHSV, highHSV, mat);
 
         Mat left = mat.submat(LEFT_ROI);
