@@ -20,9 +20,7 @@ public class SkystoneAutoMode extends LinearOpMode {
                 .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         SkystoneDetector detector = new SkystoneDetector(telemetry);
         phoneCam.setPipeline(detector);
-        phoneCam.openCameraDeviceAsync(
-                () -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT)
-        );
+        phoneCam.openCameraDeviceAsync(() -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));
 
         waitForStart();
         switch (detector.getLocation()) {
