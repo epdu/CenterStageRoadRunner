@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 //package org.firstinspires.ftc.teamcode.OpModes.Angle_PID_Tutorial;
 
@@ -43,6 +44,7 @@ public class CameraFusedPID extends LinearOpMode {
 
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     /** MAKE SURE TO CHANGE THE FOV AND THE RESOLUTIONS ACCORDINGLY **/
+/*
     private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
     private static final double FOV = 40;
@@ -210,3 +212,4 @@ public class CameraFusedPID extends LinearOpMode {
 
 
 }
+*/
