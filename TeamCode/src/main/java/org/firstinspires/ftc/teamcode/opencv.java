@@ -117,6 +117,7 @@ public class opencv extends LinearOpMode {
             }
 
             return input;
+
         }
 
         private Mat preprocessFrame(Mat frame) {
