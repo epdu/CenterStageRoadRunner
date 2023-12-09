@@ -44,6 +44,11 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name="Skystone Detecotor", group="Auto")
 public class SkystoneAutoMode extends LinearOpMode {
     OpenCvCamera webcamName;
+    public enum Location {
+        LEFT,
+        RIGHT,
+        NOT_FOUND
+    }
     @Override
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext
@@ -54,17 +59,6 @@ public class SkystoneAutoMode extends LinearOpMode {
 //        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         SkystoneDetector detector = new SkystoneDetector(telemetry);
         camera.setPipeline(detector);
-
-        /*
-            // Create an instance of the camera
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-         */
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -81,10 +75,7 @@ public class SkystoneAutoMode extends LinearOpMode {
                  */
             }
         });        
- /*              () -> {
-                   return webcamName.startStreaming(320, 240, org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT);
-               }
- */
+
 
         waitForStart();
         switch (detector.getLocation()) {
