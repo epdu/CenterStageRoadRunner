@@ -32,13 +32,9 @@ public class opencv extends LinearOpMode {
     double width = 0;
 
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
-
-    private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution 1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
-    private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
-/*
-    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution 1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
+    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
-*/
+
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
@@ -128,22 +124,56 @@ public class opencv extends LinearOpMode {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 
-            Scalar lowerYellow = new Scalar(89, 67, 61); ;
-            Scalar upperYellow = new Scalar(83, 43, 83);
-/*
-        Scalar lowHSV = new Scalar(23, 50, 70); // lower bound HSV for yellow
-        Scalar highHSV = new Scalar(32, 255, 255);  // higher bound HSV for yellow
+            Scalar lowerYellow = new Scalar(123, 25, 31);
+            Scalar upperYellow = new Scalar(143, 255, 255);
+
+  /*
+            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
+            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue
+214, 34, 28       100-140
+
+        Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
+        Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
+
+        Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
+        Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
+
+        Scalar lowHSV = new Scalar(x, 19, 76); // lower bound HSV for purple pixel 284, 13, 55
+        Scalar highHSV = new Scalar(x, 255, 255);  // higher bound HSV for
+
+        Scalar lowHSV = new Scalar(0, 0, 100); // lower bound HSV for white pixel 0, 0, 100
+        Scalar highHSV = new Scalar(10, 255, 255);  // higher bound HSV for
+                Scalar lowHSV = new Scalar(33, 99, 65); // lower bound HSV for yellow pixel 43, 99, 65
+        Scalar highHSV = new Scalar(53, 255, 255);  // higher bound HSV for
+
+        Now you take [H-10, 100,100] and [H+10, 255, 255] as the lower bound and upper bound respectively.
+        Apart from this method, you can use any image editing tools like GIMP or any online converters to find these values,
+        but don't forget to adjust the HSV ranges.
+
 */
 
 /*
         Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
         Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
 */
-/*            Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
-            Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
-*/
 
+/*        Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+        Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
+ */
 /*
+        Scalar lowHSV = new Scalar(89, 67, 61); // lower bound HSV for green
+        Scalar highHSV = new Scalar(83, 43, 83); // higher bound HSV for green
+*/
+/*
+        Scalar lowHSV = new Scalar(23, 50, 70); // lower bound HSV for yellow
+        Scalar highHSV = new Scalar(32, 255, 255);  // higher bound HSV for yellow
+
+        Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
+        Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
+
+          Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+            Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
+
         Scalar lowHSV = new Scalar(89, 67, 61); // lower bound HSV for green
         Scalar highHSV = new Scalar(83, 43, 83); // higher bound HSV for green
 */
