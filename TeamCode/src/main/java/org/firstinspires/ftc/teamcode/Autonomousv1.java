@@ -183,7 +183,7 @@ public class Autonomousv1 extends LinearOpMode {
 //        findteamPropLocationsbyDistanceSensors();
         findteamPropLocationsopencv();
 //        moveBackward(0.2, 16);
-        dropPurplrPixel();
+        dropPurplePixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
 //        droppixelbackdrop();
@@ -452,7 +452,7 @@ private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
 }
-public void  dropPurplrPixel(){
+public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
             moveBackward(0.2, 40);
