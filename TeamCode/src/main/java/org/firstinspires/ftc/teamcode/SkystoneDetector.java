@@ -22,6 +22,11 @@ public class SkystoneDetector extends OpenCvPipeline {
     static final Rect LEFT_ROI = new Rect(
             new Point(60, 35),
             new Point(120, 75));
+/*
+    static final Rect CENTER_ROI = new Rect(
+            new Point(140, 35),
+            new Point(200, 75));
+*/
     static final Rect RIGHT_ROI = new Rect(
             new Point(140, 35),
             new Point(200, 75));
