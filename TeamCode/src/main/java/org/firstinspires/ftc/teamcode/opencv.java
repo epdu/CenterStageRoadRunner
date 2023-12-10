@@ -32,9 +32,13 @@ public class opencv extends LinearOpMode {
     double width = 0;
 
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
-    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
 
+    private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution 1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
+    private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
+/*
+    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution 1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
+    private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
+*/
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
@@ -124,8 +128,8 @@ public class opencv extends LinearOpMode {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 
-            Scalar lowerYellow = new Scalar(95, 110, 50);
-            Scalar upperYellow = new Scalar(150, 245, 255);
+            Scalar lowerYellow = new Scalar(89, 67, 61); ;
+            Scalar upperYellow = new Scalar(83, 43, 83);
 /*
         Scalar lowHSV = new Scalar(23, 50, 70); // lower bound HSV for yellow
         Scalar highHSV = new Scalar(32, 255, 255);  // higher bound HSV for yellow
