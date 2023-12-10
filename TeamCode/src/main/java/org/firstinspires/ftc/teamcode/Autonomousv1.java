@@ -226,6 +226,7 @@ private void initOpenCV() {
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
+
 public void  findteamPropLocationsbyDistanceSensors(){
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
