@@ -15,13 +15,32 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.RobotLog;
 import java.lang.Math;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
+import org.openftc.easyopencv.OpenCvCamera;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.File;
@@ -74,7 +93,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import android.os.Environment;
-@Autonomous
+@Autonomous(name = "Autonomous OpenCV & distance sensor Testing")
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -109,6 +128,24 @@ public class Autonomousv1 extends LinearOpMode {
     double liftIdealPos;
     double liftIdealPower;
     int result;
+
+    double cX = 0;
+    double cY = 0;
+    double width = 0;
+
+    private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
+    private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
+/*
+   1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
+   private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
+   private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
+*/
+    // Calculate the distance using the formula
+    public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
+    public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
+//    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
+
     //    Blinker control_Hub;
     //   DcMotor lift;
     //    BNO055IMU imu;
@@ -125,10 +162,9 @@ public class Autonomousv1 extends LinearOpMode {
         LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
-        //left side motors
+
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        // right side motors
 
         // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -136,9 +172,16 @@ public class Autonomousv1 extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        initOpenCV();
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+
         waitForStart();
-        //moveForward(0.2, 16);
-        findteamPropLocations();
+
+//        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
+//        findteamPropLocationsbyDistanceSensors();
+        findteamPropLocationsopencv();
 //        moveBackward(0.2, 16);
         dropPurplrPixel();
 
@@ -210,7 +253,23 @@ public class Autonomousv1 extends LinearOpMode {
         }
 */
 }
-public void  findteamPropLocations(){
+    private void initOpenCV() {
+
+        // Create an instance of the camera
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
+
+        controlHubCam.openCameraDevice();
+        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+    }
+
+public void  findteamPropLocationsbyDistanceSensors(){
 
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -240,6 +299,35 @@ public void  findteamPropLocations(){
 
 }
 
+    public void  findteamPropLocationsopencv(){
+
+        double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
+        double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
+        telemetry.addData("Left", leftReading);
+        telemetry.addData("Right", rightReading);
+        telemetry.update();
+// L=24.68+- 2, Center=30.56+-2
+        if(leftReading > 23 && leftReading < 28 && rightReading > 40){
+            teamPropLocations="Left";
+            telemetry.addData("Left", leftReading);
+            telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        } else if ( leftReading > 28 && leftReading < 40 && rightReading > 28 && rightReading < 40) {
+            teamPropLocations = "Center";
+            telemetry.addData("Left", leftReading);
+            telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        } else if( leftReading > 40 && rightReading > 40) {
+            teamPropLocations = "Right";
+            telemetry.addData("Left", leftReading);
+            telemetry.addData("Right", rightReading);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        }
+
+    }
     public void  dropPurplrPixel(){
 
         if(teamPropLocations == "Left"){
