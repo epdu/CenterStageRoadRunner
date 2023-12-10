@@ -147,8 +147,9 @@ public class Autonomousv1 extends LinearOpMode {
 
 //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
 //        findteamPropLocationsbyDistanceSensors();
-        findteamPropLocationsopencv();
+//        findteamPropLocationsopencv();
 //        moveBackward(0.2, 16);
+        new YellowBlobDetectionPipeline();
         dropPurplePixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
