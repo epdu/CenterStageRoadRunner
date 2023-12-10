@@ -9,26 +9,42 @@
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.RobotLog;
-import java.lang.Math;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.IMU;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
+import java.util.ArrayList;
+import java.util.List;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -36,63 +52,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import java.io.FileWriter;
-import java.io.File;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Blinker;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.hardware.OrientationSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import com.qualcomm.robotcore.hardware.Gyroscope;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
-import org.firstinspires.ftc.robotcore.external.navigation.Axis;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import org.opencv.*;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvWebcam;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import com.qualcomm.robotcore.util.RobotLog;
-import java.lang.Math;
-import java.util.Locale;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import android.os.Environment;
+
+import java.util.ArrayList;
+import java.util.List;
 @Autonomous(name = "Autonomous OpenCV & distance sensor Testing")
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
@@ -250,14 +216,13 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 */
 }
-    private void initOpenCV() {
+private void initOpenCV() {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        controlHubCam.setPipeline(new YellowBlobDetectionPipeline());
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
@@ -318,7 +283,7 @@ public void  findteamPropLocationsopencv(){
 
     }
 /////////////////////////////
-class BlueTeamPropDetectionPipeline extends OpenCvPipeline {
+class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
             // Preprocess the frame to detect yellow regions
