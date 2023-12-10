@@ -130,8 +130,8 @@ Logitech Webcam C270 (1280 x 720 pixels)
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 
-            Scalar lowerYellow = new Scalar(123, 25, 31);
-            Scalar upperYellow = new Scalar(143, 255, 255);
+            Scalar lowerYellow = new Scalar(1, 98, 34);
+            Scalar upperYellow = new Scalar(30, 255, 255);
 
   /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
