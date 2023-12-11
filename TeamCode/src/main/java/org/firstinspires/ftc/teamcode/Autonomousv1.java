@@ -146,8 +146,7 @@ public class Autonomousv1 extends LinearOpMode {
         waitForStart();
 
 //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-//        findteamPropLocationsbyDistanceSensors();
-//        findteamPropLocationsopencv();
+
 //        moveBackward(0.2, 16);
         findteamPropLocationsopencv();
         dropPurplePixel();
