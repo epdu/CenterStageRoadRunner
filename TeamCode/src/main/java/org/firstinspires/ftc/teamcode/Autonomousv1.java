@@ -442,14 +442,16 @@ public void  dropPurplePixel(){
 //or select turn to right , gyroTurn
 //            StrafingRight(0.2, 12);
 //            RightTurn(0.2, 12);
-            gyroTurn(0.2, - 90);
+//            gyroTurn(0.2, - 90);
+            absoluteHeading( 0.2,  -90);
             found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.2, 30);
 //or select turn to left
 //            StrafingLeft(0.2, 12);
 //            LeftTurn(0.2, 12);
-            gyroTurn(0.2,  90);
+//            gyroTurn(0.2,  90);
+            absoluteHeading( 0.2,  90);
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.2, 46);
