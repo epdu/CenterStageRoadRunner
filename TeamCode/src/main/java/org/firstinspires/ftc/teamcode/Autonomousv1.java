@@ -149,7 +149,7 @@ public class Autonomousv1 extends LinearOpMode {
 //        findteamPropLocationsbyDistanceSensors();
 //        findteamPropLocationsopencv();
 //        moveBackward(0.2, 16);
-        new YellowBlobDetectionPipeline();
+        findteamPropLocationsopencv();
         dropPurplePixel();
 
 //        AprilTagOmni(); //find the right april tag and approach it
@@ -170,7 +170,6 @@ public class Autonomousv1 extends LinearOpMode {
         if (gamepad1.options) {
             imu.resetYaw();
         }
-
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 /*
         // run until the end of the match (driver presses STOP)
@@ -257,31 +256,31 @@ public void  findteamPropLocationsbyDistanceSensors(){
 }
 public void  findteamPropLocationsopencv(){
 //////////////////
-        double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
-        double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
-        telemetry.addData("Left", leftReading);
-        telemetry.addData("Right", rightReading);
+        telemetry.addData("cX", cX);
+        telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
 // L=24.68+- 2, Center=30.56+-2
-        if(leftReading > 23 && leftReading < 28 && rightReading > 40){
-            teamPropLocations="Left";
-            telemetry.addData("Left", leftReading);
-            telemetry.addData("Right", rightReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
-            telemetry.update();
-        } else if ( leftReading > 28 && leftReading < 40 && rightReading > 28 && rightReading < 40) {
-            teamPropLocations = "Center";
-            telemetry.addData("Left", leftReading);
-            telemetry.addData("Right", rightReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
-            telemetry.update();
-        } else if( leftReading > 40 && rightReading > 40) {
-            teamPropLocations = "Right";
-            telemetry.addData("Left", leftReading);
-            telemetry.addData("Right", rightReading);
-            telemetry.addData("teamPropLocations", teamPropLocations);
-            telemetry.update();
-        }
+///////////////
+
+    if(cX > 0 && cX < 365 ){
+        teamPropLocations="Left";
+        telemetry.addData("Left", cX);
+        telemetry.addData("teamPropLocations", teamPropLocations);
+        telemetry.update();
+    } else if ( cX > 460 && cX < 820) {
+        teamPropLocations = "Center";
+        telemetry.addData("Center", cX);
+        telemetry.addData("teamPropLocations", teamPropLocations);
+        telemetry.update();
+    } else if( cX > 915 && cX < 1280) {
+        teamPropLocations = "Right";
+        telemetry.addData("Right",cX);
+        telemetry.addData("teamPropLocations", teamPropLocations);
+        telemetry.update();
+    }
+
+
+/////////////
 
     }
 /////////////////////////////
@@ -318,22 +317,6 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
                 Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
                 Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
 
-                if(cX > 0 && cX < 365 ){
-                    teamPropLocations="Left";
-                    telemetry.addData("Left", cX);
-                    telemetry.addData("teamPropLocations", teamPropLocations);
-                    telemetry.update();
-                } else if ( cX > 460 && cX < 820) {
-                    teamPropLocations = "Center";
-                    telemetry.addData("Center", cX);
-                    telemetry.addData("teamPropLocations", teamPropLocations);
-                    telemetry.update();
-                } else if( cX > 915 && cX < 1280) {
-                    teamPropLocations = "Right";
-                    telemetry.addData("Right",cX);
-                    telemetry.addData("teamPropLocations", teamPropLocations);
-                    telemetry.update();
-                }
             }
             return input;
         }

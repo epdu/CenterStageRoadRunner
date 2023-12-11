@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "OpenCV Testing")
+@TeleOp(name = "A OpenCV Testing")
 
 public class opencv extends LinearOpMode {
 
