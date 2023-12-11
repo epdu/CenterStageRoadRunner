@@ -148,27 +148,6 @@ public class Autonomousv1 extends LinearOpMode {
 
         waitForStart();
 
-//        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-
-//        moveBackward(0.2, 16);
-//        findteamPropLocationsopencv();
-//        dropPurplePixel();
-        while (opModeIsActive()) {
-            found="false";
-            telemetry.addData("Find team prop or not", found);
-            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-            telemetry.addData("Distance in Inch", (getDistance(width)));
-            telemetry.update();
-            PurplePixel="NOTDONE";
-            findteamPropLocationsopencv();
-            dropPurplePixel();
-            if(found=="true"){
-                telemetry.addData("Find team prop or not", found);
-                telemetry.update();
-                break;}
-            // The OpenCV pipeline automatically processes frames and handles detection
-        }
-
 
  /*
             while (opModeIsActive()) {
@@ -245,6 +224,28 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
+        //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
+
+//        moveBackward(0.2, 16);
+//        findteamPropLocationsopencv();
+//        dropPurplePixel();
+        while (opModeIsActive()) {
+            found="false";
+            telemetry.addData("Find team prop or not", found);
+            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(width)));
+            telemetry.update();
+            PurplePixel="NOTDONE";
+            findteamPropLocationsopencv();
+            dropPurplePixel();
+            if(found=="true"){
+                telemetry.addData("Find team prop or not", found);
+                telemetry.update();
+                break;}
+            // The OpenCV pipeline automatically processes frames and handles detection
+        }
+
+
         controlHubCam.stopStreaming();
 
 }
