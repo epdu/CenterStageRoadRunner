@@ -87,6 +87,9 @@ public class Autonomousv1 extends LinearOpMode {
     double  distanceInInchDouble;
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
     String teamPropLocations;
+    String PurplePixel;
+//    boolean
+    String found;
     double redVal;
     double blueVal;
     double greenVal;
@@ -148,9 +151,37 @@ public class Autonomousv1 extends LinearOpMode {
 //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
 
 //        moveBackward(0.2, 16);
-        findteamPropLocationsopencv();
-        dropPurplePixel();
+//        findteamPropLocationsopencv();
+//        dropPurplePixel();
+        while (opModeIsActive()) {
+            found="false";
+            telemetry.addData("Find team prop or not", found);
+            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(width)));
+            telemetry.update();
+            PurplePixel="NOTDONE";
+            findteamPropLocationsopencv();
+            dropPurplePixel();
+            if(found=="true"){
+                telemetry.addData("Find team prop or not", found);
+                telemetry.update();
+                break;}
+            // The OpenCV pipeline automatically processes frames and handles detection
+        }
 
+
+ /*
+            while (opModeIsActive()) {
+            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(width)));
+            telemetry.update();
+
+            // The OpenCV pipeline automatically processes frames and handles detection
+        }
+
+        // Release resources
+        controlHubCam.stopStreaming();
+*/
 //        AprilTagOmni(); //find the right april tag and approach it
 //        droppixelbackdrop();
 //        goparking();
@@ -214,15 +245,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
-        while (opModeIsActive()) {
-            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-            telemetry.addData("Distance in Inch", (getDistance(width)));
-            telemetry.update();
-
-            // The OpenCV pipeline automatically processes frames and handles detection
-        }
-
-        // Release resources
         controlHubCam.stopStreaming();
 
 }
@@ -420,15 +442,20 @@ public void  dropPurplePixel(){
 //            StrafingRight(0.2, 12);
 //            RightTurn(0.2, 12);
             gyroTurn(0.2, - 90);
+            found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.2, 30);
 //or select turn to left
 //            StrafingLeft(0.2, 12);
 //            LeftTurn(0.2, 12);
             gyroTurn(0.2,  90);
+            found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.2, 46);
+            found="true";
         }
+
+
 //        checkTeamPropColors();
 //        lineUPteamProp();
 }
@@ -952,15 +979,16 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
-    public void moveBackward(double power, double distance) {
+    public void moveBackward(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RFMotor.setTargetPosition((int) distance);
-        RBMotor.setTargetPosition((int) distance);
-        LFMotor.setTargetPosition((int) distance);
-        LBMotor.setTargetPosition((int) distance);
+        RFMotor.setTargetPosition((int) distanceInInchDouble);
+        RBMotor.setTargetPosition((int) distanceInInchDouble);
+        LFMotor.setTargetPosition((int) distanceInInchDouble);
+        LBMotor.setTargetPosition((int) distanceInInchDouble);
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -976,15 +1004,16 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setPower(0);
     }
 
-    public void RightTurn(double power, double distance) {
+    public void RightTurn(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setTargetPosition((int) -distance);
-        LBMotor.setTargetPosition((int) -distance);
-        RFMotor.setTargetPosition((int) +distance);
-        RBMotor.setTargetPosition((int) +distance);
+        LFMotor.setTargetPosition((int) -distanceInInch);
+        LBMotor.setTargetPosition((int) -distanceInInch);
+        RFMotor.setTargetPosition((int) +distanceInInch);
+        RBMotor.setTargetPosition((int) +distanceInInch);
 
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1002,16 +1031,17 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
-    public void LeftTurn(double power, double distance) {
+    public void LeftTurn(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LFMotor.setTargetPosition((int) +distance);
-        LBMotor.setTargetPosition((int) +distance);
-        RFMotor.setTargetPosition((int) -distance);
-        RBMotor.setTargetPosition((int) -distance);
+        LFMotor.setTargetPosition((int) +distanceInInch);
+        LBMotor.setTargetPosition((int) +distanceInInch);
+        RFMotor.setTargetPosition((int) -distanceInInch);
+        RBMotor.setTargetPosition((int) -distanceInInch);
 
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1042,8 +1072,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RFMotor.setTargetPosition((int) -distanceInInchDouble);
         RBMotor.setTargetPosition((int) +distanceInInchDouble);
 
-
-
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1060,16 +1088,17 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
-    public void StrafingRight(double power, double distance) {
+    public void StrafingRight(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LFMotor.setTargetPosition((int) -distance);
-        LBMotor.setTargetPosition((int) +distance);
-        RFMotor.setTargetPosition((int) +distance);
-        RBMotor.setTargetPosition((int) -distance);
+        LFMotor.setTargetPosition((int) -distanceInInch);
+        LBMotor.setTargetPosition((int) +distanceInInch);
+        RFMotor.setTargetPosition((int) +distanceInInch);
+        RBMotor.setTargetPosition((int) -distanceInInch);
 
 
 
