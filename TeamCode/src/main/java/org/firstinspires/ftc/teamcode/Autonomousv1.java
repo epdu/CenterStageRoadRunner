@@ -215,6 +215,17 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
+        while (opModeIsActive()) {
+            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(width)));
+            telemetry.update();
+
+            // The OpenCV pipeline automatically processes frames and handles detection
+        }
+
+        // Release resources
+        controlHubCam.stopStreaming();
+
 }
 private void initOpenCV() {
         // Create an instance of the camera
