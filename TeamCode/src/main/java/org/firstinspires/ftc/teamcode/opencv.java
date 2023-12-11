@@ -156,29 +156,21 @@ Logitech Webcam C270 (1280 x 720 pixels)
         Apart from this method, you can use any image editing tools like GIMP or any online converters to find these values,
         but don't forget to adjust the HSV ranges.
 
-*/
-
-/*
         Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
         Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
-*/
-
-/*        Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+        Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
         Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
- */
-/*
+
         Scalar lowHSV = new Scalar(89, 67, 61); // lower bound HSV for green
         Scalar highHSV = new Scalar(83, 43, 83); // higher bound HSV for green
-*/
-/*
         Scalar lowHSV = new Scalar(23, 50, 70); // lower bound HSV for yellow
         Scalar highHSV = new Scalar(32, 255, 255);  // higher bound HSV for yellow
 
         Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
         Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
 
-          Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
-            Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
+        Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+        Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
 
         Scalar lowHSV = new Scalar(89, 67, 61); // lower bound HSV for green
         Scalar highHSV = new Scalar(83, 43, 83); // higher bound HSV for green
