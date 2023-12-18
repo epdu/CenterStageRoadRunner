@@ -45,23 +45,39 @@ import com.qualcomm.robotcore.util.Range;
  *
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
- *
+ *    DcMotor RFMotor;
+ *    DcMotor LFMotor;
+ *    DcMotor RBMotor;
+ *    DcMotor LBMotor;
+ * RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
+ * LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
+ * RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+ * LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
  * Motor channel:  Manipulator drive motor:  "left_arm"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
+ *
+ *
  */
 public class HardwarePushbot
 {
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     /* Public OpMode members. */
+
     public DcMotor  leftFront;
     public DcMotor  rightFront;
     public DcMotor  leftBack;
     public DcMotor  rightBack;
 
+/*
+    DcMotor RFMotor;
+    DcMotor LFMotor;
+    DcMotor RBMotor;
+    DcMotor LBMotor;
+*/
     BNO055IMU imu;
 
     public static final double MID_SERVO       =  0.5 ;

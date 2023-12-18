@@ -16,14 +16,10 @@ public class Gyro extends LinearOpMode{
     /* Declare OpMode members. */
     HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
-
-
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
-
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
-
     @Override
     public void runOpMode() throws InterruptedException{
 
