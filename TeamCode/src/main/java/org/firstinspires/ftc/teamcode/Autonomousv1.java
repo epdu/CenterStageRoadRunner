@@ -457,15 +457,12 @@ public void  dropPurplePixel(){
             moveBackward(0.2, 46);
             found="true";
         }
-
-
 //        checkTeamPropColors();
 //        lineUPteamProp();
 }
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
     //////////////////
-
     public void gyroTurn(double power, double degrees){ //right is negative
         if(opModeIsActive()){
             double gyroinitial = newGetHeading();
