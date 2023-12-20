@@ -356,7 +356,7 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
         private Mat preprocessFrame(Mat frame) {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-            Scalar lowerYellow = new Scalar(242, 100, 100); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar lowerYellow = new Scalar(0, 77, 100); // lower bound HSV for blue tested by blue cone 223 25 31
             Scalar upperYellow = new Scalar(30, 255, 255);
   /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
