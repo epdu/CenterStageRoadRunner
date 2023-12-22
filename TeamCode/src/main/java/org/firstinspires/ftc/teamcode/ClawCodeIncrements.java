@@ -21,3 +21,4 @@ public class ClawCodeIncrements extends OpMode {
             ClawServo.setPosition(0);}    //Return to closed
         }
     }
+
