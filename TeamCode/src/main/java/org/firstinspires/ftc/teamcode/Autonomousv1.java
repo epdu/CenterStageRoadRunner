@@ -358,6 +358,7 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
             Scalar lowerYellow = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
             Scalar upperYellow = new Scalar(30, 255, 255);
+
   /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
@@ -457,15 +458,12 @@ public void  dropPurplePixel(){
             moveBackward(0.2, 46);
             found="true";
         }
-
-
 //        checkTeamPropColors();
 //        lineUPteamProp();
 }
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
     //////////////////
-
     public void gyroTurn(double power, double degrees){ //right is negative
         if(opModeIsActive()){
             double gyroinitial = newGetHeading();
