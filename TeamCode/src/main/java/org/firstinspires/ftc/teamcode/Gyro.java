@@ -35,6 +35,7 @@ public class Gyro extends LinearOpMode{
         waitForStart();
 
         final int STAGE = 1;
+//        final int STAGE = 2;
         if (STAGE == 1) {
             turn(90);
             sleep(3000);
