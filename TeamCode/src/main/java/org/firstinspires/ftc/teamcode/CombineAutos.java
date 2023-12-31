@@ -82,7 +82,19 @@ public class CombineAutos extends LinearOpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-        initOpenCV();
+        // Create an instance of the camera
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
+
+        controlHubCam.openCameraDevice();
+        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
@@ -108,33 +120,23 @@ public class CombineAutos extends LinearOpMode {
         // Release resources
         controlHubCam.stopStreaming();
 
-        final int STAGE = 1;
-//        final int STAGE = 2;
-        if (STAGE == 1) {
-            turn(90);
-            sleep(3000);
-            turnTo(-90);
-        } else if (STAGE == 2) {
-            turnPID(90);
-        }
+//        final int STAGE = 1;
+////        final int STAGE = 2;
+//        if (STAGE == 1) {
+//            turn(90);
+//            sleep(3000);
+//            turnTo(-90);
+//        } else if (STAGE == 2) {
+//            turnPID(90);
+//        }
     }
 
-    private void initOpenCV() {
 
-        // Create an instance of the camera
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
-
-        controlHubCam.openCameraDevice();
-        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
-    }
-    class YellowBlobDetectionPipeline extends OpenCvPipeline {
+    static class YellowBlobDetectionPipeline extends OpenCvPipeline {
+        //change yellow to red and/or blue to make it make more sense
+        private double width;
+        private double cX;
+        private double cY;
         @Override
         public Mat processFrame(Mat input) {
             // Preprocess the frame to detect yellow regions
