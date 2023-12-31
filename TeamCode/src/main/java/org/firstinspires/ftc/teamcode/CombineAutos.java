@@ -1,18 +1,20 @@
 package org.firstinspires.ftc.teamcode;
-//package org.firstinspires.ftc.teamcode.OpModes.Angle_PID_Tutorial;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.opencv.core.*;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -23,10 +25,12 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "A OpenCV Testing")
-
-public class opencv extends LinearOpMode {
-
+@Autonomous
+public class CombineAutos extends LinearOpMode {
+    DcMotor RFMotor;
+    DcMotor LFMotor;
+    DcMotor RBMotor;
+    DcMotor LBMotor;
     double cX = 0;
     double cY = 0;
     double width = 0;
@@ -34,13 +38,13 @@ public class opencv extends LinearOpMode {
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
- /*
-private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
+    /*
+   private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
+       private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
 
-1280 x 720 pixels
-Logitech Webcam C270 (1280 x 720 pixels)
- */
+   1280 x 720 pixels
+   Logitech Webcam C270 (1280 x 720 pixels)
+    */
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
@@ -48,6 +52,14 @@ Logitech Webcam C270 (1280 x 720 pixels)
 
     @Override
     public void runOpMode() {
+        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
+        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
+        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
+
+        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -79,16 +91,12 @@ Logitech Webcam C270 (1280 x 720 pixels)
         controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        controlHubCam.setPipeline(new YellowBlobDetectionPipeline());
+        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
 
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
-    static class YellowBlobDetectionPipeline extends OpenCvPipeline {
-        private double width;
-        private double cX;
-        private double cY;
-
+    class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
             // Preprocess the frame to detect yellow regions
@@ -217,3 +225,4 @@ Logitech Webcam C270 (1280 x 720 pixels)
 
 
 }
+

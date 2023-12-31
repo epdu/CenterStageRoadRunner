@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -16,7 +17,8 @@ public class PurplePixelPlacement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
-        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
+*/
+/*        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
@@ -70,7 +72,7 @@ public class PurplePixelPlacement extends LinearOpMode {
         LBMotor.setPower(0);
     }
 
-    public void StrafingRight(double power, double distance) {
+    public void StrafingRight(double power) {
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -105,4 +107,5 @@ public class PurplePixelPlacement extends LinearOpMode {
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
-}
+
+*/
