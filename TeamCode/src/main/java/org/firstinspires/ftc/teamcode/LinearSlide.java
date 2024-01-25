@@ -12,12 +12,12 @@ public class LinearSlide extends OpMode {
 
     boolean move = false;
 
-    private static final double SLIDE_POWER = 0.9; // Adjust as needed
+    private static final double SLIDE_POWER = 0.1; // Adjust as needed
     private static final int POSITION_A = 1000;   // Adjust these positions as needed
     private static final int POSITION_B = 2000;
     private static final int POSITION_X = 0;
     private static final int POSITION_Y = 2500;
-    public float speedLimiter = 0.5f;
+    public float speedLimiter = 0.9f;
 
 
     @Override
