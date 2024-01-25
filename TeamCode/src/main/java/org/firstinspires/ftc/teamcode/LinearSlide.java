@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
 public class LinearSlide extends OpMode {
-    DcMotor liftMotorL;
+//    DcMotor liftMotorL;
     DcMotor liftMotorR;
 
     boolean move = false;
@@ -22,17 +22,17 @@ public class LinearSlide extends OpMode {
 
     @Override
     public void init() {
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
         liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
-        int positionL = liftMotorL.getCurrentPosition();
+//        int positionL = liftMotorL.getCurrentPosition();
         int positionR = liftMotorR.getCurrentPosition();
 
         liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
 
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
@@ -52,27 +52,28 @@ public class LinearSlide extends OpMode {
 
     }
     private void moveSlideToPosition(int targetPosition) {
-        liftMotorL.setTargetPosition(targetPosition);
+//        liftMotorL.setTargetPosition(targetPosition);
         liftMotorR.setTargetPosition(targetPosition);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotorR.setPower(SLIDE_POWER);
-        liftMotorL.setPower(SLIDE_POWER);
+//        liftMotorL.setPower(SLIDE_POWER);
         move=true;
-        while (liftMotorL.isBusy() && liftMotorR.isBusy() && move) {
+        while (liftMotorR.isBusy() && move) {
+//        while (liftMotorL.isBusy() && liftMotorR.isBusy() && move) {
             // Wait until the motor reaches the target position
         }
 
-        liftMotorL.setPower(0);
+//        liftMotorL.setPower(0);
         liftMotorR.setPower(0);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         move=false;
     }
 
     public void liftArmHigh(){
         double y = - gamepad1.left_stick_y;
-        liftMotorL.setPower(speedLimiter * y);
+//        liftMotorL.setPower(speedLimiter * y);
         liftMotorR.setPower(speedLimiter * y);
 
     }
