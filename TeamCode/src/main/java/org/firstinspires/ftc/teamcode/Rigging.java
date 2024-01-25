@@ -18,6 +18,7 @@ public class Rigging extends OpMode {
         RightRig.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+
     @Override
     public void loop() {
     if (gamepad2.x && !move){
