@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Rigging extends OpMode {
     DcMotor RightRig;
     DcMotor LeftRig;
+    boolean move = false;
 
     @Override
     public void init() {
@@ -19,6 +20,15 @@ public class Rigging extends OpMode {
 
     @Override
     public void loop() {
-
+    if (gamepad2.x && !move){
+        RightRig.setTargetPosition(100);
+        RightRig.setPower(1);
+        LeftRig.setTargetPosition(100);
+        LeftRig.setPower(1);}
+    if (gamepad2.b && !move){
+        RightRig.setTargetPosition(0);
+        RightRig.setPower(0);
+        LeftRig.setTargetPosition(0);
+        LeftRig.setPower(0);}
     }
 }
