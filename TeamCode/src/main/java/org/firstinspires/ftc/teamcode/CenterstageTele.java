@@ -52,19 +52,23 @@ public class CenterstageTele extends OpMode {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Drone = hardwareMap.get(Servo.class, "Drone");
+        Drone.setPosition(0);
 
         Wirst = hardwareMap.get(Servo.class, "wrist");
-        Wirst.setPosition(0);
+        Wirst.setPosition(0.3);
 
         ClawR = hardwareMap.get(Servo.class, "ClawR");
         ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0);
-        ClawL.setPosition(0);
+        ClawR.setPosition(0.78);
+        ClawL.setPosition(0.02);
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
+
         ArmL.setPosition(0);
         ArmR.setPosition(0);
+        ArmR.setDirection(Servo.Direction.REVERSE);
+        ArmL.setDirection(Servo.Direction.REVERSE);
     }
 
     public void FieldCentricDriveTrain() {
@@ -77,7 +81,7 @@ public class CenterstageTele extends OpMode {
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match your robot
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
@@ -122,16 +126,16 @@ public class CenterstageTele extends OpMode {
         FieldCentricDriveTrain();
         liftArmHigh();
         if (gamepad1.right_trigger > 0.3) {
-            ClawR.setPosition(0.5);
+            ClawR.setPosition(0.78);
         }
         if (gamepad1.left_trigger > 0.3) {
-            ClawL.setPosition(0.5);
+            ClawL.setPosition(0.02);
         }
         if (gamepad1.left_bumper && !move) {
             ClawL.setPosition(0);
         }
         if (gamepad1.right_bumper && !move) {
-            ClawR.setPosition(0);
+            ClawR.setPosition(0.5);
         }
         if (gamepad2.a && !move) {
             ArmR.setPosition(0);
@@ -147,7 +151,7 @@ public class CenterstageTele extends OpMode {
         if (gamepad2.x && !move) {
             Wirst.setPosition(0);
         }
-        if (gamepad1.y && !move) {
+        if (gamepad2.y && !move) {
             Drone.setPosition(0.5);
         }
         if (gamepad1.left_trigger > 0.3) {
