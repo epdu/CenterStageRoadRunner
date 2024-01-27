@@ -39,13 +39,18 @@ public class CenterstageTele extends OpMode {
 
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
 
+        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
         int positionL = liftMotorL.getCurrentPosition();
+        int positionR = liftMotorR.getCurrentPosition();
 
         liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
 
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         Drone = hardwareMap.get(Servo.class, "Drone");
 
         Wirst = hardwareMap.get(Servo.class, "wrist");
@@ -115,6 +120,7 @@ public class CenterstageTele extends OpMode {
     @Override
     public void loop() {
         FieldCentricDriveTrain();
+        liftArmHigh();
         if (gamepad1.right_trigger > 0.3) {
             ClawR.setPosition(0.5);
         }
@@ -126,25 +132,30 @@ public class CenterstageTele extends OpMode {
         }
         if (gamepad1.right_bumper && !move) {
             ClawR.setPosition(0);
-            if (gamepad2. > 0.3) {
-                ArmR.setPosition(0);
-                ArmL.setPosition(0);
-            }
-            if (gamepad2.left_bumper && !move) {
-                ArmL.setPosition(0.5);
-                ArmR.setPosition(0.5);
-            }
-            if (gamepad1.y && !move) {
-                Drone.setPosition(0.5);
-                if (gamepad1.left_trigger > 0.3) {
-                    ClawL.setPosition(0.5);
-                }
-
-            } else {
-                liftArmHigh();
-            }
-
-
         }
+        if (gamepad2.a && !move) {
+            ArmR.setPosition(0);
+            ArmL.setPosition(0);
+        }
+        if (gamepad2.y && !move) {
+            ArmL.setPosition(0.5);
+            ArmR.setPosition(0.5);
+        }
+        if (gamepad2.b && !move) {
+            Wirst.setPosition(0.5);
+        }
+        if (gamepad2.x && !move) {
+            Wirst.setPosition(0);
+        }
+        if (gamepad1.y && !move) {
+            Drone.setPosition(0.5);
+        }
+        if (gamepad1.left_trigger > 0.3) {
+            ClawL.setPosition(0.5);
+        }
+
     }
 }
+
+
+

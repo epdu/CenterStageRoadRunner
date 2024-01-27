@@ -36,6 +36,7 @@ public class TeleOpCode extends OpMode {
     public Servo IntakeServo;
     public float speedMultiplier2 = 0.8f;
     public float speedMultiplier1 = 1;
+
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -47,9 +48,8 @@ public class TeleOpCode extends OpMode {
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-
-liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
+        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
         int positionL = liftMotorL.getCurrentPosition();
 
@@ -71,8 +71,9 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
         IntakeServo.setPosition(0);
 //**************
     }
+
     @Override
-    public void loop(){
+    public void loop() {
 //        moveDriveTrain();
         FieldCentricDriveTrain();
 //        if (gamepad2.y && !move) {
@@ -84,12 +85,13 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
 //         }
         if (gamepad2.x && !move) {
             LauncherServo.setPosition(0.25);
-        }  if (gamepad2.a && !move) {
-            IntakeServo.setPosition(0.5);
-        } if (gamepad2.b && !move){
-            IntakeServo.setPosition(0);
         }
-        else {
+        if (gamepad2.a && !move) {
+            IntakeServo.setPosition(0.5);
+        }
+        if (gamepad2.b && !move) {
+            IntakeServo.setPosition(0);
+        } else {
 //            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
             moveIntake(gamepad2.dpad_up, gamepad2.dpad_down);
@@ -99,7 +101,8 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
 
-            ejectPixel();}
+            ejectPixel();
+        }
 
     }
 
@@ -107,8 +110,8 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
     public void FieldCentricDriveTrain() {
         //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = - gamepad1.left_stick_x;
-        double rx = - gamepad1.right_stick_x;
+        double x = -gamepad1.left_stick_x;
+        double rx = -gamepad1.right_stick_x;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -169,34 +172,32 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
 //        liftMotorL.setPower(speedLimiter * y);
 
     //    }
-    public void moveServo(boolean keybind1, boolean keybind2)
-    {
+    public void moveServo(boolean keybind1, boolean keybind2) {
         boolean current1 = keybind1;
-        if(current1 && !previous1)
-        {
+        if (current1 && !previous1) {
             servo.setPosition(servo.getPosition() + 0.1);
         }
         previous1 = current1;
 
         boolean current2 = keybind2;
-        if(current2 && !previous2)
-        {
+        if (current2 && !previous2) {
             servo.setPosition(servo.getPosition() - 0.1);
         }
-        previous2=current2;
+        previous2 = current2;
     }
 
-    public void moveIntake(boolean dpad_up, boolean dpad_down){
+    public void moveIntake(boolean dpad_up, boolean dpad_down) {
         double intake = gamepad2.right_trigger;
-        Intake.setPower(-intake*speedMultiplier1);
+        Intake.setPower(-intake * speedMultiplier1);
     }
 
-    public void ejectPixel(){
+    public void ejectPixel() {
         double intake = gamepad2.left_trigger;
-        Intake.setPower(intake*speedMultiplier2);
+        Intake.setPower(intake * speedMultiplier2);
     }
-    public void liftArmHigh(){
-        double y = - gamepad1.left_stick_y;
+
+    public void liftArmHigh() {
+        double y = -gamepad1.left_stick_y;
         liftMotorL.setPower(speedLimiter * y);
         liftMotorR.setPower(speedLimiter * y);
 //*********Robot-Centric
@@ -233,5 +234,6 @@ liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
 //    }
 //*********Robot-Centric
 
+    }
 }
 
