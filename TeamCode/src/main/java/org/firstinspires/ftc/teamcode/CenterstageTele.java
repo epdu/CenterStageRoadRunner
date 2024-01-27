@@ -61,7 +61,8 @@ public class CenterstageTele extends OpMode {
         ArmL.setPosition(0);
         ArmR.setPosition(0);
     }
-    public void FieldCentricDriveTrain () {
+
+    public void FieldCentricDriveTrain() {
         //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = -gamepad1.left_stick_x;
@@ -104,11 +105,13 @@ public class CenterstageTele extends OpMode {
         RFMotor.setPower(frontRightPower);
         RBMotor.setPower(backRightPower);
     }
-    public void liftArmHigh(){
+
+    public void liftArmHigh() {
         double y = -gamepad1.left_stick_y;
-        liftMotorL.setPower(0.5* y);
+        liftMotorL.setPower(0.5 * y);
         liftMotorR.setPower(0.5 * y);
     }
+
     @Override
     public void loop() {
         FieldCentricDriveTrain();
@@ -123,11 +126,25 @@ public class CenterstageTele extends OpMode {
         }
         if (gamepad1.right_bumper && !move) {
             ClawR.setPosition(0);
-        } else {
-            liftArmHigh();
-            FieldCentricDriveTrain();
+            if (gamepad2. > 0.3) {
+                ArmR.setPosition(0);
+                ArmL.setPosition(0);
+            }
+            if (gamepad2.left_bumper && !move) {
+                ArmL.setPosition(0.5);
+                ArmR.setPosition(0.5);
+            }
+            if (gamepad1.y && !move) {
+                Drone.setPosition(0.5);
+                if (gamepad1.left_trigger > 0.3) {
+                    ClawL.setPosition(0.5);
+                }
+
+            } else {
+                liftArmHigh();
+            }
+
+
         }
-
-
     }
 }
