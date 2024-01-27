@@ -30,7 +30,6 @@ public class CenterstageTele extends OpMode {
 
     boolean move = false;
 
-
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
