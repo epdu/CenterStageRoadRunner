@@ -16,7 +16,8 @@ public class TeleOpCode extends OpMode {
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
-    //    DcMotor liftMotorL;
+    DcMotor liftMotorL;
+    DcMotor liftMotorR;
     public Servo LauncherServo;
 
     boolean move = false;
@@ -47,14 +48,14 @@ public class TeleOpCode extends OpMode {
 
 
 
+liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR")
 
-//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-//
-//        int positionL = liftMotorL.getCurrentPosition();
-//
-//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-//
-//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        int positionL = liftMotorL.getCurrentPosition();
+
+        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //*********without servo on robot please Comment these lines for debuging
 
@@ -194,7 +195,10 @@ public class TeleOpCode extends OpMode {
         double intake = gamepad2.left_trigger;
         Intake.setPower(intake*speedMultiplier2);
     }
-
+    public void liftArmHigh(){
+        double y = - gamepad1.left_stick_y;
+        liftMotorL.setPower(speedLimiter * y);
+        liftMotorR.setPower(speedLimiter * y);
 //*********Robot-Centric
 //
 //    public void moveDriveTrain() {
