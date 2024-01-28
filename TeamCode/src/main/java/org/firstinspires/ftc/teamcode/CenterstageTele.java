@@ -21,7 +21,7 @@ public class CenterstageTele extends OpMode {
     DcMotor liftMotorR;
     Servo ClawR;
     Servo ClawL;
-    Servo Wirst;
+    Servo Wrist;
     Servo ArmR;
     Servo ArmL;
     Servo Drone;
@@ -54,8 +54,8 @@ public class CenterstageTele extends OpMode {
         Drone = hardwareMap.get(Servo.class, "Drone");
         Drone.setPosition(0);
 
-        Wirst = hardwareMap.get(Servo.class, "wrist");
-        Wirst.setPosition(0.3);
+        Wrist = hardwareMap.get(Servo.class, "wrist");
+        Wrist.setPosition(0.3);
 
         ClawR = hardwareMap.get(Servo.class, "ClawR");
         ClawL = hardwareMap.get(Servo.class, "ClawL");
@@ -115,8 +115,8 @@ public class CenterstageTele extends OpMode {
 
     public void liftArmHigh() {
         double y = -gamepad1.left_stick_y;
-        liftMotorL.setPower(0.5 * y);
-        liftMotorR.setPower(0.5 * y);
+        liftMotorL.setPower(speedLimiter * y);
+        liftMotorR.setPower(speedLimiter * y);
     }
 
     @Override
@@ -144,10 +144,10 @@ public class CenterstageTele extends OpMode {
             ArmR.setPosition(0.5);
         }
         if (gamepad2.b && !move) {
-            Wirst.setPosition(0.545);
+            Wrist.setPosition(0.545);
         }
         if (gamepad2.x && !move) {
-            Wirst.setPosition(0.3);
+            Wrist.setPosition(0.3);
         }
         if (gamepad2.y && !move) {
             Drone.setPosition(1);
