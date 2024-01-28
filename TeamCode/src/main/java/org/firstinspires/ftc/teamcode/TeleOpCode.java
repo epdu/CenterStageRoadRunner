@@ -47,11 +47,8 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
         liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
         liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
-
-        int positionL = liftMotorL.getCurrentPosition();
 
         liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
 

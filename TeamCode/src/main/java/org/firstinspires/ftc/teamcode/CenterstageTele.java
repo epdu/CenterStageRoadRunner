@@ -25,9 +25,6 @@ public class CenterstageTele extends OpMode {
     Servo ArmR;
     Servo ArmL;
     Servo Drone;
-    public float speedMultiplier = 0.5f;
-    public float speedLimiter = 0.5f;
-
     boolean move = false;
 
     @Override
@@ -52,23 +49,19 @@ public class CenterstageTele extends OpMode {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Drone = hardwareMap.get(Servo.class, "Drone");
-        Drone.setPosition(0);
 
         Wirst = hardwareMap.get(Servo.class, "wrist");
-        Wirst.setPosition(0.3);
+        Wirst.setPosition(0);
 
         ClawR = hardwareMap.get(Servo.class, "ClawR");
         ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0.78);
-        ClawL.setPosition(0.02);
+        ClawR.setPosition(0);
+        ClawL.setPosition(0);
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
-
         ArmL.setPosition(0);
         ArmR.setPosition(0);
-        ArmR.setDirection(Servo.Direction.REVERSE);
-        ArmL.setDirection(Servo.Direction.REVERSE);
     }
 
     public void FieldCentricDriveTrain() {
@@ -81,7 +74,7 @@ public class CenterstageTele extends OpMode {
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match your robot
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
@@ -109,10 +102,10 @@ public class CenterstageTele extends OpMode {
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        LFMotor.setPower(frontLeftPower);
-        LBMotor.setPower(backLeftPower);
-        RFMotor.setPower(frontRightPower);
-        RBMotor.setPower(backRightPower);
+        LFMotor.setPower(0.75*frontLeftPower);
+        LBMotor.setPower(0.75*backLeftPower);
+        RFMotor.setPower(0.75*frontRightPower);
+        RBMotor.setPower(0.75*backRightPower);
     }
 
     public void liftArmHigh() {
@@ -126,16 +119,16 @@ public class CenterstageTele extends OpMode {
         FieldCentricDriveTrain();
         liftArmHigh();
         if (gamepad1.right_trigger > 0.3) {
-            ClawR.setPosition(0.78);
+            ClawR.setPosition(0.5);
         }
         if (gamepad1.left_trigger > 0.3) {
-            ClawL.setPosition(0.02);
+            ClawL.setPosition(0.5);
         }
         if (gamepad1.left_bumper && !move) {
             ClawL.setPosition(0);
         }
         if (gamepad1.right_bumper && !move) {
-            ClawR.setPosition(0.5);
+            ClawR.setPosition(0);
         }
         if (gamepad2.a && !move) {
             ArmR.setPosition(0);
@@ -151,7 +144,7 @@ public class CenterstageTele extends OpMode {
         if (gamepad2.x && !move) {
             Wirst.setPosition(0);
         }
-        if (gamepad2.y && !move) {
+        if (gamepad1.y && !move) {
             Drone.setPosition(0.5);
         }
         if (gamepad1.left_trigger > 0.3) {
