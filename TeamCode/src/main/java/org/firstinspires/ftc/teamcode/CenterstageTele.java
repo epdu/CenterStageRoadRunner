@@ -67,8 +67,6 @@ public class CenterstageTele extends OpMode {
 
         ArmL.setPosition(0);
         ArmR.setPosition(0);
-        ArmR.setDirection(Servo.Direction.REVERSE);
-        ArmL.setDirection(Servo.Direction.REVERSE);
     }
 
     public void FieldCentricDriveTrain() {
@@ -109,10 +107,10 @@ public class CenterstageTele extends OpMode {
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        LFMotor.setPower(frontLeftPower);
-        LBMotor.setPower(backLeftPower);
-        RFMotor.setPower(frontRightPower);
-        RBMotor.setPower(backRightPower);
+        LFMotor.setPower(0.75*frontLeftPower);
+        LBMotor.setPower(0.75*backLeftPower);
+        RFMotor.setPower(0.75*frontRightPower);
+        RBMotor.setPower(0.75*backRightPower);
     }
 
     public void liftArmHigh() {
@@ -137,22 +135,22 @@ public class CenterstageTele extends OpMode {
         if (gamepad1.right_bumper && !move) {
             ClawR.setPosition(0.5);
         }
-        if (gamepad2.a && !move) {
+        if (gamepad1.a && !move) {
             ArmR.setPosition(0);
             ArmL.setPosition(0);
         }
-        if (gamepad2.y && !move) {
+        if (gamepad1.b && !move) {
             ArmL.setPosition(0.5);
             ArmR.setPosition(0.5);
         }
         if (gamepad2.b && !move) {
-            Wirst.setPosition(0.5);
+            Wirst.setPosition(0.545);
         }
         if (gamepad2.x && !move) {
-            Wirst.setPosition(0);
+            Wirst.setPosition(0.3);
         }
         if (gamepad2.y && !move) {
-            Drone.setPosition(0.5);
+            Drone.setPosition(1);
         }
         if (gamepad1.left_trigger > 0.3) {
             ClawL.setPosition(0.5);
