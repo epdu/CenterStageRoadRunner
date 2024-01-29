@@ -238,7 +238,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
             dropPurplePixel();
-            if(found=="true"){
+            if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
                 telemetry.update();
                 break;}
@@ -249,7 +249,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         controlHubCam.stopStreaming();
 
 }
-private void initOpenCV() {
+public void initOpenCV() {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
