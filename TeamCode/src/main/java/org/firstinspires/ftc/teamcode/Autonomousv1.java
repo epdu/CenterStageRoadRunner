@@ -439,12 +439,36 @@ private static double getDistance(double width){
 public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.2, 40);
+
+//     all for blue near backdrop
+            moveBackward(0.2, 40); //from initial position  keep  moving until claw line up with the team prop
+            StrafingRight(0.2, 12); //push team prop away and turn
+            dropPurplePixel();  // drop purple  pixel
+            absoluteHeading( 0.2,  -90);
+//            AprilTagOmni("Left"); // line up with apriltag
+            droppixelbackdrop();
+            stopMotors(); // parking
+            //           moveBackward(0.2, 40);  // move to back dorp
+//     all for blue further one
+            moveBackward(0.2, 40); // from initial position to the team prop side
+            RightTurn(0.2, 12);//turn
+            moveForward(0.2, 4); // adjust position prepare to drop purple  pixel
+            dropPurplePixel();  // drop purple  pixel
+            moveBackward(0.2, 4); // from initial position to the team prop side
+            StrafingRight(0.2, 12); //turn
+            RightTurn(0.2, 12);//turn
+            RightTurn(0.2, 12);//turn
+            moveBackward(0.2, 90);  // move to back dorp
+            StrafingRight(0.2, 12); //turn
+//            AprilTagOmni("Left"); // line up with apriltag
+            droppixelbackdrop();
+            stopMotors(); // parking
+
 //or select turn to right , gyroTurn
 //            StrafingRight(0.2, 12);
 //            RightTurn(0.2, 12);
 //            gyroTurn(0.2, - 90);
-            absoluteHeading( 0.2,  -90);
+//            absoluteHeading( 0.2,  -90);
             found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.2, 30);
