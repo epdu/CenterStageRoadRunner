@@ -1,18 +1,25 @@
 package org.firstinspires.ftc.teamcode;
-//package org.firstinspires.ftc.teamcode.OpModes.Angle_PID_Tutorial;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.opencv.core.*;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -23,10 +30,12 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "A OpenCV Testing")
-
-public class opencv extends LinearOpMode {
-
+@Autonomous
+public class CombineAutos extends LinearOpMode {
+    DcMotor RFMotor;
+    DcMotor LFMotor;
+    DcMotor RBMotor;
+    DcMotor LBMotor;
     double cX = 0;
     double cY = 0;
     double width = 0;
@@ -34,25 +43,68 @@ public class opencv extends LinearOpMode {
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
- /*
-private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
+    /*
+   private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
+       private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
 
-1280 x 720 pixels
-Logitech Webcam C270 (1280 x 720 pixels)
- */
+   1280 x 720 pixels
+   Logitech Webcam C270 (1280 x 720 pixels)
+    */
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
+    HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private ElapsedTime runtime = new ElapsedTime();
+    static final double     FORWARD_SPEED = 0.6;
+    static final double     TURN_SPEED    = 0.5;
+    private Orientation lastAngles = new Orientation();
+    private double currAngle = 0.0;
+
+
+    private double kP, kI, kD;
+    private ElapsedTime timer = new ElapsedTime();
+    private double targetAngle;
+    private double lastError = 0;
+    private double accumulatedError = 0;
+    private double lastTime = -1;
+    private double lastSlope = 0;
+
     @Override
     public void runOpMode() {
+        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
+        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
+        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
 
-        initOpenCV();
+        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        // Create an instance of the camera
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        controlHubCam.setPipeline(new opencv.YellowBlobDetectionPipeline());
+
+        controlHubCam.openCameraDevice();
+        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+
+
+        robot.init(hardwareMap);
+
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Status", "Ready to run");    //
+        telemetry.update();
 
 
         waitForStart();
@@ -67,28 +119,24 @@ Logitech Webcam C270 (1280 x 720 pixels)
 
         // Release resources
         controlHubCam.stopStreaming();
+
+//        final int STAGE = 1;
+////        final int STAGE = 2;
+//        if (STAGE == 1) {
+//            turn(90);
+//            sleep(3000);
+//            turnTo(-90);
+//        } else if (STAGE == 2) {
+//            turnPID(90);
+//        }
     }
 
-    private void initOpenCV() {
 
-        // Create an instance of the camera
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-        controlHubCam.setPipeline(new YellowBlobDetectionPipeline());
-
-        controlHubCam.openCameraDevice();
-        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
-    }
     static class YellowBlobDetectionPipeline extends OpenCvPipeline {
+        //change yellow to red and/or blue to make it make more sense
         private double width;
         private double cX;
         private double cY;
-
         @Override
         public Mat processFrame(Mat input) {
             // Preprocess the frame to detect yellow regions
@@ -214,6 +262,137 @@ Logitech Webcam C270 (1280 x 720 pixels)
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
     }
+    public void resetAngle() {
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        currAngle = 0;
+    }
+
+    public double getAngle() {
+
+        // Get current orientation
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        // Change in angle = current angle - previous angle
+        double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
+
+        // Gyro only ranges from -179 to 180
+        // If it turns -1 degree over from -179 to 180, subtract 360 from the 359 to get -1
+        if (deltaAngle < -180) {
+            deltaAngle += 360;
+        } else if (deltaAngle > 180) {
+            deltaAngle -= 360;
+        }
+
+        // Add change in angle to current angle to get current angle
+        currAngle += deltaAngle;
+        lastAngles = orientation;
+        telemetry.addData("gyro", orientation.firstAngle);
+        return currAngle;
+    }
+
+    public void turn(double degrees){
+        resetAngle();
+
+        double error = degrees;
+
+        while (opModeIsActive() && Math.abs(error) > 2) {
+            double motorPower = (error < 0 ? -0.3 : 0.3);
+            robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+            error = degrees - getAngle();
+            telemetry.addData("error", error);
+            telemetry.update();
+        }
+
+        robot.setAllPower(0);
+    }
+
+    public void turnTo(double degrees){
+
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        System.out.println(orientation.firstAngle);
+        double error = degrees - orientation.firstAngle;
+
+        if (error > 180) {
+            error -= 360;
+        } else if (error < -180) {
+            error += 360;
+        }
+
+        turn(error);
+    }
+
+    public double getAbsoluteAngle() {
+        return robot.imu.getAngularOrientation(
+                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
+        ).firstAngle;
+    }
+
+    public void turnPID(double degrees) {
+        turnToPID(degrees + getAbsoluteAngle());
+    }
+
+    void turnToPID(double targetAngle) {
+        TurnPIDController pid = new TurnPIDController(targetAngle, 0.01, 0, 0.003);
+        telemetry.setMsTransmissionInterval(50);
+        // Checking lastSlope to make sure that it's not oscillating when it quits
+        while (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pid.getLastSlope() > 0.75) {
+            double motorPower = pid.update(getAbsoluteAngle());
+            robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+
+            telemetry.addData("Current Angle", getAbsoluteAngle());
+            telemetry.addData("Target Angle", targetAngle);
+            telemetry.addData("Slope", pid.getLastSlope());
+            telemetry.addData("Power", motorPower);
+            telemetry.update();
+        }
+        robot.setAllPower(0);
+    }
+    public CombineAutos(double target, double p, double i, double d) {
+        kP = p;
+        kI = i;
+        kD = d;
+        targetAngle = target;
+    }
+
+    public double update(double currentAngle) {
+        // TODO: make sure angles are within bounds and are in same format (e.g., 0 <= | angle | <= 180)
+        //   and ensure direction is correct
+
+        // P
+        double error = targetAngle - currentAngle;
+        error %= 360;
+        error += 360;
+        error %= 360;
+        if (error > 180) {
+            error -= 360;
+        }
+
+        // I
+        accumulatedError *= Math.signum(error);
+        accumulatedError += error;
+        if (Math.abs(error) < 2) {
+            accumulatedError = 0;
+        }
+
+        // D
+        double slope = 0;
+        if (lastTime > 0) {
+            slope = (error - lastError) / (timer.milliseconds() - lastTime);
+        }
+        lastSlope = slope;
+        lastError = error;
+        lastTime = timer.milliseconds();
+
+        double motorPower = 0.1 * Math.signum(error)
+                + 0.9 * Math.tanh(kP * error + kI * accumulatedError - kD * slope);
+        return motorPower;
+    }
+
+    public double getLastSlope() {
+        return lastSlope;
+    }
 
 
 }
+

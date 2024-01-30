@@ -238,7 +238,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
             dropPurplePixel();
-            if(found=="true"){
+            if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
                 telemetry.update();
                 break;}
@@ -249,7 +249,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         controlHubCam.stopStreaming();
 
 }
-private void initOpenCV() {
+public void initOpenCV() {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -472,11 +472,11 @@ public void  dropPurplePixel(){
             found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.2, 30);
-//or select turn to left
+// select turn to left
 //            StrafingLeft(0.2, 12);
 //            LeftTurn(0.2, 12);
 //            gyroTurn(0.2,  90);
-            absoluteHeading( 0.2,  90);
+//            absoluteHeading( 0.2,  90);
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.2, 46);
@@ -488,7 +488,7 @@ public void  dropPurplePixel(){
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
     //////////////////
-    public void gyroTurn(double power, double degrees){ //right is negative
+    public void gyroTurn(double power, double degrees){ //Fright is negative
         if(opModeIsActive()){
             double gyroinitial = newGetHeading();
             if(degrees>0){ //turn left

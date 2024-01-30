@@ -16,7 +16,8 @@ public class TeleOpCode extends OpMode {
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
-    //    DcMotor liftMotorL;
+    DcMotor liftMotorL;
+    DcMotor liftMotorR;
     public Servo LauncherServo;
 
     boolean move = false;
@@ -35,6 +36,7 @@ public class TeleOpCode extends OpMode {
     public Servo IntakeServo;
     public float speedMultiplier2 = 0.8f;
     public float speedMultiplier1 = 1;
+
     @Override
     public void init() {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
@@ -45,16 +47,12 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
+        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
 
-
-//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-//
-//        int positionL = liftMotorL.getCurrentPosition();
-//
-//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-//
-//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //*********without servo on robot please Comment these lines for debuging
 
@@ -70,8 +68,9 @@ public class TeleOpCode extends OpMode {
         IntakeServo.setPosition(0);
 //**************
     }
+
     @Override
-    public void loop(){
+    public void loop() {
 //        moveDriveTrain();
         FieldCentricDriveTrain();
 //        if (gamepad2.y && !move) {
@@ -83,12 +82,13 @@ public class TeleOpCode extends OpMode {
 //         }
         if (gamepad2.x && !move) {
             LauncherServo.setPosition(0.25);
-        }  if (gamepad2.a && !move) {
-            IntakeServo.setPosition(0.5);
-        } if (gamepad2.b && !move){
-            IntakeServo.setPosition(0);
         }
-        else {
+        if (gamepad2.a && !move) {
+            IntakeServo.setPosition(0.5);
+        }
+        if (gamepad2.b && !move) {
+            IntakeServo.setPosition(0);
+        } else {
 //            liftArmHigh();
             moveServo(gamepad1.dpad_up, gamepad1.dpad_down);
             moveIntake(gamepad2.dpad_up, gamepad2.dpad_down);
@@ -98,7 +98,8 @@ public class TeleOpCode extends OpMode {
             telemetry.addData("SERVO", servo.getPosition());
             telemetry.update();
 
-            ejectPixel();}
+            ejectPixel();
+        }
 
     }
 
@@ -106,8 +107,8 @@ public class TeleOpCode extends OpMode {
     public void FieldCentricDriveTrain() {
         //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = - gamepad1.left_stick_x;
-        double rx = - gamepad1.right_stick_x;
+        double x = -gamepad1.left_stick_x;
+        double rx = -gamepad1.right_stick_x;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -168,33 +169,34 @@ public class TeleOpCode extends OpMode {
 //        liftMotorL.setPower(speedLimiter * y);
 
     //    }
-    public void moveServo(boolean keybind1, boolean keybind2)
-    {
+    public void moveServo(boolean keybind1, boolean keybind2) {
         boolean current1 = keybind1;
-        if(current1 && !previous1)
-        {
+        if (current1 && !previous1) {
             servo.setPosition(servo.getPosition() + 0.1);
         }
         previous1 = current1;
 
         boolean current2 = keybind2;
-        if(current2 && !previous2)
-        {
+        if (current2 && !previous2) {
             servo.setPosition(servo.getPosition() - 0.1);
         }
-        previous2=current2;
+        previous2 = current2;
     }
 
-    public void moveIntake(boolean dpad_up, boolean dpad_down){
+    public void moveIntake(boolean dpad_up, boolean dpad_down) {
         double intake = gamepad2.right_trigger;
-        Intake.setPower(-intake*speedMultiplier1);
+        Intake.setPower(-intake * speedMultiplier1);
     }
 
-    public void ejectPixel(){
+    public void ejectPixel() {
         double intake = gamepad2.left_trigger;
-        Intake.setPower(intake*speedMultiplier2);
+        Intake.setPower(intake * speedMultiplier2);
     }
 
+    public void liftArmHigh() {
+        double y = -gamepad1.left_stick_y;
+        liftMotorL.setPower(speedLimiter * y);
+        liftMotorR.setPower(speedLimiter * y);
 //*********Robot-Centric
 //
 //    public void moveDriveTrain() {
@@ -229,5 +231,6 @@ public class TeleOpCode extends OpMode {
 //    }
 //*********Robot-Centric
 
+    }
 }
 
