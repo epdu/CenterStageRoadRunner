@@ -55,18 +55,18 @@ public class CenterstageTele extends OpMode {
         Drone.setPosition(0);
 
         Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setPosition(0.3);
+        Wrist.setPosition(0.34);
 
         ClawR = hardwareMap.get(Servo.class, "ClawR");
         ClawL = hardwareMap.get(Servo.class, "ClawL");
         ClawR.setPosition(0.78);
-        ClawL.setPosition(0.02);
+        ClawL.setPosition(0.018);
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
 
-        ArmL.setPosition(0);
-        ArmR.setPosition(0);
+//        ArmL.setPosition(0.5);
+//        ArmR.setPosition(0.5);
     }
 
     public void FieldCentricDriveTrain() {
@@ -140,14 +140,14 @@ public class CenterstageTele extends OpMode {
             ArmL.setPosition(0);
         }
         if (gamepad1.b && !move) {
-            ArmL.setPosition(0.5);
-            ArmR.setPosition(0.5);
+            ArmL.setPosition(0.4);
+            ArmR.setPosition(0.4);
         }
         if (gamepad2.b && !move) {
             Wrist.setPosition(0.545);
         }
         if (gamepad2.x && !move) {
-            Wrist.setPosition(0.3);
+            Wrist.setPosition(0.318);
         }
         if (gamepad2.y && !move) {
             Drone.setPosition(1);
