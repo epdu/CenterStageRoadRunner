@@ -1023,21 +1023,18 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setTargetPosition((int) -distanceInInch);
-        LBMotor.setTargetPosition((int) -distanceInInch);
-        RFMotor.setTargetPosition((int) +distanceInInch);
-        RBMotor.setTargetPosition((int) +distanceInInch);
-
+        RFMotor.setTargetPosition((int) -distanceInInchDouble);
+        RBMotor.setTargetPosition((int) -distanceInInchDouble);
+        LFMotor.setTargetPosition((int) +distanceInInchDouble);
+        LBMotor.setTargetPosition((int) +distanceInInchDouble);
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LFMotor.setPower(+power);
-        LBMotor.setPower(+power);
         RFMotor.setPower(+power);
         RBMotor.setPower(+power);
-
-
+        LFMotor.setPower(+power);
+        LBMotor.setPower(+power);
         while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
@@ -1050,22 +1047,18 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        LFMotor.setTargetPosition((int) +distanceInInch);
-        LBMotor.setTargetPosition((int) +distanceInInch);
-        RFMotor.setTargetPosition((int) -distanceInInch);
-        RBMotor.setTargetPosition((int) -distanceInInch);
-
+        RFMotor.setTargetPosition((int) +distanceInInchDouble);
+        RBMotor.setTargetPosition((int) +distanceInInchDouble);
+        LFMotor.setTargetPosition((int) -distanceInInchDouble);
+        LBMotor.setTargetPosition((int) -distanceInInchDouble);
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LFMotor.setPower(+power);
-        LBMotor.setPower(+power);
         RFMotor.setPower(+power);
         RBMotor.setPower(+power);
-
-
+        LFMotor.setPower(+power);
+        LBMotor.setPower(+power);
         while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
@@ -1084,7 +1077,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setTargetPosition((int) -distanceInInchDouble);
         RFMotor.setTargetPosition((int) -distanceInInchDouble);
         RBMotor.setTargetPosition((int) +distanceInInchDouble);
-
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1093,7 +1085,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setPower(+power);
         RFMotor.setPower(+power);
         RBMotor.setPower(+power);
-
 
         while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
         RFMotor.setPower(0);
@@ -1112,7 +1103,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setTargetPosition((int) +distanceInInchDouble);
         RFMotor.setTargetPosition((int) +distanceInInchDouble);
         RBMotor.setTargetPosition((int) -distanceInInchDouble);
-
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1122,7 +1112,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RFMotor.setPower(+power);
         RBMotor.setPower(+power);
 
-
         while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
         RFMotor.setPower(0);
         LFMotor.setPower(0);
@@ -1130,34 +1119,7 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setPower(0);
     }
 
-/*    public void StrafingRight(double power, double distanceInInch) {
-        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
-        RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setTargetPosition((int) -distanceInInch);
-        LBMotor.setTargetPosition((int) +distanceInInch);
-        RFMotor.setTargetPosition((int) +distanceInInch);
-        RBMotor.setTargetPosition((int) -distanceInInch);
 
-        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LFMotor.setPower(+power);
-        LBMotor.setPower(+power);
-        RFMotor.setPower(+power);
-        RBMotor.setPower(+power);
-
-
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-        RFMotor.setPower(0);
-        LFMotor.setPower(0);
-        RBMotor.setPower(0);
-        LBMotor.setPower(0);
-    }
-*/
 
 }
 
