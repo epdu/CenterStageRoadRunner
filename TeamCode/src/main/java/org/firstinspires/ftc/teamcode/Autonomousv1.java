@@ -486,7 +486,6 @@ public void  dropPurplePixel(){
                     LBMotor.setPower(-power);
                     LFMotor.setPower(-power);
                     RBMotor.setPower(power);
-
                     updates = Double.toString(newGetHeading());
                     telemetry.addData("Heading", newGetHeading());
                     telemetry.update();
