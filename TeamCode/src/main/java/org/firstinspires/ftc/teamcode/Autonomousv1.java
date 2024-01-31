@@ -59,7 +59,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
-@Autonomous(name = "Autonomous OpenCV Testing")
+@Autonomous(name = "Autonomous OpenCV & distance sensor Testing")
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -172,7 +172,7 @@ public class Autonomousv1 extends LinearOpMode {
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
 
@@ -356,9 +356,14 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
         private Mat preprocessFrame(Mat frame) {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-            Scalar lowerYellow = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-            Scalar upperYellow = new Scalar(30, 255, 255);
+//            Scalar lowerBlue = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue team prop
+//            Scalar upperBlue = new Scalar(230, 255, 255);
 
+            Scalar lowerBlue = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar upperBlue = new Scalar(30, 255, 255);
+
+           // Scalar lowerRed = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+          //  Scalar upperRed = new Scalar(10, 255, 255);
   /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
@@ -403,7 +408,7 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
 */
 
             Mat yellowMask = new Mat();
-            Core.inRange(hsvFrame, lowerYellow, upperYellow, yellowMask);
+            Core.inRange(hsvFrame, lowerBlue, upperBlue, yellowMask);
 
             Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
             Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
@@ -439,47 +444,31 @@ private static double getDistance(double width){
 public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-
-//     all for blue near backdrop
-            moveBackward(0.2, 40); //from initial position  keep  moving until claw line up with the team prop
-            StrafingRight(0.2, 12); //push team prop away and turn
-            dropPurplePixel();  // drop purple  pixel
-            absoluteHeading( 0.2,  -90);
-//            AprilTagOmni("Left"); // line up with apriltag
-            droppixelbackdrop();
-            stopMotors(); // parking
-            //           moveBackward(0.2, 40);  // move to back dorp
-//     all for blue further one
-            moveBackward(0.2, 40); // from initial position to the team prop side
-            RightTurn(0.2, 12);//turn
-            moveForward(0.2, 4); // adjust position prepare to drop purple  pixel
-            dropPurplePixel();  // drop purple  pixel
-            moveBackward(0.2, 4); // from initial position to the team prop side
-            StrafingRight(0.2, 12); //turn
-            RightTurn(0.2, 12);//turn
-            RightTurn(0.2, 12);//turn
-            moveBackward(0.2, 90);  // move to back dorp
-            StrafingRight(0.2, 12); //turn
-//            AprilTagOmni("Left"); // line up with apriltag
-            droppixelbackdrop();
-            stopMotors(); // parking
-
+            moveBackward(0.2, 40);
 //or select turn to right , gyroTurn
-//            StrafingRight(0.2, 12);
-//            RightTurn(0.2, 12);
+            StrafingRight(0.3, 12);
+            //drop pixel
+            gyroTurn(0.2,  90);
+//            RightTurn(0.3, 12);
+ //           LeftTurn(0.3, 12);
+            //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
 //            absoluteHeading( 0.2,  -90);
             found="true";
         } else if ( teamPropLocations == "Right") {
-            moveBackward(0.2, 30);
+            moveBackward(0.3, 28);
+
 // select turn to left
-//            StrafingLeft(0.2, 12);
-//            LeftTurn(0.2, 12);
-//            gyroTurn(0.2,  90);
+//            StrafingLeft(0.2, 20);
+
+            gyroTurn(0.2,  90);
 //            absoluteHeading( 0.2,  90);
+            //drop pixel
             found="true";
         } else if ( teamPropLocations == "Center") {
-            moveBackward(0.2, 46);
+            moveBackward(0.3, 46);
+            absoluteHeading( 0.2,  90);
+            //drop pixel
             found="true";
         }
 //        checkTeamPropColors();
@@ -1113,19 +1102,17 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         RBMotor.setPower(0);
         LBMotor.setPower(0);
     }
+
     public void StrafingRight(double power, double distanceInInch) {
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
         RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        LFMotor.setTargetPosition((int) -distanceInInch);
-        LBMotor.setTargetPosition((int) +distanceInInch);
-        RFMotor.setTargetPosition((int) +distanceInInch);
-        RBMotor.setTargetPosition((int) -distanceInInch);
-
-
+        LFMotor.setTargetPosition((int) -distanceInInchDouble);
+        LBMotor.setTargetPosition((int) +distanceInInchDouble);
+        RFMotor.setTargetPosition((int) +distanceInInchDouble);
+        RBMotor.setTargetPosition((int) -distanceInInchDouble);
 
         RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1144,6 +1131,34 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setPower(0);
     }
 
+/*    public void StrafingRight(double power, double distanceInInch) {
+        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
+        RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LFMotor.setTargetPosition((int) -distanceInInch);
+        LBMotor.setTargetPosition((int) +distanceInInch);
+        RFMotor.setTargetPosition((int) +distanceInInch);
+        RBMotor.setTargetPosition((int) -distanceInInch);
+
+        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LFMotor.setPower(+power);
+        LBMotor.setPower(+power);
+        RFMotor.setPower(+power);
+        RBMotor.setPower(+power);
+
+
+        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
+        RFMotor.setPower(0);
+        LFMotor.setPower(0);
+        RBMotor.setPower(0);
+        LBMotor.setPower(0);
+    }
+*/
 
 }
 
