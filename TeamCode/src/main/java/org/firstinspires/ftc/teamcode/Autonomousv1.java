@@ -234,6 +234,15 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
             dropPurplePixel();
+
+
+
+
+
+
+
+
+
 //add more methods here to finish all mission
 //here
 // apriltag
