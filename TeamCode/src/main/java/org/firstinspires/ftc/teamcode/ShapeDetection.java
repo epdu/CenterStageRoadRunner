@@ -19,12 +19,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+
 import java.lang.Object;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.MatOfPoint2f;
@@ -91,7 +86,7 @@ public class ShapeDetection {
         Imgcodecs.waitKey(0);
         Imgcodecs.destroyAllWindows();
 */
-        displayImage(img, "Image Display");
+/*        displayImage(img, "Image Display");
 
         private static void displayImage(BufferedImage img, String title) {
             JFrame frame = new JFrame(title);
@@ -104,5 +99,7 @@ public class ShapeDetection {
 
             frame.setVisible(true);
         }
+
+ */
     }
 }
