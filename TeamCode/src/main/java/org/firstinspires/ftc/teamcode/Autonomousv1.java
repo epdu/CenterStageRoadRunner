@@ -115,12 +115,12 @@ public class Autonomousv1 extends LinearOpMode {
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
-    //    Blinker control_Hub;
-    //   DcMotor lift;
-    //    BNO055IMU imu;
-    //    Servo clawLeft;
+ //    Blinker control_Hub;
+//   DcMotor lift;
+//    BNO055IMU imu;
+//    Servo clawLeft;
 //    Servo clawRight;
-    // @Override
+// @Override
     @Override
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
