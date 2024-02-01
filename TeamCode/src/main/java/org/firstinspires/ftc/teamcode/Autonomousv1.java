@@ -59,11 +59,9 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-@Autonomous(name = "Autonomous OpenCV AprilTag")
-=======
+
 @Autonomous(name = "Autonomous OpenCV & AprilTag ")
->>>>>>> origin/master
+
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
