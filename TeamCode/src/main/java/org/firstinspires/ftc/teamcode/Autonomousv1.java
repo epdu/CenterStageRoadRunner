@@ -233,6 +233,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
+            sleep(10);
             dropPurplePixel();
 
 
