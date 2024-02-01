@@ -34,8 +34,8 @@ public class Gyro extends LinearOpMode{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        final int STAGE = 1;
-//        final int STAGE = 2;
+//        final int STAGE = 1;
+          final int STAGE = 2;
         if (STAGE == 1) {
             turn(90);
             sleep(3000);
