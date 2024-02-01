@@ -444,13 +444,14 @@ private static double getDistance(double width){
 public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.2, 40);
+            moveBackward(0.3, 40);
 //or select turn to right , gyroTurn
             StrafingRight(0.3, 12);
             //drop pixel
-            gyroTurn(0.2,  90);
-//            RightTurn(0.3, 12);
- //           LeftTurn(0.3, 12);
+            gyroTurn(0.3,  120);
+            gyroTurn(0.3,  -120);
+            RightTurn(0.3,12);
+           LeftTurn(0.3,12);
             //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
 //            absoluteHeading( 0.2,  -90);
