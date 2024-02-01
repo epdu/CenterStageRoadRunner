@@ -115,12 +115,12 @@ public class Autonomousv1 extends LinearOpMode {
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
-    //    Blinker control_Hub;
-    //   DcMotor lift;
-    //    BNO055IMU imu;
-    //    Servo clawLeft;
+//    Blinker control_Hub;
+//   DcMotor lift;
+//    BNO055IMU imu;
+//    Servo clawLeft;
 //    Servo clawRight;
-    // @Override
+// @Override
     @Override
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
@@ -135,7 +135,7 @@ public class Autonomousv1 extends LinearOpMode {
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // ticks per revolution
+    // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -147,9 +147,7 @@ public class Autonomousv1 extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         waitForStart();
-
-
- /*
+/*
             while (opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -164,7 +162,6 @@ public class Autonomousv1 extends LinearOpMode {
 //        AprilTagOmni(); //find the right april tag and approach it
 //        droppixelbackdrop();
 //        goparking();
-
 
         distanceInInch=24;//number in unit of inch
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
@@ -181,7 +178,7 @@ public class Autonomousv1 extends LinearOpMode {
         }
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 /*
-        // run until the end of the match (driver presses STOP)
+// run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
             double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -190,9 +187,8 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.update();
         }
 */
-
 /*
-set the distanct from frot of robot to the block of game element
+set the distance from front of robot to the block of game element
 Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
@@ -204,10 +200,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
+// each time, change the orientation of control nub, please update here
         parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
         if (gamepad1.options) {
@@ -224,8 +221,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
-        //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-
+//        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
 //        moveBackward(0.2, 16);
 //        findteamPropLocationsopencv();
 //        dropPurplePixel();
@@ -238,13 +234,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
             dropPurplePixel();
+//add more methods here to finish all mission
+//here
+// apriltag
+
             if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
                 telemetry.update();
                 break;}
-            // The OpenCV pipeline automatically processes frames and handles detection
+// The OpenCV pipeline automatically processes frames and handles detection
         }
-
 
         controlHubCam.stopStreaming();
 
@@ -259,7 +258,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
-
+/*
     public void  findteamPropLocationsbyDistanceSensors(){
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -287,6 +286,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
     }
+*/
     public void  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
@@ -453,7 +453,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 20); //approaching backdrop
             StrafingRight(0.3, 12);//move parallel the apriltags at the bottom of backdrop in order to locate them
             StrafingLeft(0.3, 18); //move back and forth
-            moveForward(0.3, 20);
+
 
             //drop pixel
 
