@@ -183,6 +183,17 @@ public class AprilTagOmni extends LinearOpMode
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
                 telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+// set id here
+/*
+
+                if(desiredTag.id==LEFT){
+                    //move to LEFT
+                } else if (desiredTag.id==RIGHT){
+                    // move to RIGHT
+                } else {
+                    //move to middle
+                }
+*/
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }

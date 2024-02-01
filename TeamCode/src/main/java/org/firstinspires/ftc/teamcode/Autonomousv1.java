@@ -59,7 +59,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
-@Autonomous(name = "Autonomous OpenCV Testing")
+@Autonomous(name = "Autonomous OpenCV AprilTag")
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -360,7 +360,12 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
             Scalar upperYellow = new Scalar(30, 255, 255);
 
   /*
-            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
+    marine
+    HSV: 210, 97, 34
+    Vermillion Seabass
+   HSV: 1, 60, 58
+
+Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
 
             Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
@@ -493,10 +498,10 @@ public void  dropPurplePixel(){
             double gyroinitial = newGetHeading();
             if(degrees>0){ //turn left
                 while(newGetHeading() - gyroinitial < degrees && opModeIsActive()){
-                    RFMotor.setPower(power);
-                    LBMotor.setPower(-power);
-                    LFMotor.setPower(-power);
-                    RBMotor.setPower(power);
+                    RFMotor.setPower(-power);
+                    LBMotor.setPower(+power);
+                    LFMotor.setPower(+power);
+                    RBMotor.setPower(-power);
 
                     updates = Double.toString(newGetHeading());
                     telemetry.addData("Heading", newGetHeading());
@@ -506,10 +511,10 @@ public void  dropPurplePixel(){
             }
             else{//turn right
                 while(newGetHeading() - gyroinitial > degrees && opModeIsActive()){
-                    RFMotor.setPower(-power);
-                    LBMotor.setPower(power);
-                    LFMotor.setPower(power);
-                    RBMotor.setPower(-power);
+                    RFMotor.setPower(+power);
+                    LBMotor.setPower(-power);
+                    LFMotor.setPower(-power);
+                    RBMotor.setPower(+power);
 
                     updates = Double.toString(getHeading());
                     telemetry.addData("Heading", newGetHeading());
