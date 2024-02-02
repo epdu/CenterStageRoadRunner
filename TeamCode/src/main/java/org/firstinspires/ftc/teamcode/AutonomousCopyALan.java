@@ -255,19 +255,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
 
-            //            sleep(10);
-//            sleep(10);
-            telemetry.addData("teamprop", teamPropLocations);
 //add more methods here to finish all mission
 //here
 // apriltag
 
-            telemetry.update();
-
 
             if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
+                telemetry.addData("Find team prop or not",  teamPropLocations);
                 telemetry.update();
+
                 break;}
             // The OpenCV pipeline automatically processes frames and handles detection
         }
@@ -360,7 +357,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
     }
 */
-    public void  findteamPropLocationsopencv(){
+    public String  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
@@ -382,7 +379,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         }
-
+        return teamPropLocations;
     }
 /////////////////////////////
     class YellowBlobDetectionPipeline extends OpenCvPipeline {
@@ -515,9 +512,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
             StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
             RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
-            moveBackward(0.3, 6); //approaching backdrop
-            StrafingRight(0.3, 16);//move parallel the april tags at the bottom of backdrop in order to locate them
-
+            moveBackward(0.3, 16); //approaching backdrop
+            StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+            moveBackward(0.3, 5);
 
 
             //drop pixel
