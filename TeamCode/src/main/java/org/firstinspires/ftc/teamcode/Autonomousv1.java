@@ -241,10 +241,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
-//        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-//        moveBackward(0.2, 16);
-//        findteamPropLocationsopencv();
-//        dropPurplePixel();
+
         while (opModeIsActive()) {
             found="false";
             telemetry.addData("Find team prop or not", found);
@@ -253,12 +250,14 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
-            sleep(1);
+            sleep(2);
+            dropPurplePixel();
             if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
                 telemetry.update();
+                sleep(2);
                 break;}
-//            dropPurplePixel();
+
 //move it out the while loop
 
 
@@ -271,9 +270,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 
         controlHubCam.stopStreaming();
-        dropPurplePixel();
+
 
     }
+
     public void initOpenCV() {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
@@ -313,7 +313,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
     }
 */
-    public void  findteamPropLocationsopencv(){
+    public String  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
@@ -339,7 +339,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 
 
-/////////////
+        return teamPropLocations;
 
     }
     /////////////////////////////
@@ -470,15 +470,17 @@ Using the specs from the motor, you would need to find the encoder counts per re
         return distance;
     }
     // set each method and parameter for different route
-    public void  dropPurplePixel(){
+    public void dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
             moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
             StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
             RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
-            moveBackward(0.3, 20); //approaching backdrop
-            StrafingRight(0.3, 12);//move parallel the april tags at the bottom of backdrop in order to locate them
-            StrafingLeft(0.3, 18); //move back and forth
+            moveBackward(0.3, 16); //approaching backdrop
+            StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+            moveBackward(0.3, 5);
+//            moveForward(0.3, 4);
+//            StrafingLeft(0.3, 18); //move back and forth
 
 
             //drop pixel
@@ -505,6 +507,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
+//        return teamPropLocations;
     }
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
