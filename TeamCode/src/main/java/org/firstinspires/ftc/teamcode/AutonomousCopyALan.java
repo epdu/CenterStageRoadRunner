@@ -235,36 +235,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
       just multiply the distance by the counts / distance you calculated above. Hope that helps!
 11.87374348 537 per revolution 11.87374348 inch
 */
-        distanceInInch=24;//number in unit of inch
-        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
-        // This button choice was made so that it is hard to hit on accident,
-        // it can be freely changed based on preference.
-        // The equivalent button is start on Xbox-style controllers.
-        parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
-
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
-        botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-/*
-        run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
-            double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
-            telemetry.addData("Left sensor", (double)(Math.round(leftReading * 10) / 10.0));
-            telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
-            telemetry.update();
-        }
-*/
-        //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-
-//        moveBackward(0.2, 16);
-//        findteamPropLocationsopencv();
-//        dropPurplePixel();
 
 
         waitForStart();
