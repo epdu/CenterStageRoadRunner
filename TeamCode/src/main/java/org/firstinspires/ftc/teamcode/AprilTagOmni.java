@@ -183,11 +183,22 @@ public class AprilTagOmni extends LinearOpMode
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
                 telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+// set id here
+/*
+
+                if(desiredTag.id==LEFT){
+                    //move to LEFT
+                } else if (desiredTag.id==RIGHT){
+                    // move to RIGHT
+                } else {
+                    //move to middle
+                }
+*/
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
 
-            // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
+// If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
             if (gamepad1.left_bumper && targetFound) {
 
                 // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
