@@ -96,7 +96,7 @@ public class AutonomousCopyALan extends LinearOpMode {
     double  distanceInInch;
     double  distanceInInchDouble;
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
-    String teamPropLocations  //= "Left";//for debug
+    String teamPropLocations;  //= "Left"
     String PurplePixel;
     //    boolean
     String found;
