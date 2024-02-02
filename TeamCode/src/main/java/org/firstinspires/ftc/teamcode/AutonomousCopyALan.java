@@ -96,7 +96,7 @@ public class AutonomousCopyALan extends LinearOpMode {
     double  distanceInInch;
     double  distanceInInchDouble;
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
-    String teamPropLocations = "Left";
+    String teamPropLocations = "Left";//for debug
     String PurplePixel;
     //    boolean
     String found;
@@ -182,8 +182,8 @@ public class AutonomousCopyALan extends LinearOpMode {
         // Initialize the Apriltag Detection process
         initAprilTag();
 
-//        if (USE_WEBCAM)
-//            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
+        if (USE_WEBCAM)
+            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
 /*
             while (opModeIsActive()) {
@@ -210,7 +210,7 @@ public class AutonomousCopyALan extends LinearOpMode {
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
 
         if (gamepad1.options) {
             imu.resetYaw();
