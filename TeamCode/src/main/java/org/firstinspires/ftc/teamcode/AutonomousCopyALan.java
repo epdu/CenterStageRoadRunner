@@ -365,8 +365,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
-// L=24.68+- 2, Center=30.56+-2
-///////////////
 
         if(cX > 0 && cX < 365 ){
             teamPropLocations="Left";
@@ -385,11 +383,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 
-
-/////////////
-
     }
-    /////////////////////////////
+/////////////////////////////
     class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
