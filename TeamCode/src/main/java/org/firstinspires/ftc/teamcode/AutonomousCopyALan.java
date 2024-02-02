@@ -136,7 +136,7 @@ public class AutonomousCopyALan extends LinearOpMode {
     private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
     private AprilTagDetection desiredTag = null;
-    final double DESIRED_DISTANCE = 4.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -511,6 +511,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 16); //approaching backdrop
             StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
             moveBackward(0.3, 5);
+            moveForward(0.3, 20);
 
 
             //drop pixel
