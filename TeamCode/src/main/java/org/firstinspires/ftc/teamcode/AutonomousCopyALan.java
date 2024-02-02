@@ -252,37 +252,13 @@ Using the specs from the motor, you would need to find the encoder counts per re
             findteamPropLocationsopencv();
             sleep(1000);
             dropPurplePixel();
-
+            aprilTagOmni();
 
             telemetry.addData("teamprop", teamPropLocations);
 //add more methods here to finish all mission
 //here
 // apriltag
 
-            if(found =="true"){
-                telemetry.addData("Find team prop or not", found);
-                telemetry.update();
-                break;}
-// The OpenCV pipeline automatically processes frames and handles detection
-
-            if (teamPropLocations == "Left")
-            {
-                moveBackward(0.5, 10);
-//                DESIRED_TAG_ID = 1;
-//                lookfortag(DESIRED_TAG_ID);
-
-
-
-
-            } else if (teamPropLocations == "Center") {
-//                DESIRED_TAG_ID = 2;
-//                lookfortag(DESIRED_TAG_ID);
-
-            } else if (teamPropLocations == "Right") {
-//                DESIRED_TAG_ID = 3;
-//                lookfortag(DESIRED_TAG_ID);
-
-            }
             telemetry.update();
 
 
@@ -571,6 +547,27 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
+    }
+  //work here
+
+    public void  aprilTagOmni(){
+
+
+        if (teamPropLocations == "Left")
+        {
+            moveBackward(0.5, 10);
+                DESIRED_TAG_ID = 1;
+                lookfortag(DESIRED_TAG_ID);
+
+        } else if (teamPropLocations == "Center") {
+//                DESIRED_TAG_ID = 2;
+//                lookfortag(DESIRED_TAG_ID);
+
+        } else if (teamPropLocations == "Right") {
+//                DESIRED_TAG_ID = 3;
+//                lookfortag(DESIRED_TAG_ID);
+
+        }
     }
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
