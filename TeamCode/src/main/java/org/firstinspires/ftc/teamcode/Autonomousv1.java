@@ -268,7 +268,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
 //here
 // The OpenCV pipeline automatically processes frames and handles detection
 
-
         }
 
         controlHubCam.stopStreaming();
