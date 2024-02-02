@@ -525,7 +525,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             //drop pixel
             //drop pixel
 
-            //           StrafingLeft(0.3, 12);
+//           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
 //            absoluteHeading( 0.2,  -90);
             found="true";
@@ -533,7 +533,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 28);
 
 // select turn to left
-//            StrafingLeft(0.2, 20);
+// StrafingLeft(0.2, 20);
 
             gyroTurn(0.2,  90);
 //            absoluteHeading( 0.2,  90);
