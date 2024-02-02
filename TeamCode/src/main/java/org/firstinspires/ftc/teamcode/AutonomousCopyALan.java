@@ -153,8 +153,8 @@ public class AutonomousCopyALan extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
-        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
-        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
+//        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
+//        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
@@ -232,8 +232,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             findteamPropLocationsopencv();
             dropPurplePixel();
-// Release resources, in order to release use by opencv, move to here, right after found team prop
-            controlHubCam.stopStreaming();
             aprilTagOmni();
 
 
@@ -251,6 +249,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
         // Release resources
         controlHubCam.stopStreaming();
 */
+
+        controlHubCam.stopStreaming();
     }
 
     public void lookfortag(int tag){
@@ -911,17 +911,17 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         aprilTag.setDecimation(2);
 
         // Create the vision portal by using a builder.
-//        if (USE_WEBCAM) {
+        if (USE_WEBCAM) {
         visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 2"))
                 .addProcessor(aprilTag)
                 .build();
-//        } else {
-//            visionPortal = new VisionPortal.Builder()
-//                    .setCamera(BuiltinCameraDirection.BACK)
-//                    .addProcessor(aprilTag)
-//                    .build();
-//        }
+        } else {
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(BuiltinCameraDirection.BACK)
+                    .addProcessor(aprilTag)
+                    .build();
+        }
     }
 
     private void    setManualExposure(int exposureMS, int gain) {
