@@ -432,7 +432,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
             //  Scalar highHSV = new Scalar(10, 255, 255);
 //
-  /*
+/*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
 
