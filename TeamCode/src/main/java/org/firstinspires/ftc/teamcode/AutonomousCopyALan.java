@@ -182,8 +182,8 @@ public class AutonomousCopyALan extends LinearOpMode {
         // Initialize the Apriltag Detection process
         initAprilTag();
 
-        if (USE_WEBCAM)
-            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
+//        if (USE_WEBCAM)
+//            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
 /*
             while (opModeIsActive()) {
@@ -247,13 +247,15 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.addData("Distance in Inch", (getDistance(width)));
             telemetry.update();
             PurplePixel="NOTDONE";
-
+//add class or method here
 
             findteamPropLocationsopencv();
-
             dropPurplePixel();
             aprilTagOmni();
-//            sleep(10);
+
+
+
+            //            sleep(10);
 //            sleep(10);
             telemetry.addData("teamprop", teamPropLocations);
 //add more methods here to finish all mission
