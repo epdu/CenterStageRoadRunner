@@ -232,6 +232,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             findteamPropLocationsopencv();
             dropPurplePixel();
+// Release resources, in order to release use by opencv, move to here, right after found team prop
+            controlHubCam.stopStreaming();
             aprilTagOmni();
 
 
@@ -245,10 +247,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
 //                break;}
             // The OpenCV pipeline automatically processes frames and handles detection
         }
-
+/* original place to use to release resource
         // Release resources
         controlHubCam.stopStreaming();
-
+*/
     }
 
     public void lookfortag(int tag){
