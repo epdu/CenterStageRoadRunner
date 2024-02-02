@@ -248,12 +248,13 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
             PurplePixel="NOTDONE";
 
-            sleep(10);
+
             findteamPropLocationsopencv();
-            sleep(10);
+
             dropPurplePixel();
             aprilTagOmni();
-
+//            sleep(10);
+//            sleep(10);
             telemetry.addData("teamprop", teamPropLocations);
 //add more methods here to finish all mission
 //here
