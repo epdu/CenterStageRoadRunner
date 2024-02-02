@@ -185,14 +185,7 @@ public class AutonomousCopyALan extends LinearOpMode {
 //        if (USE_WEBCAM)
 //            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
-
-
-
-
-
-
-
- /*
+/*
             while (opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -248,7 +241,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
         parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
@@ -272,19 +265,35 @@ Using the specs from the motor, you would need to find the encoder counts per re
 //        moveBackward(0.2, 16);
 //        findteamPropLocationsopencv();
 //        dropPurplePixel();
+
+
         waitForStart();
+
+
         while (opModeIsActive()) {
-//            found="false";
-//            telemetry.addData("Find team prop or not", found);
-//            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-//            telemetry.addData("Distance in Inch", (getDistance(width)));
-//            telemetry.update();
-//            PurplePixel="NOTDONE";
+            found="false";
+            telemetry.addData("Find team prop or not", found);
+            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(width)));
+            telemetry.update();
+            PurplePixel="NOTDONE";
 
 
-//            findteamPropLocationsopencv();
-//            dropPurplePixel();
+            findteamPropLocationsopencv();
+            sleep(10);
+            dropPurplePixel();
+
+
             telemetry.addData("teamprop", teamPropLocations);
+//add more methods here to finish all mission
+//here
+// apriltag
+
+            if(found =="true"){
+                telemetry.addData("Find team prop or not", found);
+                telemetry.update();
+                break;}
+// The OpenCV pipeline automatically processes frames and handles detection
 
             if (teamPropLocations == "Left")
             {
@@ -307,10 +316,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
 
 
-//            if(found =="true"){
-//                telemetry.addData("Find team prop or not", found);
-//                telemetry.update();
-//                break;}
+            if(found =="true"){
+                telemetry.addData("Find team prop or not", found);
+                telemetry.update();
+                break;}
             // The OpenCV pipeline automatically processes frames and handles detection
         }
 
@@ -373,7 +382,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
-
+/*
     public void  findteamPropLocationsbyDistanceSensors(){
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -401,6 +410,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
     }
+*/
     public void  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
@@ -470,14 +480,14 @@ Using the specs from the motor, you would need to find the encoder counts per re
         private Mat preprocessFrame(Mat frame) {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-//            Scalar lowerBlue = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue team prop
-//            Scalar upperBlue = new Scalar(230, 255, 255);
 
-            Scalar lowerBlue = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-            Scalar upperBlue = new Scalar(30, 255, 255);
+//change HSV value for different team prop
+            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar highHSV = new Scalar(30, 255, 255);
 
-            // Scalar lowerRed = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
-            //  Scalar upperRed = new Scalar(10, 255, 255);
+            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+            //  Scalar highHSV = new Scalar(10, 255, 255);
+//
   /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
@@ -522,7 +532,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
 */
 
             Mat yellowMask = new Mat();
-            Core.inRange(hsvFrame, lowerBlue, upperBlue, yellowMask);
+            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
 
             Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
             Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
@@ -558,19 +568,15 @@ Using the specs from the motor, you would need to find the encoder counts per re
     public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.3, 40);
-//or select turn to right , gyroTurn
-            StrafingRight(0.3, 12);
-            RightTurn(0.3,14.5);
-            moveBackward(0.3, 20);
-            StrafingRight(0.3, 12);
-            StrafingLeft(0.3, 18);
-            moveForward(0.3, 20);
-            gyroTurn(0.3,  150);
-//            gyroTurn(0.3,  120);
-//            gyroTurn(0.3,  -120);
-//           RightTurn(0.3,12);
-//           LeftTurn(0.3,12);
+            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+            StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+            RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
+            moveBackward(0.3, 20); //approaching backdrop
+            StrafingRight(0.3, 12);//move parallel the april tags at the bottom of backdrop in order to locate them
+            StrafingLeft(0.3, 18); //move back and forth
+
+
+            //drop pixel
             //drop pixel
 
             //           StrafingLeft(0.3, 12);
@@ -869,6 +875,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
         stopMotors();
     }
+    /*
     public void strafeRight(double power, double rotations, double timelimit){
         long startthing = System.currentTimeMillis();
         long current = System.currentTimeMillis();
@@ -897,6 +904,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             flpower = Double.toString(LFMotor.getPower());
             brpower = Double.toString(RBMotor.getPower());
             blpower = Double.toString(LBMotor.getPower());
+            */
+
 /* telemetry.addData("Front Right", " " + frpower);
 telemetry.addLine();
 telemetry.addData("Front Left", " " + flpower);
@@ -907,7 +916,7 @@ telemetry.addData("Back Left", " " + blpower);
 telemetry.addLine();
 telemetry.addData("Heading", " " + Double.toString(heading));
 telemetry.update();*/
-            if(heading-targetheading>=0){
+ /*           if(heading-targetheading>=0){
                 multiplier = .1*(heading-targetheading)+1;
                 LFMotor.setPower(power*multiplier);
                 LBMotor.setPower(-power);
@@ -928,7 +937,8 @@ telemetry.update();*/
         }
         stopMotors();
     }
-    public void strafeLeft(double power, double rotations, double timelimit){
+  */
+/*    public void strafeLeft(double power, double rotations, double timelimit){
         long startthing = System.currentTimeMillis();
         long current = System.currentTimeMillis();
         double multiplier;
@@ -977,7 +987,7 @@ telemetry.update();*/
         }
         stopMotors();
     }
-
+*/
     public void stopMotors(){
         RFMotor.setPower(0);
         LFMotor.setPower(0);
