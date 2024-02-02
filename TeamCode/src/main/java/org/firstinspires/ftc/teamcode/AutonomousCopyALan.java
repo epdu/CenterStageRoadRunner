@@ -155,10 +155,10 @@ public class AutonomousCopyALan extends LinearOpMode {
         imu = hardwareMap.get(IMU.class, "imu");
 //        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
 //        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
-        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
-        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
-        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
-        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
+        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");//02022024 control hub port 1
+        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor"); //02022024 control hub port 0
+        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");//02022024 control hub port 3
+        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");//02022024 control hub port 2
 
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
