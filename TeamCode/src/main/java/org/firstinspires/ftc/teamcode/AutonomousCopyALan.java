@@ -257,11 +257,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 //add more methods here to finish all mission
 
-            if(found =="true"){
-                telemetry.addData("Find team prop or not", found);
-                telemetry.addData("Find team prop or not",  teamPropLocations);
-                telemetry.update();
-                break;}
+//            if(found =="true"){
+//                telemetry.addData("Find team prop or not", found);
+//                telemetry.addData("Find team prop or not",  teamPropLocations);
+//                telemetry.update();
+//                break;}
             // The OpenCV pipeline automatically processes frames and handles detection
         }
 
