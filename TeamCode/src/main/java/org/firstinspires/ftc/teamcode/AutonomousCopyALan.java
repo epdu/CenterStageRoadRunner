@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous
+@Autonomous(name = "Autonomous OpenCV & April Tag")
 public class AutonomousCopyALan extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
