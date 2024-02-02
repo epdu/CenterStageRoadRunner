@@ -478,8 +478,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
             moveBackward(0.3, 16); //approaching backdrop
             StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+            moveBackward(0.3, 5);
 //            moveForward(0.3, 4);
- //           moveBackward(0.3, 10);
 //            StrafingLeft(0.3, 18); //move back and forth
 
 
