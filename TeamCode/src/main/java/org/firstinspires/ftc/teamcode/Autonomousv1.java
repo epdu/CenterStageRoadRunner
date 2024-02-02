@@ -88,7 +88,7 @@ public class Autonomousv1 extends LinearOpMode {
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
     String teamPropLocations;
     String PurplePixel;
-//    boolean
+    //    boolean
     String found;
     double redVal;
     double blueVal;
@@ -105,22 +105,22 @@ public class Autonomousv1 extends LinearOpMode {
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 1280; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 720; // height of wanted camera resolution
-/*
-   1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
-   private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-   private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
-*/
+    /*
+       1280 x 720 pixels Logitech Webcam C270 (1280 x 720 pixels)
+       private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
+       private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
+    */
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
-    //    Blinker control_Hub;
-    //   DcMotor lift;
-    //    BNO055IMU imu;
-    //    Servo clawLeft;
+//    Blinker control_Hub;
+//   DcMotor lift;
+//    BNO055IMU imu;
+//    Servo clawLeft;
 //    Servo clawRight;
-    // @Override
+// @Override
     @Override
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
@@ -135,7 +135,7 @@ public class Autonomousv1 extends LinearOpMode {
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // ticks per revolution
+    // ticks per revolution
         RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -147,9 +147,7 @@ public class Autonomousv1 extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         waitForStart();
-
-
- /*
+/*
             while (opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -164,7 +162,6 @@ public class Autonomousv1 extends LinearOpMode {
 //        AprilTagOmni(); //find the right april tag and approach it
 //        droppixelbackdrop();
 //        goparking();
-
 
         distanceInInch=24;//number in unit of inch
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
@@ -181,7 +178,7 @@ public class Autonomousv1 extends LinearOpMode {
         }
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 /*
-        // run until the end of the match (driver presses STOP)
+// run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
             double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -190,9 +187,8 @@ public class Autonomousv1 extends LinearOpMode {
             telemetry.update();
         }
 */
-
 /*
-set the distanct from frot of robot to the block of game element
+set the distance from front of robot to the block of game element
 Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
@@ -204,10 +200,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
+// each time, change the orientation of control nub, please update here
         parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
         if (gamepad1.options) {
@@ -224,8 +221,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
         }
 */
-        //        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
-
+//        findteamPropLocationsbyDistanceSensors(); findteamPropLocationsopencv(); pick up pne of them only
 //        moveBackward(0.2, 16);
 //        findteamPropLocationsopencv();
 //        dropPurplePixel();
@@ -237,19 +233,30 @@ Using the specs from the motor, you would need to find the encoder counts per re
             telemetry.update();
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
+            sleep(10);
             dropPurplePixel();
+
+
+
+
+
+
+
+//add more methods here to finish all mission
+//here
+// apriltag
+
             if(found =="true"){
                 telemetry.addData("Find team prop or not", found);
                 telemetry.update();
                 break;}
-            // The OpenCV pipeline automatically processes frames and handles detection
+// The OpenCV pipeline automatically processes frames and handles detection
         }
-
 
         controlHubCam.stopStreaming();
 
-}
-public void initOpenCV() {
+    }
+    public void initOpenCV() {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -259,8 +266,8 @@ public void initOpenCV() {
         controlHubCam.openCameraDevice();
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
-
-public void  findteamPropLocationsbyDistanceSensors(){
+/*
+    public void  findteamPropLocationsbyDistanceSensors(){
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
         telemetry.addData("Left", leftReading);
@@ -286,8 +293,9 @@ public void  findteamPropLocationsbyDistanceSensors(){
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         }
-}
-public void  findteamPropLocationsopencv(){
+    }
+*/
+    public void  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
@@ -295,29 +303,29 @@ public void  findteamPropLocationsopencv(){
 // L=24.68+- 2, Center=30.56+-2
 ///////////////
 
-    if(cX > 0 && cX < 365 ){
-        teamPropLocations="Left";
-        telemetry.addData("Left", cX);
-        telemetry.addData("teamPropLocations", teamPropLocations);
-        telemetry.update();
-    } else if ( cX > 460 && cX < 820) {
-        teamPropLocations = "Center";
-        telemetry.addData("Center", cX);
-        telemetry.addData("teamPropLocations", teamPropLocations);
-        telemetry.update();
-    } else if( cX > 915 && cX < 1280) {
-        teamPropLocations = "Right";
-        telemetry.addData("Right",cX);
-        telemetry.addData("teamPropLocations", teamPropLocations);
-        telemetry.update();
-    }
+        if(cX > 0 && cX < 365 ){
+            teamPropLocations="Left";
+            telemetry.addData("Left", cX);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        } else if ( cX > 460 && cX < 820) {
+            teamPropLocations = "Center";
+            telemetry.addData("Center", cX);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        } else if( cX > 915 && cX < 1280) {
+            teamPropLocations = "Right";
+            telemetry.addData("Right",cX);
+            telemetry.addData("teamPropLocations", teamPropLocations);
+            telemetry.update();
+        }
 
 
 /////////////
 
     }
-/////////////////////////////
-class YellowBlobDetectionPipeline extends OpenCvPipeline {
+    /////////////////////////////
+    class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
             // Preprocess the frame to detect yellow regions
@@ -356,15 +364,17 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
         private Mat preprocessFrame(Mat frame) {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-//            Scalar lowerBlue = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue team prop
+
+//change HSV value for different team prop
+            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar highHSV = new Scalar(30, 255, 255);
+
+            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+            //  Scalar highHSV = new Scalar(10, 255, 255);
+//
+            //            Scalar lowerBlue = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue team prop
 //            Scalar upperBlue = new Scalar(230, 255, 255);
-
-            Scalar lowerBlue = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-            Scalar upperBlue = new Scalar(30, 255, 255);
-
-           // Scalar lowerRed = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
-          //  Scalar upperRed = new Scalar(10, 255, 255);
-  /*
+ /*
             Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
             Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
 
@@ -408,7 +418,7 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
 */
 
             Mat yellowMask = new Mat();
-            Core.inRange(hsvFrame, lowerBlue, upperBlue, yellowMask);
+            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
 
             Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
             Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
@@ -436,27 +446,23 @@ class YellowBlobDetectionPipeline extends OpenCvPipeline {
             return boundingRect.width;
         }
 
-}
-private static double getDistance(double width){
+    }
+    private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
-}
-public void  dropPurplePixel(){
+    }
+    // set each method and parameter for different route
+    public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.3, 40);
-//or select turn to right , gyroTurn
-            StrafingRight(0.3, 12);
-            RightTurn(0.3,14.5);
-            moveBackward(0.3, 20);
-            StrafingRight(0.3, 12);
-            StrafingLeft(0.3, 18);
-            moveForward(0.3, 20);
-            gyroTurn(0.3,  150);
-//            gyroTurn(0.3,  120);
-//            gyroTurn(0.3,  -120);
-//           RightTurn(0.3,12);
-//           LeftTurn(0.3,12);
+            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+            StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+            RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
+            moveBackward(0.3, 20); //approaching backdrop
+            StrafingRight(0.3, 12);//move parallel the april tags at the bottom of backdrop in order to locate them
+            StrafingLeft(0.3, 18); //move back and forth
+
+
             //drop pixel
 
             //           StrafingLeft(0.3, 12);
@@ -481,7 +487,7 @@ public void  dropPurplePixel(){
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
-}
+    }
     public void  checkTeamPropColors(){ }
     public void  lineUPteamProp(){ }
     //////////////////
@@ -755,35 +761,40 @@ public void  dropPurplePixel(){
         }
         stopMotors();
     }
-    public void strafeRight(double power, double rotations, double timelimit){
-        long startthing = System.currentTimeMillis();
-        long current = System.currentTimeMillis();
-        double multiplier;
-        String frpower;
-        String flpower;
-        String brpower;
-        String blpower;
-        initialFR = RFMotor.getCurrentPosition()/ticksPerRotation;
-        initialFL = LFMotor.getCurrentPosition()/ticksPerRotation;
-        initialBR = RBMotor.getCurrentPosition()/ticksPerRotation;
-        initialBL = LBMotor.getCurrentPosition()/ticksPerRotation;
-        positionFR = (RFMotor.getCurrentPosition()/ticksPerRotation)-initialFR;
-        positionFL = (LFMotor.getCurrentPosition()/ticksPerRotation)-initialFL;
-        positionBR = (RBMotor.getCurrentPosition()/ticksPerRotation)-initialBR;
-        positionBL = (LBMotor.getCurrentPosition()/ticksPerRotation)-initialBL;
-        RFMotor.setPower(-power);
-        LFMotor.setPower(power);
-        RBMotor.setPower(power);
-        LBMotor.setPower(-power);
-        targetheading = getHeading();
-        while(positionFR > -rotations && positionFL<rotations && positionBR < rotations &&
-                positionBL > -rotations && current-startthing < 1000*timelimit && opModeIsActive()){
-            heading = getHeading();
-            frpower = Double.toString(RFMotor.getPower());
-            flpower = Double.toString(LFMotor.getPower());
-            brpower = Double.toString(RBMotor.getPower());
-            blpower = Double.toString(LBMotor.getPower());
-/* telemetry.addData("Front Right", " " + frpower);
+    /*
+        public void strafeRight(double power, double rotations, double timelimit){
+            long startthing = System.currentTimeMillis();
+            long current = System.currentTimeMillis();
+            double multiplier;
+            String frpower;
+            String flpower;
+            String brpower;
+            String blpower;
+            initialFR = RFMotor.getCurrentPosition()/ticksPerRotation;
+            initialFL = LFMotor.getCurrentPosition()/ticksPerRotation;
+            initialBR = RBMotor.getCurrentPosition()/ticksPerRotation;
+            initialBL = LBMotor.getCurrentPosition()/ticksPerRotation;
+            positionFR = (RFMotor.getCurrentPosition()/ticksPerRotation)-initialFR;
+            positionFL = (LFMotor.getCurrentPosition()/ticksPerRotation)-initialFL;
+            positionBR = (RBMotor.getCurrentPosition()/ticksPerRotation)-initialBR;
+            positionBL = (LBMotor.getCurrentPosition()/ticksPerRotation)-initialBL;
+            RFMotor.setPower(-power);
+            LFMotor.setPower(power);
+            RBMotor.setPower(power);
+            LBMotor.setPower(-power);
+            targetheading = getHeading();
+            while(positionFR > -rotations && positionFL<rotations && positionBR < rotations &&
+                    positionBL > -rotations && current-startthing < 1000*timelimit && opModeIsActive()){
+                heading = getHeading();
+                frpower = Double.toString(RFMotor.getPower());
+                flpower = Double.toString(LFMotor.getPower());
+                brpower = Double.toString(RBMotor.getPower());
+                blpower = Double.toString(LBMotor.getPower());
+
+    */
+    /* telemetry.addData("Front Right", " " + frpower);
+     */
+/*
 telemetry.addLine();
 telemetry.addData("Front Left", " " + flpower);
 telemetry.addLine();
@@ -793,6 +804,7 @@ telemetry.addData("Back Left", " " + blpower);
 telemetry.addLine();
 telemetry.addData("Heading", " " + Double.toString(heading));
 telemetry.update();*/
+/*
             if(heading-targetheading>=0){
                 multiplier = .1*(heading-targetheading)+1;
                 LFMotor.setPower(power*multiplier);
@@ -814,6 +826,8 @@ telemetry.update();*/
         }
         stopMotors();
     }
+*/
+/*
     public void strafeLeft(double power, double rotations, double timelimit){
         long startthing = System.currentTimeMillis();
         long current = System.currentTimeMillis();
@@ -863,7 +877,7 @@ telemetry.update();*/
         }
         stopMotors();
     }
-
+*/
     public void stopMotors(){
         RFMotor.setPower(0);
         LFMotor.setPower(0);
