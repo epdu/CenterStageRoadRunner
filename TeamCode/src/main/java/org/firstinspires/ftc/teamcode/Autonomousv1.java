@@ -254,26 +254,25 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
             findteamPropLocationsopencv();
             sleep(10);
-            dropPurplePixel();
-
-
-
+            if(found =="true"){
+                telemetry.addData("Find team prop or not", found);
+                telemetry.update();
+                break;}
+//            dropPurplePixel();
+//move it out the while loop
 
 
 
 
 //add more methods here to finish all mission
 //here
-// apriltag
-
-            if(found =="true"){
-                telemetry.addData("Find team prop or not", found);
-                telemetry.update();
-                break;}
 // The OpenCV pipeline automatically processes frames and handles detection
+
+
         }
 
         controlHubCam.stopStreaming();
+        dropPurplePixel();
 
     }
     public void initOpenCV() {
