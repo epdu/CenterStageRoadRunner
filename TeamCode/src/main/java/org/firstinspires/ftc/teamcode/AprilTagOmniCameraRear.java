@@ -260,11 +260,18 @@ public class AprilTagOmniCameraRear extends LinearOpMode
      */
     public void moveRobot(double x, double y, double yaw) {
         // Calculate wheel powers.
+//testing rear camera
 
+        double leftFrontPower    =  x -y -yaw;
+        double rightFrontPower   =  x +y +yaw;
+        double leftBackPower     =  x +y -yaw;
+        double rightBackPower    =  x -y +yaw;
+/*        good for front camera
         double leftFrontPower    =  -x +y +yaw;
         double rightFrontPower   =  -x -y -yaw;
         double leftBackPower     =  -x -y +yaw;
         double rightBackPower    =  -x +y -yaw;
+*/
 //        double fl = y + x + rx;
 //        double fr = y - x - rx;
 //        double bl = y - x + rx;
