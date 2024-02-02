@@ -182,25 +182,6 @@ public class AutonomousCopyALan extends LinearOpMode {
         // Initialize the Apriltag Detection process
         initAprilTag();
 
-//        if (USE_WEBCAM)
-//            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
-
-/*
-            while (opModeIsActive()) {
-            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-            telemetry.addData("Distance in Inch", (getDistance(width)));
-            telemetry.update();
-
-            // The OpenCV pipeline automatically processes frames and handles detection
-        }
-
-        // Release resources
-        controlHubCam.stopStreaming();
-*/
-//        AprilTagOmni(); //find the right april tag and approach it
-//        droppixelbackdrop();
-//        goparking();
-
 
         distanceInInch=24;//number in unit of inch
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
@@ -228,7 +209,7 @@ public class AutonomousCopyALan extends LinearOpMode {
 */
 
 /*
-set the distanct from frot of robot to the block of game element
+set the distance from front of robot to the block of game element
 Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
@@ -265,7 +246,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             // The OpenCV pipeline automatically processes frames and handles detection
         }
 
-
+        // Release resources
         controlHubCam.stopStreaming();
 
     }
