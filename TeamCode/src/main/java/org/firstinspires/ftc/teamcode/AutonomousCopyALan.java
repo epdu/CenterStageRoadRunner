@@ -916,6 +916,7 @@ Returns the absolute orientation of the sensor as a set three angles with indica
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 2"))
                 .addProcessor(aprilTag)
                 .build();
+                setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
         } else {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(BuiltinCameraDirection.BACK)

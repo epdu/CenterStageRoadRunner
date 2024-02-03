@@ -145,8 +145,8 @@ public class Autonomousv1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
-        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
-        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
+//        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
+//        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
