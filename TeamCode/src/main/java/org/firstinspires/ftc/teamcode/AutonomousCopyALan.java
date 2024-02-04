@@ -19,15 +19,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.util.RobotLog;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -41,40 +38,27 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
-import java.util.ArrayList;
-import java.util.List;
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.opencv.core.*;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Moments;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous OpenCV & April Tag")
+@Autonomous(name = "Autonomous with Vision Portal")
 public class AutonomousCopyALan extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
     DcMotor RBMotor;
     DcMotor LBMotor;
+    DcMotor liftMotorL;
+    DcMotor liftMotorR;
+    Servo ClawR;
+    Servo ClawL;
+    Servo Wrist;
+    Servo ArmR;
+    Servo ArmL;
+    Servo Drone;
+    public float speedMultiplier=0.5f;
+    public float speedLimiter =0.5f;
     DistanceSensor LeftSensor;
     DistanceSensor RightSensor;
     IMU imu;
@@ -107,7 +91,8 @@ public class AutonomousCopyALan extends LinearOpMode {
     double liftIdealPos;
     double liftIdealPower;
     int result;
-
+    //private final WebcamName webcam1, webcam2;
+    private OpenCvCamera openCvCamera = null;
     double cX = 0;
     double cY = 0;
     double width = 0;
@@ -135,6 +120,9 @@ public class AutonomousCopyALan extends LinearOpMode {
     private static int DESIRED_TAG_ID = -1;
     private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
+
+    private OpenCvVisionProcessor redTeamPropOpenCv;
+    private OpenCvVisionProcessor blueTeamPropOpenCv;
     private AprilTagDetection desiredTag = null;
     final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
 
@@ -169,7 +157,7 @@ public class AutonomousCopyALan extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        initOpenCV();
+//        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
@@ -180,7 +168,7 @@ public class AutonomousCopyALan extends LinearOpMode {
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
         // Initialize the Apriltag Detection process
-        initAprilTag();
+        initVisionPortal() ;
 
 
         distanceInInch=24;//number in unit of inch
@@ -197,16 +185,6 @@ public class AutonomousCopyALan extends LinearOpMode {
             imu.resetYaw();
         }
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-/*
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
-            double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
-            telemetry.addData("Left sensor", (double)(Math.round(leftReading * 10) / 10.0));
-            telemetry.addData("Right sensor", (double)(Math.round(rightReading * 10) / 10.0));
-            telemetry.update();
-        }
-*/
 
 /*
 set the distance from front of robot to the block of game element
@@ -234,21 +212,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             dropPurplePixel();
             aprilTagOmni();
 
-
-
-//add more methods here to finish all mission
-
-//            if(found =="true"){
-//                telemetry.addData("Find team prop or not", found);
-//                telemetry.addData("Find team prop or not",  teamPropLocations);
-//                telemetry.update();
-//                break;}
-            // The OpenCV pipeline automatically processes frames and handles detection
         }
-/* original place to use to release resource
-        // Release resources
-        controlHubCam.stopStreaming();
-*/
 
         controlHubCam.stopStreaming();
     }
@@ -298,16 +262,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
     }
     public void initOpenCV() {
-        // Create an instance of the camera
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        controlHubCam.setPipeline(new YellowBlobDetectionPipeline());
-        controlHubCam.openCameraDevice();
-        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
-/*
+
+
+    /*
     public void  findteamPropLocationsbyDistanceSensors(){
         double leftReading = LeftSensor.getDistance(DistanceUnit.INCH);
         double rightReading = RightSensor.getDistance(DistanceUnit.INCH);
@@ -360,7 +318,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
         return teamPropLocations;
     }
-/////////////////////////////
+    /////////////////////////////
     class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
@@ -399,7 +357,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
         private Mat preprocessFrame(Mat frame) {
             Mat hsvFrame = new Mat();
-            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
+//            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
+
+            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
+
 
 //change HSV value for different team prop
             Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
@@ -492,7 +453,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
 //        checkTeamPropColors();
 //        lineUPteamProp();
     }
-  //work here
+    //work here
 
     public void  aprilTagOmni(){
 
@@ -500,8 +461,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
         if (teamPropLocations == "Left")
         {
             moveBackward(0.5, 1);
-                DESIRED_TAG_ID = 1;
-                lookfortag(DESIRED_TAG_ID);
+            DESIRED_TAG_ID = 1;
+            lookfortag(DESIRED_TAG_ID);
 
         } else if (teamPropLocations == "Center") {
 //                DESIRED_TAG_ID = 2;
@@ -602,16 +563,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
     }
 
 
-/* telemetry.addData("Front Right", " " + frpower);
-telemetry.addLine();
-telemetry.addData("Front Left", " " + flpower);
-telemetry.addLine();
-telemetry.addData("Back Right", " " + brpower);
-telemetry.addLine();
-telemetry.addData("Back Left", " " + blpower);
-telemetry.addLine();
-telemetry.addData("Heading", " " + Double.toString(heading));
-telemetry.update();*/
+    /* telemetry.addData("Front Right", " " + frpower);
+    telemetry.addLine();
+    telemetry.addData("Front Left", " " + flpower);
+    telemetry.addLine();
+    telemetry.addData("Back Right", " " + brpower);
+    telemetry.addLine();
+    telemetry.addData("Back Left", " " + blpower);
+    telemetry.addLine();
+    telemetry.addData("Heading", " " + Double.toString(heading));
+    telemetry.update();*/
  /*           if(heading-targetheading>=0){
                 multiplier = .1*(heading-targetheading)+1;
                 LFMotor.setPower(power*multiplier);
@@ -897,10 +858,11 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         LBMotor.setPower(0);
     }
 
-    private void initAprilTag() {
+    private void initVisionPortal() {
 
         aprilTag = new AprilTagProcessor.Builder().build();
-
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
@@ -911,18 +873,14 @@ Returns the absolute orientation of the sensor as a set three angles with indica
         aprilTag.setDecimation(2);
 
         // Create the vision portal by using a builder.
-        if (USE_WEBCAM) {
+
         visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 2"))
-                .addProcessor(aprilTag)
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessors(aprilTag)
+                .addProcessor(redTeamPropOpenCv)
+                .addProcessor(blueTeamPropOpenCv)
                 .build();
-                setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
-        } else {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(BuiltinCameraDirection.BACK)
-                    .addProcessor(aprilTag)
-                    .build();
-        }
+        setManualExposure(6, 250);
     }
 
     private void    setManualExposure(int exposureMS, int gain) {
