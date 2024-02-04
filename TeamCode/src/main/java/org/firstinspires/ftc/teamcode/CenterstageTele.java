@@ -26,9 +26,11 @@ public class CenterstageTele extends OpMode {
     Servo ArmL;
     Servo Drone;
     public float speedMultiplier = 0.5f;
-    public float speedLimiter = 0.5f;
-
+    public float speedLimiter = 0.05f;
     boolean move = false;
+    private static final int POSITION_Y = 5;
+    private static final int POSITION_A = 0;
+    private static final double SLIDE_POWER = 0.05; // Adjust as needed
 
     @Override
     public void init() {
@@ -51,6 +53,8 @@ public class CenterstageTele extends OpMode {
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
+
         Drone = hardwareMap.get(Servo.class, "Drone");
         Drone.setPosition(0);
 
@@ -61,12 +65,13 @@ public class CenterstageTele extends OpMode {
         ClawL = hardwareMap.get(Servo.class, "ClawL");
         ClawR.setPosition(0.78);
         ClawL.setPosition(0.018);
+        ClawL.setDirection(Servo.Direction.REVERSE);
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
 
-//        ArmL.setPosition(0.5);
-//        ArmR.setPosition(0.5);
+        ArmL.setPosition(0.5);
+        ArmR.setPosition(0.5);
     }
 
     public void FieldCentricDriveTrain() {
@@ -119,45 +124,65 @@ public class CenterstageTele extends OpMode {
         liftMotorR.setPower(speedLimiter * y);
     }
 
+    private void moveSlideToPosition(int targetPosition) {
+        liftMotorL.setTargetPosition(targetPosition);
+        liftMotorR.setTargetPosition(targetPosition);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotorR.setPower(SLIDE_POWER);
+        liftMotorL.setPower(SLIDE_POWER);
+        move=true;
+//        while (liftMotorR.isBusy() && move) {
+        while (liftMotorL.isBusy() && liftMotorR.isBusy() && move) {
+            // Wait until the motor reaches the target position
+        }
+
+        liftMotorL.setPower(0);
+        liftMotorR.setPower(0);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        move=false;
+    }
+
     @Override
     public void loop() {
         FieldCentricDriveTrain();
         liftArmHigh();
-        if (gamepad1.right_trigger > 0.3) {
+        if (gamepad1.right_trigger > 0.3) { //close
             ClawR.setPosition(0.78);
         }
-        if (gamepad1.left_trigger > 0.3) {
+        if (gamepad1.left_trigger > 0.3) { //close
             ClawL.setPosition(0.02);
         }
-        if (gamepad1.left_bumper && !move) {
+        if (gamepad1.left_bumper && !move) { //open
             ClawL.setPosition(0);
         }
-        if (gamepad1.right_bumper && !move) {
+        if (gamepad1.right_bumper && !move) { //open
             ClawR.setPosition(0.5);
         }
-        if (gamepad1.a && !move) {
+        if (gamepad2.dpad_up && !move) { //up
             ArmR.setPosition(0);
             ArmL.setPosition(0);
         }
-        if (gamepad1.b && !move) {
+        if (gamepad2.dpad_down && !move) { //down
             ArmL.setPosition(0.4);
             ArmR.setPosition(0.4);
         }
-        if (gamepad2.b && !move) {
+        if (gamepad2.b && !move) { //up
             Wrist.setPosition(0.545);
         }
-        if (gamepad2.x && !move) {
+        if (gamepad2.x && !move) { //down
             Wrist.setPosition(0.318);
+
         }
-        if (gamepad2.y && !move) {
+        if (gamepad2.left_bumper && !move) { //shoot
             Drone.setPosition(1);
         }
-        if (gamepad1.left_trigger > 0.3) {
-            ClawL.setPosition(0.5);
+        if (gamepad2.a && !move) { //all the way down
+            moveSlideToPosition(POSITION_A);
         }
-
+        if (gamepad2.y && !move) { //up controlled
+            moveSlideToPosition(POSITION_Y);
+        }
     }
 }
-
-
-
