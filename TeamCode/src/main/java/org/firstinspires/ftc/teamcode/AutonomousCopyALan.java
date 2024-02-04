@@ -443,7 +443,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 5);
             moveForward(0.3, 20);
 //          Wrist.setPosition(0.318);//drop wrist
-//          ClawL.setPosition(0.02);//drop pixel
+//           ClawL.setPosition(0.2);//drop pixel
 
 //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
