@@ -42,6 +42,7 @@ public class CenterstageTele extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
         liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
         liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
         int positionL = liftMotorL.getCurrentPosition();
@@ -52,7 +53,6 @@ public class CenterstageTele extends OpMode {
 
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
 
         Drone = hardwareMap.get(Servo.class, "Drone");
