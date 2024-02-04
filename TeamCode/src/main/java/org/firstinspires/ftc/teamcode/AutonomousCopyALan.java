@@ -200,7 +200,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
         while (opModeIsActive()) {
-            found="false";
+            // TODO: Need to do red or blue according to alliance color.
+            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
+            cX = teamPropCentroid.x;
+            cY = teamPropCentroid.y;
+            found= cX != 0.0 || cY != 0.0 ? "true" : "false";
             telemetry.addData("Find team prop or not", found);
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -208,7 +212,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
 //add class or method here
 
-            findteamPropLocationsopencv();
+            findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
 
@@ -261,9 +265,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
         sleep(10);
 
     }
-    public void initOpenCV() {
-    }
-
 
     /*
     public void  findteamPropLocationsbyDistanceSensors(){
@@ -294,7 +295,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
     }
 */
-    public String  findteamPropLocationsopencv(){
+    public String  findteamPropLocations(){
 //////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
@@ -318,99 +319,99 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
         return teamPropLocations;
     }
-    /////////////////////////////
-    class YellowBlobDetectionPipeline extends OpenCvPipeline {
-        @Override
-        public Mat processFrame(Mat input) {
-            // Preprocess the frame to detect yellow regions
-            Mat yellowMask = preprocessFrame(input);
-            // Find contours of the detected yellow regions
-            List<MatOfPoint> contours = new ArrayList<>();
-            Mat hierarchy = new Mat();
-            Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-            // Find the largest yellow contour (blob)
-            MatOfPoint largestContour = findLargestContour(contours);
-
-            if (largestContour != null) {
-                // Draw a red outline around the largest detected object
-                Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
-                // Calculate the width of the bounding box
-                width = calculateWidth(largestContour);
-
-                // Display the width next to the label
-                String widthLabel = "Width: " + (int) width + " pixels";
-                Imgproc.putText(input, widthLabel, new Point(cX + 10, cY + 20), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-                //Display the Distance
-                String distanceLabel = "Distance: " + String.format("%.2f", getDistance(width)) + " inches";
-                Imgproc.putText(input, distanceLabel, new Point(cX + 10, cY + 60), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-                // Calculate the centroid of the largest contour
-                Moments moments = Imgproc.moments(largestContour);
-                cX = moments.get_m10() / moments.get_m00();
-                cY = moments.get_m01() / moments.get_m00();
-                // Draw a dot at the centroid
-                String label = "(" + (int) cX + ", " + (int) cY + ")";
-                Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-                Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
-
-            }
-            return input;
-        }
-        private Mat preprocessFrame(Mat frame) {
-            Mat hsvFrame = new Mat();
-//            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-
-            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
-
-
-//change HSV value for different team prop
-            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-            Scalar highHSV = new Scalar(30, 255, 255);
-
-            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
-            //  Scalar highHSV = new Scalar(10, 255, 255);
+//    /////////////////////////////
+//    class YellowBlobDetectionPipeline extends OpenCvPipeline {
+//        @Override
+//        public Mat processFrame(Mat input) {
+//            // Preprocess the frame to detect yellow regions
+//            Mat yellowMask = preprocessFrame(input);
+//            // Find contours of the detected yellow regions
+//            List<MatOfPoint> contours = new ArrayList<>();
+//            Mat hierarchy = new Mat();
+//            Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+//            // Find the largest yellow contour (blob)
+//            MatOfPoint largestContour = findLargestContour(contours);
 //
-/*
-            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
-            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
-
-            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
-            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
-
-            Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
-            Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
-
-*/
-
-            Mat yellowMask = new Mat();
-            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
-
-            Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
-            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
-            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
-
-            return yellowMask;
-        }
-
-        private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
-            double maxArea = 0;
-            MatOfPoint largestContour = null;
-
-            for (MatOfPoint contour : contours) {
-                double area = Imgproc.contourArea(contour);
-                if (area > maxArea) {
-                    maxArea = area;
-                    largestContour = contour;
-                }
-            }
-
-            return largestContour;
-        }
-        private double calculateWidth(MatOfPoint contour) {
-            Rect boundingRect = Imgproc.boundingRect(contour);
-            return boundingRect.width;
-        }
-
-    }
+//            if (largestContour != null) {
+//                // Draw a red outline around the largest detected object
+//                Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
+//                // Calculate the width of the bounding box
+//                width = calculateWidth(largestContour);
+//
+//                // Display the width next to the label
+//                String widthLabel = "Width: " + (int) width + " pixels";
+//                Imgproc.putText(input, widthLabel, new Point(cX + 10, cY + 20), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+//                //Display the Distance
+//                String distanceLabel = "Distance: " + String.format("%.2f", getDistance(width)) + " inches";
+//                Imgproc.putText(input, distanceLabel, new Point(cX + 10, cY + 60), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+//                // Calculate the centroid of the largest contour
+//                Moments moments = Imgproc.moments(largestContour);
+//                cX = moments.get_m10() / moments.get_m00();
+//                cY = moments.get_m01() / moments.get_m00();
+//                // Draw a dot at the centroid
+//                String label = "(" + (int) cX + ", " + (int) cY + ")";
+//                Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+//                Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
+//
+//            }
+//            return input;
+//        }
+//        private Mat preprocessFrame(Mat frame) {
+//            Mat hsvFrame = new Mat();
+////            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
+//
+//            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
+//
+//
+////change HSV value for different team prop
+//            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+//            Scalar highHSV = new Scalar(30, 255, 255);
+//
+//            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+//            //  Scalar highHSV = new Scalar(10, 255, 255);
+////
+///*
+//            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
+//            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
+//
+//            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
+//            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
+//
+//            Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
+//            Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
+//
+//*/
+//
+//            Mat yellowMask = new Mat();
+//            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
+//
+//            Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+//            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
+//            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
+//
+//            return yellowMask;
+//        }
+//
+//        private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
+//            double maxArea = 0;
+//            MatOfPoint largestContour = null;
+//
+//            for (MatOfPoint contour : contours) {
+//                double area = Imgproc.contourArea(contour);
+//                if (area > maxArea) {
+//                    maxArea = area;
+//                    largestContour = contour;
+//                }
+//            }
+//
+//            return largestContour;
+//        }
+//        private double calculateWidth(MatOfPoint contour) {
+//            Rect boundingRect = Imgproc.boundingRect(contour);
+//            return boundingRect.width;
+//        }
+//
+//    }
     private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
