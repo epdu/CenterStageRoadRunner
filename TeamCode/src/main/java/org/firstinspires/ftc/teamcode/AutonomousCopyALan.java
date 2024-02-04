@@ -230,7 +230,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
-
+            dropYellowPixel();
+            autoParking();
         }
 
         controlHubCam.stopStreaming();
@@ -468,6 +469,21 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
+    }
+
+    public void  dropYellowPixel(){
+        // move arms and then open claw
+    }
+    public void  autoParking(){
+        moveForward(0.3, 5);
+        StrafingRight(0.3, 12);
+        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+        StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+        RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
+        moveBackward(0.3, 16); //approaching backdrop
+        StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+        moveBackward(0.3, 5);
+
     }
     //work here
 
