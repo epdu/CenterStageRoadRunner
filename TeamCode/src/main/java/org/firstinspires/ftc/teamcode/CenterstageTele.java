@@ -120,8 +120,8 @@ public class CenterstageTele extends OpMode {
 
     public void liftArmHigh() {
         double y = -gamepad1.left_stick_y;
-        liftMotorL.setPower(speedLimiter * y);
-        liftMotorR.setPower(speedLimiter * y);
+        liftMotorL.setPower(y);
+        liftMotorR.setPower(y);
     }
 
     private void moveSlideToPosition(int targetPosition) {
