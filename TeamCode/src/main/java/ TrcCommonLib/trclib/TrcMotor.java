@@ -39,6 +39,9 @@ public abstract class TrcMotor implements TrcMotorController, TrcExclusiveSubsys
 {
     private static final String moduleName = TrcMotor.class.getSimpleName();
 
+    public abstract void setMotorPower(double power)   //setMotorPower
+    ;
+
     /**
      * Some actuators are non-linear. The load may vary depending on the position. For example, raising an arm
      * against gravity will have the maximum load when the arm is horizontal and zero load when vertical. This
