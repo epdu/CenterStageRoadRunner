@@ -311,11 +311,18 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
             strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
             turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
-            moveBackward(0.3, 16); //approaching backdrop
-            strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
             moveBackward(0.3, 5);
-            moveForward(0.3, 20);
-
+            moveForward(0.3, 5);
+            strafingRight(0.3, 22);
+            strafingLeft(0.3, 22);
+            turnLeft(0.3,14.5);
+//            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+//            strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+//            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
+//            moveBackward(0.3, 16); //approaching backdrop
+//            strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+//            moveBackward(0.3, 5);
+//            moveForward(0.3, 20);
             found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.3, 28);
