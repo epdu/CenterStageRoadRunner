@@ -47,6 +47,8 @@ public class CenterstageTele extends OpMode {
         liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
         int positionL = liftMotorL.getCurrentPosition();
         int positionR = liftMotorR.getCurrentPosition();
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
         liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
@@ -59,7 +61,8 @@ public class CenterstageTele extends OpMode {
         Drone.setPosition(0);
 
         Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setPosition(0);
+        Wrist.setDirection(Servo.Direction.REVERSE);
+        Wrist.setPosition(1);
 
         ClawR = hardwareMap.get(Servo.class, "ClawR");
         ClawL = hardwareMap.get(Servo.class, "ClawL");
@@ -69,9 +72,10 @@ public class CenterstageTele extends OpMode {
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
+        ArmL.setDirection(Servo.Direction.REVERSE);
 
-        ArmL.setPosition(0.47);
-        ArmR.setPosition(0.47);
+        ArmL.setPosition(0.8);
+        ArmR.setPosition(0.2);
     }
 
     public void FieldCentricDriveTrain() {
@@ -165,14 +169,14 @@ public class CenterstageTele extends OpMode {
             ArmL.setPosition(0);
         }
         if (gamepad2.dpad_down && !move) { //down
-            ArmL.setPosition(0.4);
-            ArmR.setPosition(0.4);
+            ArmL.setPosition(0.8);
+            ArmR.setPosition(0.8);
         }
         if (gamepad2.b && !move) { //up
-            Wrist.setPosition(0.545);
+            Wrist.setPosition(1);
         }
         if (gamepad2.x && !move) { //down
-            Wrist.setPosition(0.318);
+            Wrist.setPosition(0.6);
 
         }
         if (gamepad2.left_bumper && !move) { //shoot

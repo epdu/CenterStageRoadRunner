@@ -168,7 +168,7 @@ public class AutonomousCopyALan extends LinearOpMode {
 
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
-
+        ArmR.setDirection(Servo.Direction.REVERSE);
         ArmL.setPosition(0.5);
         ArmR.setPosition(0.5);
 
@@ -229,9 +229,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             findteamPropLocations();
             dropPurplePixel();
-            aprilTagOmni();
-            dropYellowPixel();
-            autoParking();
+//            aprilTagOmni();
+//            dropYellowPixel();
+//            autoParking();
         }
 
         controlHubCam.stopStreaming();
@@ -435,34 +435,37 @@ Using the specs from the motor, you would need to find the encoder counts per re
     public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
-            RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
-            moveBackward(0.3, 16); //approaching backdrop
-            StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
-            moveBackward(0.3, 5);
-            moveForward(0.3, 20);
-//          Wrist.setPosition(0.318);//drop wrist
-//           ClawL.setPosition(0.2);//drop pixel
+            moveBackward(0.3, 36);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+            RightTurn(0.3,14.5);
+            sleep(10);
+            Wrist.setPosition(0.6);
+            ClawL.setPosition(0.2);
+            sleep(10);
+            Wrist.setPosition(1);
+            moveBackward(0.3, 3);
+            //
 
-//           StrafingLeft(0.3, 12);
-//            gyroTurn(0.2, - 90);
-//            absoluteHeading( 0.2,  -90);
             found="true";
         } else if ( teamPropLocations == "Right") {
-            moveBackward(0.3, 28);
-
-// select turn to left
-// StrafingLeft(0.2, 20);
-
-            gyroTurn(0.2,  90);
-//            absoluteHeading( 0.2,  90);
-//         Wrist.setPosition(0.318);//drop wrist
-//            ClawL.setPosition(0.02);//drop pixel
+            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+            StrafingRight(0.3, 12);
+            //
+            sleep(10);
+            Wrist.setPosition(0.6);
+            ClawL.setPosition(0.2);
+            sleep(10);
+            Wrist.setPosition(1);
+            // line up the claw of the side holding purple pixel
+            LeftTurn(0.3,14.5);
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.3, 46);
-            absoluteHeading( 0.2,  90);
+            sleep(10);
+            Wrist.setPosition(0.6);
+            ClawL.setPosition(0.2);
+            sleep(10);
+            Wrist.setPosition(1);
+            moveBackward(0.3, 2);
  //           Wrist.setPosition(0.318);//drop wrist
 //            ClawL.setPosition(0.02);//drop pixel
             found="true";
