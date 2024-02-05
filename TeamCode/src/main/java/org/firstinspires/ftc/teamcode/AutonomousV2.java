@@ -37,8 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
 
-    DcMotor liftMotorL;
-    DcMotor liftMotorR;
+
     Servo ClawR;
     Servo ClawL;
     Servo Wrist;

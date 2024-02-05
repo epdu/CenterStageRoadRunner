@@ -75,6 +75,8 @@ public class HardwarePowerpuffs
     public DcMotor LFMotor;
     public DcMotor RBMotor;
     public DcMotor LBMotor;
+    public DcMotor liftMotorL;
+    public DcMotor liftMotorR;
 
    IMU imu;
     public static final double MID_SERVO       =  0.5 ;
@@ -114,6 +116,10 @@ public class HardwarePowerpuffs
         LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port ?
+//        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port ?
+
         imu = hwMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
