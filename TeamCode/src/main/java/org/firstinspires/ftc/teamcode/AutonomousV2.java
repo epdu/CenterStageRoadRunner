@@ -134,22 +134,22 @@ public class AutonomousV2 extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Retrieve the IMU from the hardware map
-        imu = hardwareMap.get(IMU.class, "imu");
-//        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
-//        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
-        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");//02022024 control hub port 1
-        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor"); //02022024 control hub port 0
-        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");//02022024 control hub port 3
-        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");//02022024 control hub port 2
+//        imu = hardwareMap.get(IMU.class, "imu");
+////        LeftSensor = hardwareMap.get(DistanceSensor.class, "DistanceLeft");
+////        RightSensor = hardwareMap.get(DistanceSensor.class, "DistanceRight");
+//        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");//02022024 control hub port 1
+//        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor"); //02022024 control hub port 0
+//        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");//02022024 control hub port 3
+//        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");//02022024 control hub port 2
 
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // ticks per revolution
-        RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        // ticks per revolution
+//        RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Wrist = hardwareMap.get(Servo.class, "wrist");
         Wrist.setPosition(0.34);
@@ -185,15 +185,15 @@ public class AutonomousV2 extends LinearOpMode {
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+//                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+//// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+//
+//        if (gamepad1.options) {
+//            imu.resetYaw();
+//        }
+//        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
 /*
 set the distance from front of robot to the block of game element
