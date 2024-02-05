@@ -114,10 +114,13 @@ public class HardwarePowerpuffs
         LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        imu = hwMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+        imu.initialize(parameters);
 //        parameters.angleUnit           = IMU.AngleUnit.DEGREES;
 //        parameters.accelUnit           = IMU.AccelUnit.METERS_PERSEC_PERSEC;
 //        parameters.calibrationDataFile = "IMUCalibration.json"; // see the calibration sample opmode
@@ -128,8 +131,7 @@ public class HardwarePowerpuffs
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hwMap.get(IMU.class, "imu");
-        imu.initialize(parameters);
+
     }
     //Set power to all motors
     public void setAllPower(double p){
