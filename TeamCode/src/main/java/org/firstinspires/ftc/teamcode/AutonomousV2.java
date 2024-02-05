@@ -34,8 +34,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous with Vision Portal")
-public class AutonomousCopyALan extends LinearOpMode {
+@Autonomous(name = "Autonomous with Vision Portal improve code")
+public class AutonomousV2 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
     DcMotor RBMotor;
@@ -112,7 +112,7 @@ public class AutonomousCopyALan extends LinearOpMode {
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
     private AprilTagDetection desiredTag = null;
-    final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 4.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -396,7 +396,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
     }
     public void turnLeft(double power, double distanceInInch) {
         movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
-     }
+    }
     public void strafingRight(double power, double distanceInInch) {
         movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
     }
