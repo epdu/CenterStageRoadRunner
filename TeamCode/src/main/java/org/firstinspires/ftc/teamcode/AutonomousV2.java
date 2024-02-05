@@ -36,10 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Autonomous with Vision Portal improve code")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-    DcMotor RFMotor;
-    DcMotor LFMotor;
-    DcMotor RBMotor;
-    DcMotor LBMotor;
+
     DcMotor liftMotorL;
     DcMotor liftMotorR;
     Servo ClawR;
