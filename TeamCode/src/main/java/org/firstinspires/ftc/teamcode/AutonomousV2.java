@@ -24,7 +24,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -88,7 +87,7 @@ public class AutonomousV2 extends LinearOpMode {
     double liftIdealPos;
     double liftIdealPower;
     int result;
-    private OpenCvCamera openCvCamera = null;
+//    private OpenCvCamera openCvCamera = null;
     double cX = 0;
     double cY = 0;
     double width = 0;
