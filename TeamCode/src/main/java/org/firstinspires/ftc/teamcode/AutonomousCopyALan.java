@@ -34,7 +34,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous with Vision Portal")
+@Autonomous(name = "Autonomous of alan")
 public class AutonomousCopyALan extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;

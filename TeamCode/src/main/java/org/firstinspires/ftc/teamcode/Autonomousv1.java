@@ -62,7 +62,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
-@Autonomous(name = "Autonomous OpenCV Testing")
+@Autonomous(name = "Autonomous OpenCV done")
 public class Autonomousv1 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
