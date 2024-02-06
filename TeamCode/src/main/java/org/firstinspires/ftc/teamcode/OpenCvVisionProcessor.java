@@ -31,11 +31,17 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     private Scalar lowHSV;
     private Scalar highHSV;
     private Point teamPropCentroid = new Point();
+    private Mat hsvFrame = new Mat();
+    private Mat yellowMask = new Mat();
+    private Mat hierarchy = new Mat();
+    private Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+
     public OpenCvVisionProcessor(String name, Scalar lowHSV, Scalar highHSV)
     {
         this.name = name;
         this.lowHSV = lowHSV;
         this.highHSV = highHSV;
+
         linePaint = new Paint();
 //
         linePaint.setAntiAlias(true);
@@ -74,10 +80,9 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     public Object processFrame(Mat input, long captureTimeNanos)
     {
         // Preprocess the frame to detect yellow regions
-        Mat yellowMask = preprocessFrame(input);
+        yellowMask = preprocessFrame(input);
         // Find contours of the detected yellow regions
         List<MatOfPoint> contours = new ArrayList<>();
-        Mat hierarchy = new Mat();
         Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         // Find the largest yellow contour (blob)
         MatOfPoint largestContour = findLargestContour(contours);
@@ -157,10 +162,8 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     }   //onDrawFrame
 
     private Mat preprocessFrame(Mat frame) {
-        Mat hsvFrame = new Mat();
         Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
 
-        Mat yellowMask = new Mat();
         Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
 
         Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
