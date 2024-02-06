@@ -457,7 +457,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             sleep(20);
         }
     }
-
+    public void initOpenCV() {
+    }
     public void moveRobot(double x, double y, double yaw) {
         // Calculate wheel powers.
 //testing rear camera
