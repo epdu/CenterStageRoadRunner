@@ -33,7 +33,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous with Vision Portal improve code")
+@Autonomous(name = "Autonomous with Vision Portal blue")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     Servo ClawR;
@@ -185,7 +185,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
-            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
+//            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
+            Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
             cX = teamPropCentroid.x;
             cY = teamPropCentroid.y;
             found= cX != 0.0 || cY != 0.0 ? "true" : "false";
