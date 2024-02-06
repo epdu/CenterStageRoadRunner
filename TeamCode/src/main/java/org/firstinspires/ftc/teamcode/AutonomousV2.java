@@ -354,7 +354,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
     public void stopMotors(double p){
-        HardwarePowerpuffs.setAllPower(p);
+        robot.setAllPower(p);
     }
 
     private void goparking() {

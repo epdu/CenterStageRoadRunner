@@ -140,15 +140,16 @@ public class HardwarePowerpuffs
 
     }
     //Set power to all motors
-    public static void setAllPower(double p){
-        setMotorPower(p,p,p,p);
-    }
+
 
     public void setMotorPower(double lF, double rF, double lB, double rB){
         LFMotor.setPower(lF);
         LBMotor.setPower(lB);
         RBMotor.setPower(rB);
         RFMotor.setPower(rF);
+    }
+    public void setAllPower(double p){
+        setMotorPower(p,p,p,p);
     }
 }
 
