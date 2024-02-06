@@ -340,9 +340,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
     private void goparking() {
     }
 
-    private void AprilTagOmni() {
-    }
-
     private void droppixelbackdrop() {
     }
     public void droppixel(){}
@@ -368,7 +365,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
     public void strafingLeft(double power, double distanceInInch) {
         movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
     }
-
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
 //input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafingRight and strafingLeft"
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
