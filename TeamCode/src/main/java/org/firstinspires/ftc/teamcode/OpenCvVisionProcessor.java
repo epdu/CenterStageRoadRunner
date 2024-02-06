@@ -166,7 +166,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
 
         Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
 
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
 
