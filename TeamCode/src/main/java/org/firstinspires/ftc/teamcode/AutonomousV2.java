@@ -99,7 +99,7 @@ public class AutonomousV2 extends LinearOpMode {
     private AprilTagProcessor aprilTag;
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
-    private AprilTagDetection desiredTag = null;
+    private AprilTagDetection desiredTag;
     final double DESIRED_DISTANCE = 4.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
@@ -309,8 +309,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
     //work here
 
     public void  aprilTagOmni(){
-
-
         if (teamPropLocations == "Left")
         {
             moveBackward(0.5, 1);
@@ -343,8 +341,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
     private void droppixelbackdrop() {
     }
     public void droppixel(){}
-    private void AprilTagOmni() {
-    }
+//    private void AprilTagOmni() {    }
     //test function]
     //
     //
@@ -399,14 +396,12 @@ Using the specs from the motor, you would need to find the encoder counts per re
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
-
 /*
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0, 10, 120), new Scalar(100, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(125, 120, 50), new Scalar(190, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(130, 255, 255) );
 */
-
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
@@ -417,7 +412,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
         aprilTag.setDecimation(2);
 
         // Create the vision portal by using a builder.
-
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessors(aprilTag)
@@ -458,8 +452,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
             sleep(20);
         }
     }
-    public void initOpenCV() {
-    }
+//    public void initOpenCV() {    }
     public void moveRobot(double x, double y, double yaw) {
         // Calculate wheel powers.
 //testing rear camera
