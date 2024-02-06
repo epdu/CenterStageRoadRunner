@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -158,7 +159,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
 11.87374348 537 per revolution 11.87374348 inch
 */
 
-
         waitForStart();
 
 
@@ -178,9 +178,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             findteamPropLocations();
             dropPurplePixel();
-            aprilTagOmni();
-            dropYellowPixel();
-            autoParking();
+//            aprilTagOmni();
+//            dropYellowPixel();
+//            autoParking();
         }
 
         controlHubCam.stopStreaming();
@@ -297,13 +297,13 @@ Using the specs from the motor, you would need to find the encoder counts per re
     }
     public void  autoParking(){
         moveForward(0.3, 5);
-        strafingRight(0.3, 12);
-        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-        strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
-        turnRight(0.3,14.5);//dropped the pixel, and move to backdrop
-        moveBackward(0.3, 16); //approaching backdrop
-        strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
-        moveBackward(0.3, 5);
+//        strafingRight(0.3, 12);
+//        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+//        strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+//        turnRight(0.3,14.5);//dropped the pixel, and move to backdrop
+//        moveBackward(0.3, 16); //approaching backdrop
+//        strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+//        moveBackward(0.3, 5);
 
     }
     //work here
@@ -343,7 +343,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
     private void droppixelbackdrop() {
     }
     public void droppixel(){}
-    //
+    private void AprilTagOmni() {
+    }
     //test function]
     //
     //
