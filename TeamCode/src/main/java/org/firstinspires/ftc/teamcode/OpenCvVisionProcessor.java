@@ -169,7 +169,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
 
         return yellowMask;
     }
-
     private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
         double maxArea = 0;
         MatOfPoint largestContour = null;
@@ -181,7 +180,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
                 largestContour = contour;
             }
         }
-
         return largestContour;
     }
 
