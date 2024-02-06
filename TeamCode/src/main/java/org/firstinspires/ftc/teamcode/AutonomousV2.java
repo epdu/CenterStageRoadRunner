@@ -370,7 +370,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
     }
 
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
-//input distance in inches, robot will finish movement "move forward backward, shraftleft and right,turn left and right"
+//input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafingRight and strafingLeft"
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
         distanceRBMotor=(double)(distanceRB*537/(Math.PI * wheelDiameterInInches));
         distanceLFMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
