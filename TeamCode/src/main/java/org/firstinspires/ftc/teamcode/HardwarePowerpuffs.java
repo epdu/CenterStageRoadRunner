@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -77,6 +78,12 @@ public class HardwarePowerpuffs
     public DcMotor LBMotor;
     public DcMotor liftMotorL;
     public DcMotor liftMotorR;
+    public Servo ClawR;
+    public Servo ClawL;
+    public Servo Wrist;
+    public Servo ArmR;
+    public Servo ArmL;
+    public Servo Drone;
 
    IMU imu;
     public static final double MID_SERVO       =  0.5 ;
@@ -117,6 +124,20 @@ public class HardwarePowerpuffs
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        Wrist = hwMap.get(Servo.class, "wrist");
+        Wrist.setPosition(0.34);
+
+        ClawR = hwMap.get(Servo.class, "ClawR");
+        ClawL = hwMap.get(Servo.class, "ClawL");
+        ClawR.setPosition(0.78);
+        ClawL.setPosition(0.018);
+        ClawL.setDirection(Servo.Direction.REVERSE);
+
+        ArmL = hwMap.get(Servo.class, "ArmL");
+        ArmR = hwMap.get(Servo.class, "ArmR");
+
+        ArmL.setPosition(0.5);
+        ArmR.setPosition(0.5);
 //        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port ?
 //        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port ?
 

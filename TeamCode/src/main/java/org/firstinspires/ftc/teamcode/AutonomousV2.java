@@ -36,12 +36,6 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Autonomous with Vision Portal blue")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-    Servo ClawR;
-    Servo ClawL;
-    Servo Wrist;
-    Servo ArmR;
-    Servo ArmL;
-    Servo Drone;
     public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
     DistanceSensor LeftSensor;
@@ -81,7 +75,6 @@ public class AutonomousV2 extends LinearOpMode {
     double liftIdealPos;
     double liftIdealPower;
     int result;
-//    private OpenCvCamera openCvCamera = null;
     double cX = 0;
     double cY = 0;
     double width = 0;
@@ -126,20 +119,6 @@ public class AutonomousV2 extends LinearOpMode {
          */
         robot.init(hardwareMap);
 
-        Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setPosition(0.34);
-
-        ClawR = hardwareMap.get(Servo.class, "ClawR");
-        ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0.78);
-        ClawL.setPosition(0.018);
-        ClawL.setDirection(Servo.Direction.REVERSE);
-
-        ArmL = hardwareMap.get(Servo.class, "ArmL");
-        ArmR = hardwareMap.get(Servo.class, "ArmR");
-
-        ArmL.setPosition(0.5);
-        ArmR.setPosition(0.5);
 
 //        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
