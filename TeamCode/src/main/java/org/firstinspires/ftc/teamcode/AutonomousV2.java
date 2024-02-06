@@ -36,8 +36,6 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Autonomous with Vision Portal improve code")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-
-
     Servo ClawR;
     Servo ClawL;
     Servo Wrist;
@@ -373,11 +371,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
 
-    public void stopMotors(){
-        RFMotor.setPower(0);
-        LFMotor.setPower(0);
-        RBMotor.setPower(0);
-        LBMotor.setPower(0);
+    public void stopMotors(double p){
+        HardwarePowerpuffs.setAllPower(p);
     }
 
     private void goparking() {
@@ -418,27 +413,27 @@ Using the specs from the motor, you would need to find the encoder counts per re
         distanceRBMotor=(double)(distanceRB*537/(Math.PI * wheelDiameterInInches));
         distanceLFMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
         distanceLBMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
-        RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RFMotor.setTargetPosition((int) -distanceRFMotor);
-        RBMotor.setTargetPosition((int) -distanceRBMotor);
-        LFMotor.setTargetPosition((int) -distanceLFMotor);
-        LBMotor.setTargetPosition((int) -distanceRBMotor);
-        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RFMotor.setPower(+power);
-        RBMotor.setPower(+power);
-        LFMotor.setPower(+power);
-        LBMotor.setPower(+power);
-        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-        RFMotor.setPower(0);
-        LFMotor.setPower(0);
-        RBMotor.setPower(0);
-        LBMotor.setPower(0);
+        robot.RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.RFMotor.setTargetPosition((int) -distanceRFMotor);
+        robot.RBMotor.setTargetPosition((int) -distanceRBMotor);
+        robot.LFMotor.setTargetPosition((int) -distanceLFMotor);
+        robot.LBMotor.setTargetPosition((int) -distanceRBMotor);
+        robot.RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.RFMotor.setPower(+power);
+        robot.RBMotor.setPower(+power);
+        robot.LFMotor.setPower(+power);
+        robot.LBMotor.setPower(+power);
+        while (robot.RFMotor.isBusy() || robot.RBMotor.isBusy() || robot.LFMotor.isBusy() || robot.LBMotor.isBusy() ||false) {}
+        robot.RFMotor.setPower(0);
+        robot.LFMotor.setPower(0);
+        robot.RBMotor.setPower(0);
+        robot.LBMotor.setPower(0);
     }
     private void initVisionPortal() {
 
@@ -541,194 +536,12 @@ Using the specs from the motor, you would need to find the encoder counts per re
             rightBackPower /= max;
         }
 
-        LFMotor.setPower(leftFrontPower);
-        RFMotor.setPower(rightFrontPower);
-        LBMotor.setPower(leftBackPower);
-        RBMotor.setPower(rightBackPower);
+        robot.LFMotor.setPower(leftFrontPower);
+        robot.RFMotor.setPower(rightFrontPower);
+        robot.LBMotor.setPower(leftBackPower);
+        robot.RBMotor.setPower(rightBackPower);
     }
 
-
-
-//did not use for this season
-//did not use for this season
-// did not use for this season
-
-//start of  newGetHeading()
-//   public double newGetHeading(){
-//        double currentHeading =imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-//// BNO055IMU
-////double currentHeading = imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
-///*
-//
-//Orientation 	getAngularOrientation(AxesReference reference, AxesOrder order, AngleUnit angleUnit)
-//Returns the absolute orientation of the sensor as a set three angles with indicated parameters.
-//*
-//*
-//*
-//*/
-//double headingChange = currentHeading - previousHeading;
-//        if(headingChange < -180){
-//        headingChange += 360;
-//    }else if(headingChange > 180){
-//        headingChange -= 360;
-//    }
-//    processedHeading += headingChange;
-//    previousHeading = currentHeading;
-//        return processedHeading;
-//}
-//endof  newGetHeading()
-
-//
-//    //start of  goStraight()
-//    public void goStraight(double power,double rotations){
-//        double multiplier;
-//        initialFR = RFMotor.getCurrentPosition()/ticksPerRotation;
-//        initialFL = LFMotor.getCurrentPosition()/ticksPerRotation;
-//        initialBR = RBMotor.getCurrentPosition()/ticksPerRotation;
-//        initialBL = LBMotor.getCurrentPosition()/ticksPerRotation;
-//        positionFR = (RFMotor.getCurrentPosition()/ticksPerRotation)-initialFR;
-//        positionFL = (LFMotor.getCurrentPosition()/ticksPerRotation)-initialFL;
-//        positionBR = (RBMotor.getCurrentPosition()/ticksPerRotation)-initialBR;
-//        positionBL = (LBMotor.getCurrentPosition()/ticksPerRotation)-initialBL;
-//        RFMotor.setPower(power);
-//        LFMotor.setPower(power);
-//        RBMotor.setPower(power);
-//        LBMotor.setPower(power);
-//        targetheading = getHeading();
-//        while(positionFR < rotations && positionFL < rotations && positionBR < rotations &&
-//                positionBL < rotations && opModeIsActive()){
-//            heading = getHeading();
-//            if(heading-targetheading>=0){ //to the left
-//                multiplier = .1*(heading-targetheading)+1;
-//                LFMotor.setPower(power*multiplier);
-//                LBMotor.setPower(power*multiplier);
-//                RFMotor.setPower(power);
-//                RBMotor.setPower(power);
-//            }else if(heading-targetheading<0){
-//                multiplier = -.1*(heading-targetheading)+1;
-//                RFMotor.setPower(power*multiplier);
-//                RBMotor.setPower(power*multiplier);
-//                LFMotor.setPower(power);
-//                LBMotor.setPower(power);
-//            }
-//            positionFR = (RFMotor.getCurrentPosition()/ticksPerRotation)-initialFR;
-//            positionFL = (LFMotor.getCurrentPosition()/ticksPerRotation)-initialFL;
-//            positionBR = (RBMotor.getCurrentPosition()/ticksPerRotation)-initialBR;
-//            positionBL = (LBMotor.getCurrentPosition()/ticksPerRotation)-initialBL;
-//        }
-//        stopMotors();
-//    }
-////endof goStraight()
-
-////startof absoluteHeading
-//    public void absoluteHeading(double power, double degrees){
-////As you can see, this only works if you also have the newGetHeading() and gyroTurn() functions.
-////gyroTurn() is where the loop is - where it would lock people out - so you might need
-////to copy all three functions and make changes to gyroTurn().
-////newGetHeading() should probably not cause any problems, though.
-//        double current = newGetHeading(); //Set the current heading to what the heading is,accounting for
-////the whole -179 -> 180 flip
-//        double processedCurrent = current % 360.0;//The processed version of the current heading
-////(This just removes extra rotations)
-//        telemetry.addData("how many to turn",degrees-processedCurrent);
-//        telemetry.addData("power", power); //We probably don't need any of these telemetry things
-//        telemetry.update(); //But here they are
-//        gyroTurn(power,degrees-processedCurrent); //This is where the actual turning bit happens.
-////It uses gyroTurn(), which you'll probably have to adapt for teleop use.
-//    }
-////end of absoluteHeading
-//    public double getHeading(){
-//        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-//
-///*
-////// Create an object to receive the IMU angles
-////YawPitchRollAngles robotOrientation;
-////robotOrientation = imu.getRobotYawPitchRollAngles();
-////
-////// Now use these simple methods to extract each angle
-////// (Java type double) from the object you just created:
-////double Yaw   = robotOrientation.getYaw(AngleUnit.DEGREES);
-////double Pitch = robotOrientation.getPitch(AngleUnit.DEGREES);
-////double Roll  = robotOrientation.getRoll(AngleUnit.DEGREES);
-//
-//// Create Orientation variable
-//        Orientation myRobotOrientation;
-//
-//// Get Robot Orientation
-//        myRobotOrientation = imu.getRobotOrientation(
-//                AxesReference.INTRINSIC,
-//                AxesOrder.XYZ,
-//                AngleUnit.DEGREES
-//        );
-//
-//// Then read or display the desired values (Java type float):
-//        float X_axis = myRobotOrientation.firstAngle;
-//        float Y_axis = myRobotOrientation.secondAngle;
-//        float Z_axis = myRobotOrientation.thirdAngle;
-//
-////        BNO055IMU
-////        imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
-////        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-//FIRST Tech Challenge robots drive mostly on a flat playing field, typically using the IMU to monitor or control Heading (Yaw or Z-angle).
-//
-//*/
-//    }
-//public void gyroTurn(double power, double degrees){ //Fright is negative
-//    if(opModeIsActive()){
-//        double gyroinitial = newGetHeading();
-//        if(degrees>0){ //turn left
-//            while(newGetHeading() - gyroinitial < degrees && opModeIsActive()){
-//                RFMotor.setPower(power);
-//                LBMotor.setPower(-power);
-//                LFMotor.setPower(-power);
-//                RBMotor.setPower(power);
-//                updates = Double.toString(newGetHeading());
-//                telemetry.addData("Heading", newGetHeading());
-//                telemetry.update();
-//            }
-//            stopMotors();
-//        }
-//        else{//turn right
-//            while(newGetHeading() - gyroinitial > degrees && opModeIsActive()){
-//                RFMotor.setPower(-power);
-//                LBMotor.setPower(power);
-//                LFMotor.setPower(power);
-//                RBMotor.setPower(-power);
-//
-//                updates = Double.toString(getHeading());
-//                telemetry.addData("Heading", newGetHeading());
-//                telemetry.update();
-//            }
-//            stopMotors();
-//        }
-//    }
-//}
-
-//    public void moveForward(double power, double distanceInInch) {
-//
-//        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
-//        RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        RFMotor.setTargetPosition((int) -distanceInInchDouble);
-//        RBMotor.setTargetPosition((int) -distanceInInchDouble);
-//        LFMotor.setTargetPosition((int) -distanceInInchDouble);
-//        LBMotor.setTargetPosition((int) -distanceInInchDouble);
-//        RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        RFMotor.setPower(+power);
-//        RBMotor.setPower(+power);
-//        LFMotor.setPower(+power);
-//        LBMotor.setPower(+power);
-//        while (RFMotor.isBusy() || RBMotor.isBusy() || LFMotor.isBusy() || LBMotor.isBusy() ||false) {}
-//        RFMotor.setPower(0);
-//        LFMotor.setPower(0);
-//        RBMotor.setPower(0);
-//        LBMotor.setPower(0);
-//    }
 
 
 }

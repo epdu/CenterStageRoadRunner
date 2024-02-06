@@ -140,7 +140,7 @@ public class HardwarePowerpuffs
 
     }
     //Set power to all motors
-    public void setAllPower(double p){
+    public static void setAllPower(double p){
         setMotorPower(p,p,p,p);
     }
 
