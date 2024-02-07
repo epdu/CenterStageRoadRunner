@@ -10,7 +10,6 @@ import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -25,12 +24,11 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     private static final float DEF_LINE_WIDTH = 4.0f;
     private static final int DEF_TEXT_COLOR = Color.RED;
     private static final float DEF_TEXT_SIZE = 20.0f;
+    private Scalar lowHSV;
+    private Scalar highHSV;
     private final Paint linePaint;
     private final Paint textPaint;
     private String name;
-    private Scalar lowHSV;
-    private Scalar highHSV;
-    private Point teamPropCentroid = new Point();
     public OpenCvVisionProcessor(String name, Scalar lowHSV, Scalar highHSV)
     {
         this.name = name;
@@ -81,10 +79,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
         Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         // Find the largest yellow contour (blob)
         MatOfPoint largestContour = findLargestContour(contours);
-        // Calculate the centroid of the largest contour
-        Moments moments = Imgproc.moments(largestContour);
-        teamPropCentroid.x = moments.get_m10() / moments.get_m00();
-        teamPropCentroid.y = moments.get_m01() / moments.get_m00();
 /*       if (largestContour != null) {
             // Draw a red outline around the largest detected object
 //            Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
@@ -108,11 +102,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
 */
         return largestContour;
     }   //processFrame
-
-    public Point getTeamPropCentroid()
-    {
-        return teamPropCentroid;
-    }
 
     /**
      * Called during the viewport's frame rendering operation at some later point during processFrame(). Allows you
