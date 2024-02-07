@@ -363,8 +363,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
 //change HSV value for different team prop
-            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-            Scalar highHSV = new Scalar(30, 255, 255);
+            Scalar lowHSV = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar highHSV = new Scalar(230, 255, 255);
 
             // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
             //  Scalar highHSV = new Scalar(10, 255, 255);
