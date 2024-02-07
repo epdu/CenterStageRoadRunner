@@ -10,7 +10,7 @@ public class servogobrrrr extends OpMode {
     boolean move = false;
     @Override
     public void init() {
-        ArmL = hardwareMap.get(Servo.class, "ArmL");
+
         ArmR = hardwareMap.get(Servo.class, "ArmR");
 
     }
