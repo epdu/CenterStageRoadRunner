@@ -157,21 +157,6 @@ public class AutonomousV0 extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setPosition(0.34);
-
-        ClawR = hardwareMap.get(Servo.class, "ClawR");
-        ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0.78);
-        ClawL.setPosition(0.018);
-        ClawL.setDirection(Servo.Direction.REVERSE);
-
-        ArmL = hardwareMap.get(Servo.class, "ArmL");
-        ArmR = hardwareMap.get(Servo.class, "ArmR");
-        ArmR.setDirection(Servo.Direction.REVERSE);
-        ArmL.setPosition(0.5);
-        ArmR.setPosition(0.5);
-
 //        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
@@ -215,11 +200,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
 
         while (opModeIsActive()) {
-            // TODO: Need to do red or blue according to alliance color.
-            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
-            cX = teamPropCentroid.x;
-            cY = teamPropCentroid.y;
-            found= cX != 0.0 || cY != 0.0 ? "true" : "false";
+            found="false";
             telemetry.addData("Find team prop or not", found);
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -227,11 +208,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
 //add class or method here
 
-            findteamPropLocations();
+            findteamPropLocationsopencv();
             dropPurplePixel();
-//            aprilTagOmni();
-//            dropYellowPixel();
-//            autoParking();
+            aprilTagOmni();
+
         }
 
         controlHubCam.stopStreaming();
@@ -281,6 +261,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
         sleep(10);
 
     }
+    public void initOpenCV() {
+    }
+
 
     /*
     public void  findteamPropLocationsbyDistanceSensors(){
@@ -311,7 +294,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
     }
 */
-    public String  findteamPropLocations(){
+    public String  findteamPropLocationsopencv(){
 //////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
@@ -335,99 +318,99 @@ Using the specs from the motor, you would need to find the encoder counts per re
         }
         return teamPropLocations;
     }
-    //    /////////////////////////////
-//    class YellowBlobDetectionPipeline extends OpenCvPipeline {
-//        @Override
-//        public Mat processFrame(Mat input) {
-//            // Preprocess the frame to detect yellow regions
-//            Mat yellowMask = preprocessFrame(input);
-//            // Find contours of the detected yellow regions
-//            List<MatOfPoint> contours = new ArrayList<>();
-//            Mat hierarchy = new Mat();
-//            Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-//            // Find the largest yellow contour (blob)
-//            MatOfPoint largestContour = findLargestContour(contours);
+    /////////////////////////////
+    class YellowBlobDetectionPipeline extends OpenCvPipeline {
+        @Override
+        public Mat processFrame(Mat input) {
+            // Preprocess the frame to detect yellow regions
+            Mat yellowMask = preprocessFrame(input);
+            // Find contours of the detected yellow regions
+            List<MatOfPoint> contours = new ArrayList<>();
+            Mat hierarchy = new Mat();
+            Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+            // Find the largest yellow contour (blob)
+            MatOfPoint largestContour = findLargestContour(contours);
+
+            if (largestContour != null) {
+                // Draw a red outline around the largest detected object
+                Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
+                // Calculate the width of the bounding box
+                width = calculateWidth(largestContour);
+
+                // Display the width next to the label
+                String widthLabel = "Width: " + (int) width + " pixels";
+                Imgproc.putText(input, widthLabel, new Point(cX + 10, cY + 20), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+                //Display the Distance
+                String distanceLabel = "Distance: " + String.format("%.2f", getDistance(width)) + " inches";
+                Imgproc.putText(input, distanceLabel, new Point(cX + 10, cY + 60), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+                // Calculate the centroid of the largest contour
+                Moments moments = Imgproc.moments(largestContour);
+                cX = moments.get_m10() / moments.get_m00();
+                cY = moments.get_m01() / moments.get_m00();
+                // Draw a dot at the centroid
+                String label = "(" + (int) cX + ", " + (int) cY + ")";
+                Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+                Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
+
+            }
+            return input;
+        }
+        private Mat preprocessFrame(Mat frame) {
+            Mat hsvFrame = new Mat();
+//            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
+
+            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
+
+
+//change HSV value for different team prop
+            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+            Scalar highHSV = new Scalar(30, 255, 255);
+
+            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+            //  Scalar highHSV = new Scalar(10, 255, 255);
 //
-//            if (largestContour != null) {
-//                // Draw a red outline around the largest detected object
-//                Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
-//                // Calculate the width of the bounding box
-//                width = calculateWidth(largestContour);
-//
-//                // Display the width next to the label
-//                String widthLabel = "Width: " + (int) width + " pixels";
-//                Imgproc.putText(input, widthLabel, new Point(cX + 10, cY + 20), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-//                //Display the Distance
-//                String distanceLabel = "Distance: " + String.format("%.2f", getDistance(width)) + " inches";
-//                Imgproc.putText(input, distanceLabel, new Point(cX + 10, cY + 60), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-//                // Calculate the centroid of the largest contour
-//                Moments moments = Imgproc.moments(largestContour);
-//                cX = moments.get_m10() / moments.get_m00();
-//                cY = moments.get_m01() / moments.get_m00();
-//                // Draw a dot at the centroid
-//                String label = "(" + (int) cX + ", " + (int) cY + ")";
-//                Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-//                Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
-//
-//            }
-//            return input;
-//        }
-//        private Mat preprocessFrame(Mat frame) {
-//            Mat hsvFrame = new Mat();
-////            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-//
-//            Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
-//
-//
-////change HSV value for different team prop
-//            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-//            Scalar highHSV = new Scalar(30, 255, 255);
-//
-//            // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
-//            //  Scalar highHSV = new Scalar(10, 255, 255);
-////
-///*
-//            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
-//            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
-//
-//            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
-//            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
-//
-//            Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
-//            Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
-//
-//*/
-//
-//            Mat yellowMask = new Mat();
-//            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
-//
-//            Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
-//            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
-//            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
-//
-//            return yellowMask;
-//        }
-//
-//        private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
-//            double maxArea = 0;
-//            MatOfPoint largestContour = null;
-//
-//            for (MatOfPoint contour : contours) {
-//                double area = Imgproc.contourArea(contour);
-//                if (area > maxArea) {
-//                    maxArea = area;
-//                    largestContour = contour;
-//                }
-//            }
-//
-//            return largestContour;
-//        }
-//        private double calculateWidth(MatOfPoint contour) {
-//            Rect boundingRect = Imgproc.boundingRect(contour);
-//            return boundingRect.width;
-//        }
-//
-//    }
+/*
+            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
+            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
+
+            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
+            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
+
+            Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
+            Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
+
+*/
+
+            Mat yellowMask = new Mat();
+            Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
+
+            Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
+            Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
+
+            return yellowMask;
+        }
+
+        private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
+            double maxArea = 0;
+            MatOfPoint largestContour = null;
+
+            for (MatOfPoint contour : contours) {
+                double area = Imgproc.contourArea(contour);
+                if (area > maxArea) {
+                    maxArea = area;
+                    largestContour = contour;
+                }
+            }
+
+            return largestContour;
+        }
+        private double calculateWidth(MatOfPoint contour) {
+            Rect boundingRect = Imgproc.boundingRect(contour);
+            return boundingRect.width;
+        }
+
+    }
     private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
@@ -435,58 +418,40 @@ Using the specs from the motor, you would need to find the encoder counts per re
     public void  dropPurplePixel(){
 
         if(teamPropLocations == "Left"){
-            moveBackward(0.3, 36);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            RightTurn(0.3,14.5);
-            sleep(10);
-            Wrist.setPosition(0.6);
-            ClawL.setPosition(0.2);
-            sleep(10);
-            Wrist.setPosition(1);
-            moveBackward(0.3, 3);
-            //
+            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+            StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+            RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
+            moveBackward(0.3, 16); //approaching backdrop
+            StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+            moveBackward(0.3, 5);
+            moveForward(0.3, 20);
 
+
+            //drop pixel
+            //drop pixel
+
+//           StrafingLeft(0.3, 12);
+//            gyroTurn(0.2, - 90);
+//            absoluteHeading( 0.2,  -90);
             found="true";
         } else if ( teamPropLocations == "Right") {
-            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            StrafingRight(0.3, 12);
-            //
-            sleep(10);
-            Wrist.setPosition(0.6);
-            ClawL.setPosition(0.2);
-            sleep(10);
-            Wrist.setPosition(1);
-            // line up the claw of the side holding purple pixel
-            LeftTurn(0.3,14.5);
+            moveBackward(0.3, 28);
+
+// select turn to left
+// StrafingLeft(0.2, 20);
+
+            gyroTurn(0.2,  90);
+//            absoluteHeading( 0.2,  90);
+            //drop pixel
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.3, 46);
-            sleep(10);
-            Wrist.setPosition(0.6);
-            ClawL.setPosition(0.2);
-            sleep(10);
-            Wrist.setPosition(1);
-            moveBackward(0.3, 2);
-            //           Wrist.setPosition(0.318);//drop wrist
-//            ClawL.setPosition(0.02);//drop pixel
+            absoluteHeading( 0.2,  90);
+            //drop pixel
             found="true";
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
-    }
-
-    public void  dropYellowPixel(){
-        // move arms and then open claw
-    }
-    public void  autoParking(){
-        moveForward(0.3, 5);
-        StrafingRight(0.3, 12);
-        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-        StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
-        RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
-        moveBackward(0.3, 16); //approaching backdrop
-        StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
-        moveBackward(0.3, 5);
-
     }
     //work here
 
@@ -897,15 +862,7 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
-
-/*
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0, 10, 120), new Scalar(100, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(125, 120, 50), new Scalar(190, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(130, 255, 255) );
-*/
-
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
@@ -1003,3 +960,5 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
 
 }
+
+
