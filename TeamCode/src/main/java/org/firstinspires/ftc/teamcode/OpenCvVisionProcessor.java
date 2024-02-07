@@ -27,9 +27,9 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     private static final float DEF_TEXT_SIZE = 20.0f;
     private final Paint linePaint;
     private final Paint textPaint;
-    private String name;
-    private Scalar lowHSV;
-    private Scalar highHSV;
+    private final String name;
+    private final Scalar lowHSV;
+    private final Scalar highHSV;
     private Point teamPropCentroid = new Point();
     private Mat hsvFrame = new Mat();
     private Mat yellowMask = new Mat();
@@ -166,7 +166,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
 
         Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
 
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
 
