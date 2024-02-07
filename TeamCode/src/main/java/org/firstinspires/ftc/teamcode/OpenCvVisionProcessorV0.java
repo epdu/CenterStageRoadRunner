@@ -28,7 +28,7 @@ public class OpenCvVisionProcessorV0 implements VisionProcessor {
     private Scalar lowHSV;
     private Scalar highHSV;
     private Point teamPropCentroid = new Point();
-    public OpenCvVisionProcessor(String name, Scalar lowHSV, Scalar highHSV)
+    public void OpenCvVisionProcessor(String name, Scalar lowHSV, Scalar highHSV)
     {
         this.name = name;
         this.lowHSV = lowHSV;

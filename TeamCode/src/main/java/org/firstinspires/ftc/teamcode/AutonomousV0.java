@@ -1,3 +1,13 @@
+// Blue left setup
+// set the distanct from frot of robot to the block of game element
+/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
+     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
+      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
+      just multiply the distance by the counts / distance you calculated above. Hope that helps!
+// 11.87374348
+//537 per revolution 11.87374348 inch
+*/
+
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -18,24 +28,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvPipeline;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-// Blue left setup
-// set the distanct from frot of robot to the block of game element
-/*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
-     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
-      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
-      just multiply the distance by the counts / distance you calculated above. Hope that helps!
-// 11.87374348
-//537 per revolution 11.87374348 inch
-*/
-
-
-@Autonomous(name = "Autonomous with Vision Portal")
+@Autonomous(name = "Autonomous with Vision Portal V0")
 public class AutonomousV0 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -149,6 +157,21 @@ public class AutonomousV0 extends LinearOpMode {
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        Wrist = hardwareMap.get(Servo.class, "wrist");
+        Wrist.setPosition(0.34);
+
+        ClawR = hardwareMap.get(Servo.class, "ClawR");
+        ClawL = hardwareMap.get(Servo.class, "ClawL");
+        ClawR.setPosition(0.78);
+        ClawL.setPosition(0.018);
+        ClawL.setDirection(Servo.Direction.REVERSE);
+
+        ArmL = hardwareMap.get(Servo.class, "ArmL");
+        ArmR = hardwareMap.get(Servo.class, "ArmR");
+
+        ArmL.setPosition(0.5);
+        ArmR.setPosition(0.5);
+
 //        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
@@ -207,7 +230,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
-
+            dropYellowPixel();
+            autoParking();
         }
 
         controlHubCam.stopStreaming();
@@ -418,10 +442,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
             StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
             moveBackward(0.3, 5);
             moveForward(0.3, 20);
-
-
-            //drop pixel
-            //drop pixel
+//          Wrist.setPosition(0.318);//drop wrist
+//           ClawL.setPosition(0.2);//drop pixel
 
 //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
@@ -435,16 +457,33 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             gyroTurn(0.2,  90);
 //            absoluteHeading( 0.2,  90);
-            //drop pixel
+//         Wrist.setPosition(0.318);//drop wrist
+//            ClawL.setPosition(0.02);//drop pixel
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.3, 46);
             absoluteHeading( 0.2,  90);
-            //drop pixel
+            //           Wrist.setPosition(0.318);//drop wrist
+//            ClawL.setPosition(0.02);//drop pixel
             found="true";
         }
 //        checkTeamPropColors();
 //        lineUPteamProp();
+    }
+
+    public void  dropYellowPixel(){
+        // move arms and then open claw
+    }
+    public void  autoParking(){
+        moveForward(0.3, 5);
+        StrafingRight(0.3, 12);
+        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+        StrafingRight(0.3, 12); //line up the claw of the side holding purple pixel
+        RightTurn(0.3,14.5); //dropped the pixel, and move to backdrop
+        moveBackward(0.3, 16); //approaching backdrop
+        StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
+        moveBackward(0.3, 5);
+
     }
     //work here
 
@@ -855,7 +894,15 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
+
+/*
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0, 10, 120), new Scalar(100, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(125, 120, 50), new Scalar(190, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(130, 255, 255) );
+*/
+
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
@@ -953,6 +1000,3 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
 
 }
-
-
-
