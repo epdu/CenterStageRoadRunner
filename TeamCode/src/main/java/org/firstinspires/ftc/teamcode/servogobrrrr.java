@@ -19,10 +19,10 @@ public class servogobrrrr extends OpMode {
     public void loop() {
         if (gamepad2.dpad_up && !move) { //up
             ArmR.setPosition(0);
-            ArmL.setPosition(0);
+
         }
         if (gamepad2.dpad_down && !move) { //down
-            ArmL.setPosition(0.8);
+
             ArmR.setPosition(0.8);
         }
     }
