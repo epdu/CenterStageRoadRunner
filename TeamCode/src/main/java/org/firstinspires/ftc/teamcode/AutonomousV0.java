@@ -951,7 +951,6 @@ Returns the absolute orientation of the sensor as a set three angles with indica
             leftBackPower /= max;
             rightBackPower /= max;
         }
-
         LFMotor.setPower(leftFrontPower);
         RFMotor.setPower(rightFrontPower);
         LBMotor.setPower(leftBackPower);
