@@ -73,9 +73,6 @@ public class CenterstageTele extends OpMode {
         ArmL = hardwareMap.get(Servo.class, "ArmL");
         ArmR = hardwareMap.get(Servo.class, "ArmR");
         ArmL.setDirection(Servo.Direction.REVERSE);
-
-        ArmL.setPosition(0.8);
-        ArmR.setPosition(0.2);
     }
 
     public void FieldCentricDriveTrain() {
@@ -164,13 +161,13 @@ public class CenterstageTele extends OpMode {
         if (gamepad1.right_bumper && !move) { //open
             ClawR.setPosition(0.5);
         }
-        if (gamepad2.dpad_up && !move) { //up
+        if (gamepad2.dpad_down && !move) { //up
             ArmR.setPosition(0);
             ArmL.setPosition(0);
         }
-        if (gamepad2.dpad_down && !move) { //down
-            ArmL.setPosition(0.8);
-            ArmR.setPosition(0.8);
+        if (gamepad2.dpad_up && !move) { //down
+            ArmL.setPosition(0.9);
+            ArmR.setPosition(0.9);
         }
         if (gamepad2.b && !move) { //up
             Wrist.setPosition(1);
