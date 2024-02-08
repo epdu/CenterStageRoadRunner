@@ -863,8 +863,57 @@ Returns the absolute orientation of the sensor as a set three angles with indica
     private void initVisionPortal() {
 
         aprilTag = new AprilTagProcessor.Builder().build();
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(30, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 50, 70), new Scalar(30, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(90, 50,70), new Scalar(128, 255, 255) );
+//blue 128, 255, 255], [90, 50, 70]],
+//        'red1': [[180, 255, 255], [159, 50, 70]],
+//        'red2': [[9, 255, 255], [0, 50, 70]],
+//        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
+//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+//        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
+//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0, 10, 120), new Scalar(100, 255, 255) );
+//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(125, 120, 50), new Scalar(190, 255, 255) );
+//        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
+//        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(130, 255, 255) );
+//        Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
+//        Scalar highHSV = new Scalar(30, 255, 255);
+
+        // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
+        //  Scalar highHSV = new Scalar(10, 255, 255);
+//
+        //            Scalar lowerBlue = new Scalar(180, 8, 24); // lower bound HSV for blue tested by blue team prop
+//            Scalar upperBlue = new Scalar(230, 255, 255);
+ /*
+            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
+            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
+
+            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
+            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
+
+
+            Scalar lowHSV = new Scalar(x, 19, 76); // lower bound HSV for purple pixel 284, 13, 55
+            Scalar highHSV = new Scalar(x, 255, 255);  // higher bound HSV for
+
+             Now you take [H-10, 100,100] and [H+10, 255, 255] as the lower bound and upper bound respectively.
+            Apart from this method, you can use any image editing tools like GIMP or any online converters to find these values,
+            but don't forget to adjust the HSV ranges.
+
+            Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
+            Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
+            Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+            Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
+
+
+            Scalar lowHSV = new Scalar(100, 100, 100);  // lower bound HSV for red
+            Scalar highHSV =  new Scalar(180, 255, 255);  // higher bound HSV for red
+
+            Scalar lowHSV = new Scalar(95, 110, 50); // lower bound HSV for blue
+            Scalar highHSV =  new Scalar(150, 245, 255); // higher bound HSV for blue
+
+
+
+
+  */
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
