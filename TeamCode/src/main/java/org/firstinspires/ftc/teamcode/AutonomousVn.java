@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Autonomous(name = "Autonomous 504 no error does not work ")
-public class AutonomousVnegavtive extends LinearOpMode {
+public class AutonomousVn extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
     DcMotor RBMotor;
