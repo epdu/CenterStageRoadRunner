@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous 724")
+@Autonomous(name = "Autonomous 715")
 public class AutonomousV0 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -441,8 +441,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
             StrafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
             moveBackward(0.3, 5);
             moveForward(0.3, 20);
-//          Wrist.setPosition(0.318);//drop wrist
-//          ClawL.setPosition(0.02);//drop pixel
+
+//            ClawL.setPosition(0.02);//drop pixel
+
 
 //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
@@ -456,13 +457,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             gyroTurn(0.2,  90);
 //            absoluteHeading( 0.2,  90);
-//         Wrist.setPosition(0.318);//drop wrist
 //            ClawL.setPosition(0.02);//drop pixel
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.3, 46);
             absoluteHeading( 0.2,  90);
-            //           Wrist.setPosition(0.318);//drop wrist
 //            ClawL.setPosition(0.02);//drop pixel
             found="true";
         }
