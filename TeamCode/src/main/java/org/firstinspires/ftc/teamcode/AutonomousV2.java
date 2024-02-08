@@ -370,10 +370,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
         robot.LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.RFMotor.setTargetPosition((int) -distanceRFMotor);
-        robot.RBMotor.setTargetPosition((int) -distanceRBMotor);
-        robot.LFMotor.setTargetPosition((int) -distanceLFMotor);
-        robot.LBMotor.setTargetPosition((int) -distanceRBMotor);
+        robot.RFMotor.setTargetPosition((int) distanceRFMotor);
+        robot.RBMotor.setTargetPosition((int) distanceRBMotor);
+        robot.LFMotor.setTargetPosition((int) distanceLFMotor);
+        robot.LBMotor.setTargetPosition((int) distanceRBMotor);
         robot.RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
