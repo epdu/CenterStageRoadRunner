@@ -198,11 +198,11 @@ Using the specs from the motor, you would need to find the encoder counts per re
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
-            dropYellowPixel();
-            autoParking();
-            if(autoParkingDone=="true"){
-                break;
-            }
+//            dropYellowPixel();
+//            autoParking();
+//            if(autoParkingDone=="true"){
+//                break;
+//            }
         }
 
         controlHubCam.stopStreaming();
@@ -381,7 +381,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
     public void  aprilTagOmni(){
         if (teamPropLocations == "Left")
         {
-            moveBackward(0.5, 1);
             DESIRED_TAG_ID = 1;
             lookfortag(DESIRED_TAG_ID);
 
