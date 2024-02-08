@@ -10,19 +10,15 @@
 package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -32,8 +28,12 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Auto Vision Portal Red init V2 ")
-public class AutonomousV2 extends LinearOpMode {
+public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
+    public String allianceColor="null";// set to be "red" or "blue" for each match
+    public String parkingSide="null";// set to be "left" or "right" for each match
+    public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
+    public String autoParkingDone="false";
     public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
     DistanceSensor LeftSensor;
@@ -62,12 +62,14 @@ public class AutonomousV2 extends LinearOpMode {
     double  distanceLBMotor;
 
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
-    String teamPropLocations;  //= "Left"
-    String PurplePixel;
+    public String teamPropLocations;  //= "Left"
+    public String PurplePixel;
     //    boolean
-    String found;
-    String droppurple="false";
-    String dropyellow="false";
+    public String found;
+    public String dropPurplePixelDone="false";
+    public String dropYellowPixelDone="false";
+
+
     double redVal;
     double blueVal;
     double greenVal;
@@ -163,25 +165,43 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
-            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
-//            Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
-            cX = teamPropCentroid.x;
-            cY = teamPropCentroid.y;
-            found= cX != 0.0 || cY != 0.0 ? "true" : "false";
-            telemetry.addData("Find team prop or not", found);
-            telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-            telemetry.addData("Distance in Inch", (getDistance(width)));
-            telemetry.update();
-            PurplePixel="NOTDONE";
+
+            if(allianceColor=="red"){
+                Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
+                cX = teamPropCentroid.x;
+                cY = teamPropCentroid.y;
+                found= cX != 0.0 || cY != 0.0 ? "true" : "false";
+                telemetry.addData("Find team prop or not", found);
+                telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+                telemetry.addData("Distance in Inch", (getDistance(width)));
+                telemetry.update();
+                PurplePixel="NOTDONE";
+            }else if(allianceColor=="blue"){
+                Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
+                cX = teamPropCentroid.x;
+                cY = teamPropCentroid.y;
+                found= cX != 0.0 || cY != 0.0 ? "true" : "false";
+                telemetry.addData("Find team prop or not", found);
+                telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+                telemetry.addData("Distance in Inch", (getDistance(width)));
+                telemetry.update();
+                PurplePixel="NOTDONE";
+            }else{
+                //"something wrong"
+            }
+
+
 //add class or method here
 
 
             findteamPropLocations();
             dropPurplePixel();
-
-//            aprilTagOmni();
-//            dropYellowPixel();
-//            autoParking();
+            aprilTagOmni();
+            dropYellowPixel();
+            autoParking();
+            if(autoParkingDone=="true"){
+                break;
+            }
         }
 
         controlHubCam.stopStreaming();
@@ -266,7 +286,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         return distance;
     }
     public void  dropPurplePixel() {
-        if(droppurple == "false"){
+        if(dropPurplePixelDone == "false"){
             if (teamPropLocations == "Left") {
                 moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
                 strafingRight(0.3, 12);
@@ -275,7 +295,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
                 //dropped the pixel, and move to backdrop
                 moveBackward(0.3, 12);
                 strafingRight(0.3, 20);
-                droppurple = "true";
+                dropPurplePixelDone = "true";
             } else if (teamPropLocations == "Right") {
                 moveBackward(0.3, 28);
                 turnLeft(0.3, 14.5);
@@ -284,30 +304,74 @@ Using the specs from the motor, you would need to find the encoder counts per re
     //line up the claw of the side holding purple pixel
 
                 //dropped the pixel, and move to backdrop
-                droppurple = "true";
+                dropPurplePixelDone = "true";
             } else if (teamPropLocations == "Center") {
                 moveBackward(0.3, 46);
                 moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 10);
                 strafingRight(0.3, 28);
-                droppurple = "true";
+                dropPurplePixelDone = "true";
             }
         }
     }
 
     public void  dropYellowPixel(){
-        // move arms and then open claw
+        if(dropYellowPixelDone == "false"){
+            //move arma and open right side claw only
+            //sleep
+            //close claw down the arms and wrist
+            dropYellowPixelDone="true";
+        }else if (dropYellowPixelDone=="true"){
+            //it`s done
+        }// move arms and then open claw
     }
-    public void  autoParking(){
-        moveForward(0.3, 5);
-//        strafingRight(0.3, 12);
-//        moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-//        strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
-//        turnRight(0.3,14.5);//dropped the pixel, and move to backdrop
-//        moveBackward(0.3, 16); //approaching backdrop
-//        strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
-//        moveBackward(0.3, 5);
+    public String  autoParking(){
+        if(parkingSide == "left"){
+                if (teamPropLocations == "Left") {
+                    moveForward(0.3, 5);
+                    strafingRight(0.3, 12);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                } else if (teamPropLocations == "Right") {
+                    moveForward(0.3, 5);
+                    strafingRight(0.3, 40);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                } else if (teamPropLocations == "Center") {
+                    moveForward(0.3, 5);
+                    strafingRight(0.3, 30);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                }
+        }else if (parkingSide=="right"){
+                if (teamPropLocations == "Left") {
+                    moveForward(0.3, 5);
+                    strafingLeft(0.3, 40);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                } else if (teamPropLocations == "Right") {
+                    moveForward(0.3, 5);
+                    strafingLeft(0.3, 12);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                } else if (teamPropLocations == "Center") {
+                    moveForward(0.3, 5);
+                    strafingLeft(0.3, 30);
+                    moveBackward(0.3, 10);
+                    autoParkingDone="true";
+
+                } else {
+                    //something wrong
+                }
+        }
+
+        return autoParkingDone;
 
     }
     //work here
