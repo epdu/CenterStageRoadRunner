@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous 715")
+@Autonomous(name = "Autonomous 522")
 public class AutonomousV0 extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
@@ -156,21 +156,6 @@ public class AutonomousV0 extends LinearOpMode {
         LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setPosition(0.34);
-
-        ClawR = hardwareMap.get(Servo.class, "ClawR");
-        ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0.78);
-        ClawL.setPosition(0.018);
-        ClawL.setDirection(Servo.Direction.REVERSE);
-
-        ArmL = hardwareMap.get(Servo.class, "ArmL");
-        ArmR = hardwareMap.get(Servo.class, "ArmR");
-
-        ArmL.setPosition(0.5);
-        ArmR.setPosition(0.5);
 
 //        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -442,8 +427,9 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveBackward(0.3, 5);
             moveForward(0.3, 20);
 
-//            ClawL.setPosition(0.02);//drop pixel
 
+            //drop pixel
+            //drop pixel
 
 //           StrafingLeft(0.3, 12);
 //            gyroTurn(0.2, - 90);
@@ -457,12 +443,12 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
             gyroTurn(0.2,  90);
 //            absoluteHeading( 0.2,  90);
-//            ClawL.setPosition(0.02);//drop pixel
+            //drop pixel
             found="true";
         } else if ( teamPropLocations == "Center") {
             moveBackward(0.3, 46);
             absoluteHeading( 0.2,  90);
-//            ClawL.setPosition(0.02);//drop pixel
+            //drop pixel
             found="true";
         }
 //        checkTeamPropColors();
