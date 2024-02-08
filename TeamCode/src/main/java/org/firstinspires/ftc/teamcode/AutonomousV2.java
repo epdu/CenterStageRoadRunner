@@ -66,6 +66,8 @@ public class AutonomousV2 extends LinearOpMode {
     String PurplePixel;
     //    boolean
     String found;
+    String droppurple="false";
+    String dropyellow="false";
     double redVal;
     double blueVal;
     double greenVal;
@@ -239,16 +241,19 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         if(cX > 0 && cX < 365 ){
             teamPropLocations="Left";
+            found="true";
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         } else if ( cX > 460 && cX < 820) {
             teamPropLocations = "Center";
+            found="true";
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         } else if( cX > 915 && cX < 1280) {
             teamPropLocations = "Right";
+            found="true";
             telemetry.addData("Right",cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
@@ -260,29 +265,35 @@ Using the specs from the motor, you would need to find the encoder counts per re
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
     }
-    public void  dropPurplePixel(){
+    public void  dropPurplePixel() {
+        if(droppurple == "false"){
+            if (teamPropLocations == "Left") {
+                moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
+                strafingRight(0.3, 12);
+    //line up the claw of the side holding purple pixel
+                turnLeft(0.3, 14.5);
+                //dropped the pixel, and move to backdrop
+                moveBackward(0.3, 12);
+                strafingRight(0.3, 20);
+                droppurple = "true";
+            } else if (teamPropLocations == "Right") {
+                moveBackward(0.3, 28);
+                turnLeft(0.3, 14.5);
+                moveBackward(0.3, 12);
 
-        if(teamPropLocations == "Left"){
-            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            strafingRight(0.3, 12);
-//line up the claw of the side holding purple pixel
-            turnLeft(0.3,14.5);
-            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
-            moveBackward(0.3, 5);
-            moveForward(0.3, 5);
-            strafingRight(0.3, 12);
-            strafingLeft(0.3, 12);
-            found="true";
-        } else if ( teamPropLocations == "Right") {
-            moveBackward(0.3, 28);
+    //line up the claw of the side holding purple pixel
 
-            found="true";
-        } else if ( teamPropLocations == "Center") {
-            moveBackward(0.3, 46);
-
-            found="true";
+                //dropped the pixel, and move to backdrop
+                droppurple = "true";
+            } else if (teamPropLocations == "Center") {
+                moveBackward(0.3, 46);
+                moveBackward(0.3, 10);
+                turnLeft(0.3, 14.5);
+                moveBackward(0.3, 10);
+                strafingRight(0.3, 28);
+                droppurple = "true";
+            }
         }
-
     }
 
     public void  dropYellowPixel(){
