@@ -386,7 +386,7 @@ Using the specs from the motor, you would need to find the encoder counts per re
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
         distanceRBMotor=(double)(distanceRB*537/(Math.PI * wheelDiameterInInches));
         distanceLFMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
-        distanceLBMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
+        distanceLBMotor=(double)(distanceLB*537/(Math.PI * wheelDiameterInInches));
         robot.RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
