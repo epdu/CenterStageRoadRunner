@@ -79,7 +79,6 @@ public class AutonomousV extends LinearOpMode {
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
     String teamPropLocations;  //= "Left"
     String PurplePixel;
-    //    boolean
     String found;
     double redVal;
     double blueVal;
