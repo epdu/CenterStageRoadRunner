@@ -43,8 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous 504")
-public class AutonomousV0 extends LinearOpMode {
+@Autonomous(name = "Autonomous 504 no error does not work ")
+public class AutonomousVnegavtive extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
     DcMotor RBMotor;
