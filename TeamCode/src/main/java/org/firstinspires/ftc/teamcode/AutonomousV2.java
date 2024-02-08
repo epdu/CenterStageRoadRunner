@@ -349,16 +349,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
         movement(power, +distanceInInch,+distanceInInch,+distanceInInch,+distanceInInch) ;
     }
     public void turnRight(double power, double distanceInInch) {
-        movement(power, +distanceInInch,+distanceInInch,-distanceInInch,-distanceInInch);
+        movement(power, -distanceInInch,-distanceInInch,+distanceInInch,+distanceInInch);
     }
     public void turnLeft(double power, double distanceInInch) {
-        movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
+        movement(power, +distanceInInch,+distanceInInch,-distanceInInch,-distanceInInch);
     }
     public void strafingRight(double power, double distanceInInch) {
-        movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
+        movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
     }
     public void strafingLeft(double power, double distanceInInch) {
-        movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
+        movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
     }
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
 //input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafingRight and strafingLeft"
