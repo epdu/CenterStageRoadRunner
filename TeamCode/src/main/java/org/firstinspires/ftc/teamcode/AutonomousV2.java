@@ -1,4 +1,4 @@
-// Blue left setup
+// Blue left setup  use hardware init Red Alliance works, add blue still need to adjust hsv range, contours either too big or too small
 // set the distanct from frot of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
