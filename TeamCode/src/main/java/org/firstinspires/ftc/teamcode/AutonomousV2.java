@@ -31,7 +31,7 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-@Autonomous(name = "Autonomous with Vision Portal Red")
+@Autonomous(name = "Auto Vision Portal Red init ")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public float speedMultiplier=0.5f;
