@@ -27,7 +27,7 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-@Autonomous(name = "Auto Vision Portal Red init V2 ")
+@Autonomous(name = "Auto Vision Portal init V3 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
