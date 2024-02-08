@@ -123,7 +123,7 @@ public class HardwarePowerpuffs
         LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+/*
         Wrist = hwMap.get(Servo.class, "wrist");
         Wrist.setPosition(0.34);
 
@@ -138,6 +138,8 @@ public class HardwarePowerpuffs
 
         ArmL.setPosition(0.5);
         ArmR.setPosition(0.5);
+
+*/
 //        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port ?
 //        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port ?
 
