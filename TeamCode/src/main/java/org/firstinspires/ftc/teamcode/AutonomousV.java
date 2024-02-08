@@ -864,8 +864,10 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 50, 70), new Scalar(30, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(210,100,100), new Scalar(270, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(210,30,30), new Scalar(270, 255, 255) );
 //        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(90, 50,70), new Scalar(128, 255, 255) );
+//        Red(hsv(0.0, 20.0, 20.0), hsv(30.0, 100.0, 100.0)),
+//                Blue(hsv(195.0, 30.0, 30.0), hsv(260.0, 100.0, 100.0))
 // blue 128, 255, 255], [90, 50, 70]],
 //        'red1': [[180, 255, 255], [159, 50, 70]],
 //        'red2': [[9, 255, 255], [0, 50, 70]],
