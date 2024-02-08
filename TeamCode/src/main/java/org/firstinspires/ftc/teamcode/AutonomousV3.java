@@ -450,8 +450,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
     private void initVisionPortal() {
 
         aprilTag = new AprilTagProcessor.Builder().build();
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(336,40,50), new Scalar(356, 255, 255) );//346 54 56
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(190,30,25), new Scalar(230, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
+        //346/2=173 -+10 -> 163,180 54 56
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,30,25), new Scalar(130, 255, 255) );
+        //207/2=103-+10=93 113
 /*
                red cube 346 54 56 blue tape 204 85 59 blue cube 207 90 39
                  redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0,40,50), new Scalar(30, 255, 255) );
