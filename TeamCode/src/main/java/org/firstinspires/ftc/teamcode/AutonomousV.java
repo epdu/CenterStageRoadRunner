@@ -201,8 +201,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
-//            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid(); //for Red Alliance
-            Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid(); //for Blue Alliance
+            Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid(); //for Red Alliance
+//            Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid(); //for Blue Alliance
             cX = teamPropCentroid.x;
             cY = teamPropCentroid.y;
             found= cX != 0.0 || cY != 0.0 ? "true" : "false";
@@ -863,7 +863,7 @@ Returns the absolute orientation of the sensor as a set three angles with indica
     private void initVisionPortal() {
 
         aprilTag = new AprilTagProcessor.Builder().build();
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 20, 20), new Scalar(30, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0,40,50), new Scalar(30, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(190,30,25), new Scalar(230, 255, 255) );
 //        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(90, 50,70), new Scalar(128, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 50, 70), new Scalar(30, 255, 255) );
