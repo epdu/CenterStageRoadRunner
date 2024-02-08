@@ -177,8 +177,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
             findteamPropLocations();
             dropPurplePixel();
 
-
-
 //            aprilTagOmni();
 //            dropYellowPixel();
 //            autoParking();
@@ -274,19 +272,6 @@ Using the specs from the motor, you would need to find the encoder counts per re
             moveForward(0.3, 5);
             strafingRight(0.3, 12);
             strafingLeft(0.3, 12);
-
-            //
-            //
-            //
-            //
-
-//            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-//            strafingRight(0.3, 12); //line up the claw of the side holding purple pixel
-//            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
-//            moveBackward(0.3, 16); //approaching backdrop
-//            strafingRight(0.3, 22);//move parallel the april tags at the bottom of backdrop in order to locate them
-//            moveBackward(0.3, 5);
-//            moveForward(0.3, 20);
             found="true";
         } else if ( teamPropLocations == "Right") {
             moveBackward(0.3, 28);
@@ -360,10 +345,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
         movement(power, +distanceInInch,+distanceInInch,+distanceInInch,+distanceInInch) ;
     }
     public void turnRight(double power, double distanceInInch) {
-        movement(power, -distanceInInch,-distanceInInch,+distanceInInch,+distanceInInch);
+        movement(power, +distanceInInch,+distanceInInch,-distanceInInch,-distanceInInch);
     }
     public void turnLeft(double power, double distanceInInch) {
-        movement(power, +distanceInInch,+distanceInInch,-distanceInInch,-distanceInInch);
+        movement(power, -distanceInInch,-distanceInInch,+distanceInInch,+distanceInInch);
     }
     public void strafingRight(double power, double distanceInInch) {
         movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
@@ -378,16 +363,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
         distanceLFMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
         distanceLBMotor=(double)(distanceLB*537/(Math.PI * wheelDiameterInInches));
         robot.RFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.RBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LFMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LBMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.RFMotor.setTargetPosition((int) distanceRFMotor);
         robot.RBMotor.setTargetPosition((int) distanceRBMotor);
         robot.LFMotor.setTargetPosition((int) distanceLFMotor);
         robot.LBMotor.setTargetPosition((int) distanceLBMotor);
         robot.RFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.RBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.LFMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.LBMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.RFMotor.setPower(+power);
         robot.RBMotor.setPower(+power);
@@ -395,8 +380,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
         robot.LBMotor.setPower(+power);
         while (robot.RFMotor.isBusy() || robot.RBMotor.isBusy() || robot.LFMotor.isBusy() || robot.LBMotor.isBusy() ||false) {}
         robot.RFMotor.setPower(0);
-        robot.LFMotor.setPower(0);
         robot.RBMotor.setPower(0);
+        robot.LFMotor.setPower(0);
         robot.LBMotor.setPower(0);
     }
     private void initVisionPortal() {
