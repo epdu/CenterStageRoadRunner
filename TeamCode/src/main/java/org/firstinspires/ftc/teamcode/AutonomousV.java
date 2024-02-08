@@ -863,7 +863,7 @@ Returns the absolute orientation of the sensor as a set three angles with indica
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(130, 120, 50), new Scalar(30, 255, 255) );
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
         // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
