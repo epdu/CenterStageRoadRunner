@@ -27,6 +27,7 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+//april tag does not work
 @Autonomous(name = "Auto Vision Portal init V3 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
