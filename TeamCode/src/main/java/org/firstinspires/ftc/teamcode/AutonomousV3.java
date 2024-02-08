@@ -30,8 +30,8 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Auto Vision Portal Red init V2 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-    public String allianceColor="null";// set to be "red" or "blue" for each match
-    public String parkingSide="null";// set to be "left" or "right" for each match
+    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
+    public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public String autoParkingDone="false";
     public float speedMultiplier=0.5f;
