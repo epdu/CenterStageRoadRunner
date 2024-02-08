@@ -7,9 +7,7 @@
 // 11.87374348
 //537 per revolution 11.87374348 inch
 */
-
 package org.firstinspires.ftc.teamcode;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -42,7 +40,6 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 @Autonomous(name = "Autonomous 504 no error blue ")
 public class AutonomousV extends LinearOpMode {
     DcMotor RFMotor;
