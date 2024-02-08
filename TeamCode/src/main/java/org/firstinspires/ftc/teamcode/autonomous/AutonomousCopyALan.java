@@ -90,14 +90,17 @@ public class AutonomousCopyALan extends LinearOpMode {
             if(webcam.getLocation().equals("Left")){
                 teamPropLocation = 1;
                 initAprilTag();
+                DESIRED_TAG_ID = 1;
             } else if (webcam.getLocation().equals("Center"))
             {
                 teamPropLocation = 2;
                 initAprilTag();
+                DESIRED_TAG_ID = 2;
             } else if (webcam.getLocation().equals("Right"))
             {
                 teamPropLocation = 3;
                 initAprilTag();
+                DESIRED_TAG_ID = 3;
             }
         }
 
@@ -107,6 +110,7 @@ public class AutonomousCopyALan extends LinearOpMode {
 
             }
             visionPortal.setActiveCamera(webcam1);
+            lookforTag(DESIRED_TAG_ID);
         }
     }
 
