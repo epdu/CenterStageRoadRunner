@@ -187,7 +187,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
                 telemetry.update();
                 PurplePixel="NOTDONE";
             }else{
-                //"something wrong"
+                telemetry.addData("something wrong,allianceColor", allianceColor);
+                telemetry.update();
             }
 
 
@@ -367,7 +368,8 @@ Using the specs from the motor, you would need to find the encoder counts per re
                     autoParkingDone="true";
 
                 } else {
-                    //something wrong
+                    telemetry.addData("something wrong,parkingSide", parkingSide);
+                    telemetry.update();
                 }
         }
 
@@ -393,26 +395,12 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         }
     }
-    public void  checkTeamPropColors(){ }
-    public void  lineUPteamProp(){ }
-    //////////////////
-
-
 
     public void stopMotors(double p){
         robot.setAllPower(p);
     }
 
-    private void goparking() {
-    }
 
-    private void droppixelbackdrop() {
-    }
-    public void droppixel(){}
-//    private void AprilTagOmni() {    }
-    //test function]
-    //
-    //
     public void moveForward(double power, double distanceInInch) {
         movement(power, -distanceInInch,-distanceInInch,-distanceInInch,-distanceInInch) ;
     }
