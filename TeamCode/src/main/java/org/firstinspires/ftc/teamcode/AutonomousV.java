@@ -7,7 +7,7 @@
 // 11.87374348
 //537 per revolution 11.87374348 inch
 */
-
+//Red Alliance works, add blue
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
