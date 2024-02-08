@@ -294,13 +294,13 @@ Using the specs from the motor, you would need to find the encoder counts per re
     //line up the claw of the side holding purple pixel
                 turnLeft(0.3, 14.5);
                 //dropped the pixel, and move to backdrop
-                moveBackward(0.3, 12);
-                strafingRight(0.3, 20);
+                moveBackward(0.3, 8);
+                strafingRight(0.3, 24);
                 dropPurplePixelDone = "true";
             } else if (teamPropLocations == "Right") {
                 moveBackward(0.3, 28);
                 turnLeft(0.3, 14.5);
-                moveBackward(0.3, 12);
+                moveBackward(0.3, 8);
 
     //line up the claw of the side holding purple pixel
 
@@ -451,17 +451,16 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
-        //346/2=173 -+10 -> 163,180 54 56
+
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,30,25), new Scalar(130, 255, 255) );
-        //207/2=103-+10=93 113
+
 /*
-               red cube 346 54 56 blue tape 204 85 59 blue cube 207 90 39
-                 redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0,40,50), new Scalar(30, 255, 255) );
-                    redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+        //346/2=173 -+10 -> 163,180 54 56
+        //207/2=103-+10=93 113
+        red cube 346 54 56 blue tape 204 85 59 blue cube 207 90 39
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0,40,50), new Scalar(30, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
-
-
-
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0, 10, 120), new Scalar(100, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(125, 120, 50), new Scalar(190, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(160, 200,120), new Scalar(100, 255, 255) );
