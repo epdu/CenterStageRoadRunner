@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -16,7 +14,6 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +24,21 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     private static final float DEF_TEXT_SIZE = 20.0f;
     private final Paint linePaint;
     private final Paint textPaint;
-    private String name;
-    private Scalar lowHSV;
-    private Scalar highHSV;
-    private Point teamPropCentroid = new Point();
+    private final String name;
+    private final Scalar lowHSV;
+    private final Scalar highHSV;
+    private final Point teamPropCentroid = new Point();
+    private final Mat hsvFrame = new Mat();
+    private final Mat yellowMask = new Mat();
+    private final Mat hierarchy = new Mat();
+    private final Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+
     public OpenCvVisionProcessor(String name, Scalar lowHSV, Scalar highHSV)
     {
         this.name = name;
         this.lowHSV = lowHSV;
         this.highHSV = highHSV;
+
         linePaint = new Paint();
 //
         linePaint.setAntiAlias(true);
@@ -74,10 +77,9 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     public Object processFrame(Mat input, long captureTimeNanos)
     {
         // Preprocess the frame to detect yellow regions
-        Mat yellowMask = preprocessFrame(input);
+        preprocessFrame(input);
         // Find contours of the detected yellow regions
         List<MatOfPoint> contours = new ArrayList<>();
-        Mat hierarchy = new Mat();
         Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         // Find the largest yellow contour (blob)
         MatOfPoint largestContour = findLargestContour(contours);
@@ -139,37 +141,12 @@ public class OpenCvVisionProcessor implements VisionProcessor {
         }
     }   //onDrawFrame
 
-    private Mat preprocessFrame(Mat frame) {
-        Mat hsvFrame = new Mat();
+    private void preprocessFrame(Mat frame) {
         Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV);
 
-//change HSV value for different team prop
-//        Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for blue tested by blue cone 223 25 31
-//        Scalar highHSV = new Scalar(30, 255, 255);
-
-        // Scalar lowHSV = new Scalar(1, 60, 58); // lower bound HSV for red tested by red team prop
-        //  Scalar highHSV = new Scalar(10, 255, 255);
-//
-/*
-            Scalar lowHSV = new Scalar(123, 25, 31); // lower bound HSV for blue tested by cone 223 25 31
-            Scalar highHSV =  new Scalar(143, 255, 255); // higher bound HSV for blue  214, 34, 28       100-140
-
-            Scalar lowHSV = new Scalar(1, 98, 34); // lower bound HSV for red tested by cone 10, 98, 34
-            Scalar highHSV =  new Scalar(20, 255, 255); // higher bound HSV for red
-
-            Scalar lowHSV = new Scalar(200, 32, 49); // lower bound HSV for green tested by pixel 111, 32, 49
-            Scalar highHSV =  new Scalar(121, 255, 255); // higher bound HSV for green
-
-*/
-
-        Mat yellowMask = new Mat();
         Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
-
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
-
-        return yellowMask;
     }
 
     private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
@@ -183,7 +160,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
                 largestContour = contour;
             }
         }
-
         return largestContour;
     }
 
