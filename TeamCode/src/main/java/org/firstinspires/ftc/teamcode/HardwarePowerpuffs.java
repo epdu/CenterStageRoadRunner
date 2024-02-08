@@ -105,8 +105,8 @@ public class HardwarePowerpuffs
         LBMotor   = hwMap.get(DcMotor.class, "LBMotor");//02022024 control hub port 2
         RBMotor  = hwMap.get(DcMotor.class, "RBMotor");//02022024 control hub port 3
 
-        LFMotor.setDirection(DcMotor.Direction.FORWARD);
-        LBMotor.setDirection(DcMotor.Direction.FORWARD);
+//        LFMotor.setDirection(DcMotor.Direction.FORWARD);
+//        LBMotor.setDirection(DcMotor.Direction.FORWARD);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
