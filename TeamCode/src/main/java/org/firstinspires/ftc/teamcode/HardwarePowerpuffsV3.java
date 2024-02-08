@@ -1,4 +1,4 @@
-        /* Copyright (c) 2017 FIRST. All rights reserved.
+/* Copyright (c) 2017 FIRST. All rights reserved.
          *
          * Redistribution and use in source and binary forms, with or without modification,
          * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -26,10 +26,8 @@
          * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
          * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          */
-
-        package org.firstinspires.ftc.teamcode;
-
-        import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
         import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -39,8 +37,6 @@
         import com.qualcomm.robotcore.util.ElapsedTime;
 
         import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
-
         /**
          * This is NOT an opmode.
          *
@@ -127,7 +123,6 @@
 /*
         Wrist = hwMap.get(Servo.class, "wrist");
         Wrist.setPosition(0.34);
-
         ClawR = hwMap.get(Servo.class, "ClawR");
         ClawL = hwMap.get(Servo.class, "ClawL");
         ClawR.setPosition(0.78);
@@ -139,7 +134,6 @@
 
         ArmL.setPosition(0.5);
         ArmR.setPosition(0.5);
-
 */
 //        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port ?
 //        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port ?

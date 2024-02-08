@@ -40,7 +40,6 @@ public class OpenCvVisionProcessor implements VisionProcessor {
         this.highHSV = highHSV;
 
         linePaint = new Paint();
-//
         linePaint.setAntiAlias(true);
         linePaint.setStrokeCap(Paint.Cap.ROUND);
         linePaint.setColor(DEF_LINE_COLOR);
