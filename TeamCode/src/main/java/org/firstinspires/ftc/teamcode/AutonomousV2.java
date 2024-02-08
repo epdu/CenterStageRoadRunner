@@ -31,7 +31,7 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-@Autonomous(name = "Auto Vision Portal Red init ")
+@Autonomous(name = "Auto Vision Portal Red init V2 ")
 public class AutonomousV2 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public float speedMultiplier=0.5f;
@@ -173,20 +173,10 @@ Using the specs from the motor, you would need to find the encoder counts per re
             PurplePixel="NOTDONE";
 //add class or method here
 
-            moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            strafingRight(0.3, 40);
-//            strafingRight(0.3, 12);
-//line up the claw of the side holding purple pixel
-//            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
-//            moveBackward(0.3, 5);
-//            moveForward(0.3, 5);
-//            strafingRight(0.3, 22);
-//            strafingLeft(0.3, 22);
-//            turnLeft(0.3,14.5);
-/*
+
             findteamPropLocations();
             dropPurplePixel();
-*/
+
 
 
 //            aprilTagOmni();
@@ -276,15 +266,15 @@ Using the specs from the motor, you would need to find the encoder counts per re
 
         if(teamPropLocations == "Left"){
             moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-            strafingRight(0.3, 40);
-//            strafingRight(0.3, 12);
+            strafingRight(0.3, 12);
 //line up the claw of the side holding purple pixel
-//            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
-//            moveBackward(0.3, 5);
-//            moveForward(0.3, 5);
-//            strafingRight(0.3, 22);
-//            strafingLeft(0.3, 22);
-//            turnLeft(0.3,14.5);
+            turnLeft(0.3,14.5);
+            turnRight(0.3,14.5); //dropped the pixel, and move to backdrop
+            moveBackward(0.3, 5);
+            moveForward(0.3, 5);
+            strafingRight(0.3, 12);
+            strafingLeft(0.3, 12);
+
             //
             //
             //
