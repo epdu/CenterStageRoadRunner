@@ -101,7 +101,7 @@ public class AutonomousV3 extends LinearOpMode {
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
     private AprilTagDetection desiredTag;
-    final double DESIRED_DISTANCE = 4.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 2.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
