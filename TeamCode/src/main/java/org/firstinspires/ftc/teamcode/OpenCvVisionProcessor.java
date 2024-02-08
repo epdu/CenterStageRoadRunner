@@ -81,31 +81,14 @@ public class OpenCvVisionProcessor implements VisionProcessor {
         Imgproc.findContours(yellowMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         // Find the largest yellow contour (blob)
         MatOfPoint largestContour = findLargestContour(contours);
-        // Calculate the centroid of the largest contour
-        Moments moments = Imgproc.moments(largestContour);
-        teamPropCentroid.x = moments.get_m10() / moments.get_m00();
-        teamPropCentroid.y = moments.get_m01() / moments.get_m00();
-/*       if (largestContour != null) {
-            // Draw a red outline around the largest detected object
-//            Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
-            // Calculate the width of the bounding box
-            width = calculateWidth(largestContour);
-            // Display the width next to the label
-            String widthLabel = "Width: " + (int) width + " pixels";
-//            Imgproc.putText(input, widthLabel, new Point(cX + 10, cY + 20), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-            //Display the Distance
-            String distanceLabel = "Distance: " + String.format("%.2f", getDistance(width)) + " inches";
-//            Imgproc.putText(input, distanceLabel, new Point(cX + 10, cY + 60), Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 255, 0), 2);
+        if (largestContour != null)
+        {
             // Calculate the centroid of the largest contour
             Moments moments = Imgproc.moments(largestContour);
-            cX = moments.get_m10() / moments.get_m00();
-            cY = moments.get_m01() / moments.get_m00();
-            // Draw a dot at the centroid
-            String label = "(" + (int) cX + ", " + (int) cY + ")";
-//            Imgproc.putText(input, label, new Point(cX + 10, cY), Imgproc.FONT_HERSHEY_COMPLEX, 0.5, new Scalar(0, 255, 0), 2);
-//            Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
+            teamPropCentroid.x = moments.get_m10()/moments.get_m00();
+            teamPropCentroid.y = moments.get_m01()/moments.get_m00();
         }
-*/
+
         return largestContour;
     }   //processFrame
 
