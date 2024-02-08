@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous 504")
+@Autonomous(name = "Autonomous test hsv")
 public class AutonomousV extends LinearOpMode {
     DcMotor RFMotor;
     DcMotor LFMotor;
