@@ -16,7 +16,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import java.util.ArrayList;
 import java.util.List;
-
+//Good version 02082024
 public class OpenCvVisionProcessor implements VisionProcessor {
     private static final int DEF_LINE_COLOR = Color.GREEN;
     private static final float DEF_LINE_WIDTH = 4.0f;
