@@ -96,12 +96,8 @@ public class AutonomousV3 extends LinearOpMode {
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
     private static final boolean USE_WEBCAM = true;
-    private static int DESIRED_TAG_ID = -1;
-    private VisionPortal visionPortal;
-    private AprilTagProcessor aprilTag;
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
-    private AprilTagDetection desiredTag;
     final double DESIRED_DISTANCE = 2.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
@@ -113,6 +109,13 @@ public class AutonomousV3 extends LinearOpMode {
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
+
+    private static int DESIRED_TAG_ID = -1;
+    private VisionPortal visionPortal;
+    private AprilTagProcessor aprilTag;
+
+    private AprilTagDetection desiredTag = null;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -139,27 +142,6 @@ public class AutonomousV3 extends LinearOpMode {
 
         distanceInInch=24;//number in unit of inch
         distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
-        // This button choice was made so that it is hard to hit on accident,
-        // it can be freely changed based on preference.
-        // The equivalent button is start on Xbox-style controllers.
-//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-//                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-//                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-//// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-//
-//        if (gamepad1.options) {
-//            imu.resetYaw();
-//        }
-//        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-
-/*
-set the distance from front of robot to the block of game element
-Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
-     Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
-      of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
-      just multiply the distance by the counts / distance you calculated above. Hope that helps!
-11.87374348 537 per revolution 11.87374348 inch
-*/
 
         waitForStart();
 
