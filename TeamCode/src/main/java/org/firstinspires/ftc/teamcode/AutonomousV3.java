@@ -295,50 +295,102 @@ public class AutonomousV3 extends LinearOpMode {
         }// move arms and then open claw
     }
     public boolean autoParking(){
-        if(parkingSide == "left"){
+        if(allianceColor=="red") {
+            if (parkingSide == "left") {
                 if (teamPropLocations == "Left") {
-                    moveForward(0.3, 5);
+                    telemetry.addData("parkingSide", allianceColor,parkingSide,teamPropLocations);
+                    telemetry.update();moveForward(0.3, 5);
                     strafeRight(0.3, 12);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 } else if (teamPropLocations == "Right") {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 40);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 } else if (teamPropLocations == "Center") {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 30);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 }
-        }else if (parkingSide=="right"){
+            } else if (parkingSide == "right") {
                 if (teamPropLocations == "Left") {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 40);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 } else if (teamPropLocations == "Right") {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 12);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 } else if (teamPropLocations == "Center") {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 30);
                     moveBackward(0.3, 10);
-                    autoParkingDone=true;
+                    autoParkingDone = true;
 
                 } else {
                     telemetry.addData("something wrong,parkingSide", parkingSide);
                     telemetry.update();
                 }
+            }
+
+        }else if (allianceColor=="blue"){
+            if (parkingSide == "left") {
+                if (teamPropLocations == "Left") {
+                    moveForward(0.3, 5);
+                    strafeRight(0.3, 12);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                } else if (teamPropLocations == "Right") {
+                    moveForward(0.3, 5);
+                    strafeRight(0.3, 40);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                } else if (teamPropLocations == "Center") {
+                    moveForward(0.3, 5);
+                    strafeRight(0.3, 30);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                }
+            } else if (parkingSide == "right") {
+                if (teamPropLocations == "Left") {
+                    moveForward(0.3, 5);
+                    strafeLeft(0.3, 40);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                } else if (teamPropLocations == "Right") {
+                    moveForward(0.3, 5);
+                    strafeLeft(0.3, 12);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                } else if (teamPropLocations == "Center") {
+                    moveForward(0.3, 5);
+                    strafeLeft(0.3, 30);
+                    moveBackward(0.3, 10);
+                    autoParkingDone = true;
+
+                } else {
+                    telemetry.addData("something wrong,parkingSide", parkingSide);
+                    telemetry.update();
+                }
+            }
+
+
         }
+
 
         return autoParkingDone;
 
