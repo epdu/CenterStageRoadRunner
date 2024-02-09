@@ -481,7 +481,6 @@ public class AutonomousV3 extends LinearOpMode {
 
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
-
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,30,25), new Scalar(130, 255, 255) );
 
 /*
