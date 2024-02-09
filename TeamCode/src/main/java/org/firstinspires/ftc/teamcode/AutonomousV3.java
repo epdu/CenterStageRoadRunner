@@ -28,14 +28,14 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 //april tag does not work
-@Autonomous(name = "Auto Vision Portal init V3 ")
+@Autonomous(name = "Auto VisionPortal init V3 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
     public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
-    public String autoParkingDone="false";
-    public float speedMultiplier=0.5f;
+    public boolean autoParkingDone=false;
+   public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
     DistanceSensor LeftSensor;
     DistanceSensor RightSensor;
@@ -61,16 +61,13 @@ public class AutonomousV3 extends LinearOpMode {
     double  distanceRBMotor;
     double  distanceLFMotor;
     double  distanceLBMotor;
-
     private double wheelDiameterInInches = 3.77953;  // Adjust this based on your mecanum wheel diameter
     public String teamPropLocations;  //= "Left"
     public String PurplePixel;
     //    boolean
-    public String found;
-    public String dropPurplePixelDone="false";
-    public String dropYellowPixelDone="false";
-
-
+    public boolean found;
+    public boolean  dropPurplePixelDone=false;
+    public boolean  dropYellowPixelDone=false;
     double redVal;
     double blueVal;
     double greenVal;
@@ -99,7 +96,6 @@ public class AutonomousV3 extends LinearOpMode {
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
     final double DESIRED_DISTANCE = 2.0; //  this is how close the camera should get to the target (inches)
-
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
@@ -109,13 +105,10 @@ public class AutonomousV3 extends LinearOpMode {
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
-
     private static int DESIRED_TAG_ID = -1;
     private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
-
     private AprilTagDetection desiredTag = null;
-
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -124,9 +117,6 @@ public class AutonomousV3 extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-
-
-//        initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
@@ -136,15 +126,8 @@ public class AutonomousV3 extends LinearOpMode {
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
-        // Initialize the Apriltag Detection process
         initVisionPortal() ;
-
-
-        distanceInInch=24;//number in unit of inch
-        distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
-
         waitForStart();
-
 
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
@@ -153,7 +136,8 @@ public class AutonomousV3 extends LinearOpMode {
                 Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
                 cX = teamPropCentroid.x;
                 cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0 ? "true" : "false";
+                found= cX != 0.0 || cY != 0.0 ? true : false;
+                telemetry.addData("allianceColor", allianceColor);
                 telemetry.addData("Find team prop or not", found);
                 telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                 telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -163,7 +147,8 @@ public class AutonomousV3 extends LinearOpMode {
                 Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
                 cX = teamPropCentroid.x;
                 cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0 ? "true" : "false";
+                found= cX != 0.0 || cY != 0.0 ? true : false;
+                telemetry.addData("allianceColor", allianceColor);
                 telemetry.addData("Find team prop or not", found);
                 telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                 telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -175,15 +160,12 @@ public class AutonomousV3 extends LinearOpMode {
             }
 
 
-//add class or method here
-
-
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
 //            dropYellowPixel();
 //            autoParking();
-//            if(autoParkingDone=="true"){
+//            if(autoParkingDone=true){
 //                break;
 //            }
         }
@@ -210,7 +192,7 @@ public class AutonomousV3 extends LinearOpMode {
                     // Yes, we want to use this tag.
                     targetFound = true;
                     desiredTag = detection;
-                    telemetry.addData("test", "test");
+                    telemetry.addData("test", targetFound);
                     break;  // don't look any further.
                 } else {
                     // This tag is in the library, but we do not want to track it right now.
@@ -230,125 +212,127 @@ public class AutonomousV3 extends LinearOpMode {
             drive = com.qualcomm.robotcore.util.Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn = com.qualcomm.robotcore.util.Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+            telemetry.addData("drive turn strafe","%d",drive, turn, strafe);
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
 
     }
-
-
+    private static double getDistance(double width){
+        double distance = (objectWidthInRealWorldUnits * focalLength) / width;
+        return distance;
+    }
     public String  findteamPropLocations(){
-//////////////////
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
 
         if(cX > 0 && cX < 365 ){
             teamPropLocations="Left";
-            found="true";
+            found=true;
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         } else if ( cX > 460 && cX < 820) {
             teamPropLocations = "Center";
-            found="true";
+            found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         } else if( cX > 915 && cX < 1280) {
             teamPropLocations = "Right";
-            found="true";
+            found=true;
             telemetry.addData("Right",cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
         }
+        telemetry.addData("teamPropLocations", teamPropLocations);
+        telemetry.update();
         return teamPropLocations;
     }
-
-    private static double getDistance(double width){
-        double distance = (objectWidthInRealWorldUnits * focalLength) / width;
-        return distance;
-    }
-    public void  dropPurplePixel() {
-        if(dropPurplePixelDone == "false"){
+    public boolean  dropPurplePixel() {
+        if(dropPurplePixelDone = false){
             if (teamPropLocations == "Left") {
-                moveBackward(0.3, 40);  // set robot backward for camera to see the team prop,move 40 to approcah the team prop
-                strafingRight(0.3, 12);
-    //line up the claw of the side holding purple pixel
+                moveBackward(0.3, 40);
+                //put arms down
+                strafeRight(0.3, 12);
+                //dropped the pixel, arms up, and move to backdrop
                 turnLeft(0.3, 14.5);
-                //dropped the pixel, and move to backdrop
                 moveBackward(0.3, 8);
-                strafingRight(0.3, 24);
-                dropPurplePixelDone = "true";
+                strafeRight(0.3, 24);
+                dropPurplePixelDone = true;
             } else if (teamPropLocations == "Right") {
                 moveBackward(0.3, 28);
+                //put arms down
                 turnLeft(0.3, 14.5);
-                moveBackward(0.3, 8);
-
-    //line up the claw of the side holding purple pixel
-
                 //dropped the pixel, and move to backdrop
-                dropPurplePixelDone = "true";
+                moveBackward(0.3, 8);
+                 dropPurplePixelDone = true;
             } else if (teamPropLocations == "Center") {
                 moveBackward(0.3, 46);
+                //put arms down
+                //dropped the pixel, and move to backdrop
                 moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 10);
-                strafingRight(0.3, 28);
-                dropPurplePixelDone = "true";
+                strafeRight(0.3, 28);
+                dropPurplePixelDone = true;
             }
         }
+        telemetry.addData("teamPropLocations", teamPropLocations);
+        telemetry.update();
+        return dropPurplePixelDone;
     }
 
     public void  dropYellowPixel(){
-        if(dropYellowPixelDone == "false"){
+        if(dropYellowPixelDone = false){
             //move arma and open right side claw only
             //sleep
             //close claw down the arms and wrist
-            dropYellowPixelDone="true";
-        }else if (dropYellowPixelDone=="true"){
+            dropYellowPixelDone=true;
+        }else if (dropYellowPixelDone=true){
             //it`s done
         }// move arms and then open claw
     }
-    public String  autoParking(){
+    public boolean autoParking(){
         if(parkingSide == "left"){
                 if (teamPropLocations == "Left") {
                     moveForward(0.3, 5);
-                    strafingRight(0.3, 12);
+                    strafeRight(0.3, 12);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 } else if (teamPropLocations == "Right") {
                     moveForward(0.3, 5);
-                    strafingRight(0.3, 40);
+                    strafeRight(0.3, 40);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 } else if (teamPropLocations == "Center") {
                     moveForward(0.3, 5);
-                    strafingRight(0.3, 30);
+                    strafeRight(0.3, 30);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 }
         }else if (parkingSide=="right"){
                 if (teamPropLocations == "Left") {
                     moveForward(0.3, 5);
-                    strafingLeft(0.3, 40);
+                    strafeLeft(0.3, 40);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 } else if (teamPropLocations == "Right") {
                     moveForward(0.3, 5);
-                    strafingLeft(0.3, 12);
+                    strafeLeft(0.3, 12);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 } else if (teamPropLocations == "Center") {
                     moveForward(0.3, 5);
-                    strafingLeft(0.3, 30);
+                    strafeLeft(0.3, 30);
                     moveBackward(0.3, 10);
-                    autoParkingDone="true";
+                    autoParkingDone=true;
 
                 } else {
                     telemetry.addData("something wrong,parkingSide", parkingSide);
@@ -366,15 +350,18 @@ public class AutonomousV3 extends LinearOpMode {
         {
             DESIRED_TAG_ID = 1;
             lookfortag(DESIRED_TAG_ID);
-
+            telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
+            telemetry.update();
         } else if (teamPropLocations == "Center") {
-//                DESIRED_TAG_ID = 2;
-//                lookfortag(DESIRED_TAG_ID);
-
+//          DESIRED_TAG_ID = 2;
+//          lookfortag(DESIRED_TAG_ID);
+            telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
+            telemetry.update();
         } else if (teamPropLocations == "Right") {
-//                DESIRED_TAG_ID = 3;
-//                lookfortag(DESIRED_TAG_ID);
-
+//          DESIRED_TAG_ID = 3;
+//          lookfortag(DESIRED_TAG_ID);
+            telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
+            telemetry.update();
         }
     }
 
@@ -395,14 +382,18 @@ public class AutonomousV3 extends LinearOpMode {
     public void turnLeft(double power, double distanceInInch) {
         movement(power, -distanceInInch,-distanceInInch,+distanceInInch,+distanceInInch);
     }
-    public void strafingRight(double power, double distanceInInch) {
+    public void strafeRight(double power, double distanceInInch) {
         movement(power, +distanceInInch,-distanceInInch,-distanceInInch,+distanceInInch);
     }
-    public void strafingLeft(double power, double distanceInInch) {
+    public void strafeLeft(double power, double distanceInInch) {
         movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
     }
+ /*
+            distanceInInch=24;//number in unit of inch
+            distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
+ */
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
-//input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafingRight and strafingLeft"
+//input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafeRight and strafeLeft"
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
         distanceRBMotor=(double)(distanceRB*537/(Math.PI * wheelDiameterInInches));
         distanceLFMotor=(double)(distanceLF*537/(Math.PI * wheelDiameterInInches));
@@ -423,6 +414,11 @@ public class AutonomousV3 extends LinearOpMode {
         robot.RBMotor.setPower(+power);
         robot.LFMotor.setPower(+power);
         robot.LBMotor.setPower(+power);
+        telemetry.addData("distanceRFMotor", distanceRFMotor);
+        telemetry.addData("distanceRBMotor", distanceRBMotor);
+        telemetry.addData("distanceLFMotor", distanceLFMotor);
+        telemetry.addData("distanceLBMotor", distanceLBMotor);
+        telemetry.update();
         while (robot.RFMotor.isBusy() || robot.RBMotor.isBusy() || robot.LFMotor.isBusy() || robot.LBMotor.isBusy() ||false) {}
         robot.RFMotor.setPower(0);
         robot.RBMotor.setPower(0);
@@ -500,7 +496,7 @@ public class AutonomousV3 extends LinearOpMode {
     }
 //    public void initOpenCV() {    }
     public void moveRobot(double x, double y, double yaw) {
-        // Calculate wheel powers.
+// Calculate wheel powers.
 //testing rear camera
 
         double leftFrontPower    =  x -y +yaw;
@@ -539,6 +535,11 @@ public class AutonomousV3 extends LinearOpMode {
         robot.RFMotor.setPower(rightFrontPower);
         robot.LBMotor.setPower(leftBackPower);
         robot.RBMotor.setPower(rightBackPower);
+        telemetry.addData("leftFrontPower", leftFrontPower);
+        telemetry.addData("rightFrontPower", rightFrontPower);
+        telemetry.addData("leftBackPower", leftBackPower);
+        telemetry.addData("rightBackPower", rightBackPower);
+        telemetry.update();
     }
 
 
