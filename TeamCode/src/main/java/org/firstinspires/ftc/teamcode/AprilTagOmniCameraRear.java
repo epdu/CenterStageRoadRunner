@@ -218,7 +218,6 @@ public class AprilTagOmniCameraRear extends LinearOpMode
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
-
 // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
             if (gamepad1.left_bumper && targetFound) {
 
@@ -267,6 +266,18 @@ public class AprilTagOmniCameraRear extends LinearOpMode
         double leftBackPower     =  x +y +yaw;
         double rightBackPower    =  x -y -yaw;
 
+ /*tested does not work trun the right way but do not stop
+        double leftFrontPower    =  x +y -yaw;
+        double rightFrontPower   =  x -y +yaw;
+        double leftBackPower     =  x -y -yaw;
+        double rightBackPower    =  x +y +yaw;
+        */
+ /*tested does not work right to lest
+        double leftFrontPower    =  x -y -yaw;
+        double rightFrontPower   =  x +y +yaw;
+        double leftBackPower     =  x +y -yaw;
+        double rightBackPower    =  x -y +yaw;
+*/
         /*        good for front camera
         double leftFrontPower    =  -x +y +yaw;
         double rightFrontPower   =  -x -y -yaw;
