@@ -38,6 +38,10 @@ public class AutonomousV3 extends LinearOpMode {
     public boolean autoParkingDone=false;
    public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
+    public boolean targetFound = false;
+    public double drive = 0;
+    public double turn = 0;
+    public double strafe = 0;
     DistanceSensor LeftSensor;
     DistanceSensor RightSensor;
     IMU imu;
@@ -178,11 +182,11 @@ public class AutonomousV3 extends LinearOpMode {
 
     public void lookfortag(int tag){
         DESIRED_TAG_ID = tag;
-        double drive = 0;
+/*        double drive = 0;
         double turn = 0;
         double strafe = 0;
+*/
 
-        boolean targetFound = false;
         desiredTag  = null;
 
         // Step through the list of detected tags and look for a matching tag
@@ -197,19 +201,19 @@ public class AutonomousV3 extends LinearOpMode {
                     desiredTag = detection;
                     telemetry.addData("test", targetFound);
                     telemetry.update();
-                    sleep(200);//test
+                    sleep(2000);//test
                     break;  // don't look any further.
                 } else {
                     // This tag is in the library, but we do not want to track it right now.
                     telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
                     telemetry.update();
-                    sleep(200);//test
+                    sleep(2000);//test
                 }
             } else {
                 // This tag is NOT in the library, so we don't have enough information to track to it.
                 telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                 telemetry.update();
-                sleep(200);//test
+                sleep(2000);//test
             }
         }
 
@@ -218,8 +222,8 @@ public class AutonomousV3 extends LinearOpMode {
             double headingError = desiredTag.ftcPose.bearing;
             double yawError = desiredTag.ftcPose.yaw;
             // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive = com.qualcomm.robotcore.util.Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            turn = com.qualcomm.robotcore.util.Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+            drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
             telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
             telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
