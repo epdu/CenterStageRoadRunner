@@ -186,42 +186,46 @@ public class AutonomousV3 extends LinearOpMode {
         controlHubCam.stopStreaming();
     }
     public void lookfortag(int tag){
-        DESIRED_TAG_ID = tag;
-        targetFound     = false;
+
+///////////////////////
+        while (opModeIsActive()) {
+            //while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05))
+            DESIRED_TAG_ID = tag;
+            targetFound = false;
 //        boolean targetFound = false;
-        double drive = 0;
-        double turn = 0;
-        double strafe = 0;
+            double drive = 0;
+            double turn = 0;
+            double strafe = 0;
 
-        desiredTag  = null;
+            desiredTag = null;
 
-        // Step through the list of detected tags and look for a matching tag
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            // Look to see if we have size info on this tag.
-            if (detection.metadata != null) {
-                //  Check to see if we want to track towards this tag.
-                if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
-                    // Yes, we want to use this tag.
-                    targetFound = true;
-                    desiredTag = detection;
-                    telemetry.addData("test", targetFound);
-                    telemetry.update();
-                    sleep(2000);//test
-                    break;  // don't look any further.
+            // Step through the list of detected tags and look for a matching tag
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+            for (AprilTagDetection detection : currentDetections) {
+                // Look to see if we have size info on this tag.
+                if (detection.metadata != null) {
+                    //  Check to see if we want to track towards this tag.
+                    if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
+                        // Yes, we want to use this tag.
+                        targetFound = true;
+                        desiredTag = detection;
+                        telemetry.addData("test", targetFound);
+                        telemetry.update();
+                        sleep(2000);//test
+                        break;  // don't look any further.
+                    } else {
+                        // This tag is in the library, but we do not want to track it right now.
+                        telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                        telemetry.update();
+                        sleep(2000);//test
+                    }
                 } else {
-                    // This tag is in the library, but we do not want to track it right now.
-                    telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                    // This tag is NOT in the library, so we don't have enough information to track to it.
+                    telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                     telemetry.update();
                     sleep(2000);//test
                 }
-            } else {
-                // This tag is NOT in the library, so we don't have enough information to track to it.
-                telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
-                telemetry.update();
-                sleep(2000);//test
             }
-        }
 /*
         double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
         double headingError = desiredTag.ftcPose.bearing;
@@ -248,30 +252,31 @@ public class AutonomousV3 extends LinearOpMode {
 
  */
 
-
-        if (targetFound) {
-            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double headingError = desiredTag.ftcPose.bearing;
-            double yawError = desiredTag.ftcPose.yaw;
-            // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-            telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
-            telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
-            telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
-            telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
-            telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
-            telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
-            telemetry.addData("drive ",drive);
-            telemetry.addData("turn ",turn);
-            telemetry.addData("strafe",strafe);
-            telemetry.update();
-            sleep(3000);//test
+            if (targetFound) {
+                double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+                double headingError = desiredTag.ftcPose.bearing;
+                double yawError = desiredTag.ftcPose.yaw;
+                // Use the speed and turn "gains" to calculate how we want the robot to move.
+                drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+                telemetry.addData("\n>", "HOLD Left-Bumper to Drive to Target\n");
+                telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+                telemetry.addData("DESIRED_DISTANCE", DESIRED_DISTANCE);
+                telemetry.addData("Range", "%5.1f inches", desiredTag.ftcPose.range);
+                telemetry.addData("Bearing", "%3.0f degrees", desiredTag.ftcPose.bearing);
+                telemetry.addData("Yaw", "%3.0f degrees", desiredTag.ftcPose.yaw);
+                telemetry.addData("drive ", drive);
+                telemetry.addData("turn ", turn);
+                telemetry.addData("strafe", strafe);
+                telemetry.update();
+                sleep(3000);//test
+            }
+            moveRobot(drive, strafe, turn);
+            sleep(10);
+            if(targetFound=true)&&(abs(drive)>0.005||abs(strafe)>0.005||abs(turn)>0.005)){break;}  // don't look any further
         }
-        moveRobot(drive, strafe, turn);
-        sleep(10);
-
+//////////////////////
     }
     private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
@@ -621,13 +626,11 @@ public class AutonomousV3 extends LinearOpMode {
             leftBackPower /= max;
             rightBackPower /= max;
         }
-/*
+
         robot.LFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-*/
-
 
         robot.LFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.RFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -638,7 +641,6 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("leftBackPower", leftBackPower);
         telemetry.addData("rightBackPower", rightBackPower);
         telemetry.update();
-
         robot.LFMotor.setPower(leftFrontPower);
         robot.RFMotor.setPower(rightFrontPower);
         robot.LBMotor.setPower(leftBackPower);
