@@ -218,7 +218,6 @@ public class AprilTagOmniCameraRear extends LinearOpMode
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
-
 // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
             if (gamepad1.left_bumper && targetFound) {
 
