@@ -387,13 +387,8 @@ public class AutonomousV3 extends LinearOpMode {
                     telemetry.update();
                 }
             }
-
-
         }
-
-
         return autoParkingDone;
-
     }
     //work here
 
