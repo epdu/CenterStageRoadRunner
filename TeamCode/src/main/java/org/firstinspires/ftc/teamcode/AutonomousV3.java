@@ -146,12 +146,13 @@ public class AutonomousV3 extends LinearOpMode {
                     cX = teamPropCentroid.x;
                     cY = teamPropCentroid.y;
                     found = cX != 0.0 || cY != 0.0;
+                    telemetry.addData("line 149 first check point found or not ",found);
                     telemetry.addData("allianceColor", allianceColor);
                     telemetry.addData("Find team prop or not", found);
                     telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                     telemetry.addData("Distance in Inch", (getDistance(width)));
                     telemetry.update();
-                    sleep(1000);//test
+                    sleep(3000);//test
 
                 } else if (allianceColor.equals("blue")) {
                     Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
@@ -277,27 +278,27 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.update();
         sleep(6000);//test
 
-        if(cX > 0 && cX < 184 && cY <400 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
+        if(cX > 0 && cX < 184 && cY <350 && cY > 100 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
             teamPropLocations="Left";
             found=true;
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            sleep(2000);//test
-        } else if ( cX > 184 && cX < 457 && cY <400 ) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
+
+        } else if ( cX > 184 && cX < 457  && cY <350 && cY > 100) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            sleep(2000);//test
-        } else if( cX > 457 && cX < 640 && cY <400 ) {// cX > 915 && cX < 1280
+
+        } else if( cX > 457 && cX < 640 && cY <350 && cY > 100) {// cX > 915 && cX < 1280
             teamPropLocations = "Right";
             found=true;
             telemetry.addData("Right",cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
-            sleep(2000);//test
+
         }
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
@@ -308,7 +309,7 @@ public class AutonomousV3 extends LinearOpMode {
             if ( teamPropLocations.equals("Left")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
-                sleep(2000);//test
+
                 moveBackward(0.3, 40);
                 //put arms down
                 strafeRight(0.3, 12);
@@ -326,18 +327,17 @@ public class AutonomousV3 extends LinearOpMode {
                 turnLeft(0.3, 14.5);
                 //dropped the pixel, and move to backdrop
                 moveBackward(0.3, 8);
+                strafeLeft(0.3, 4);
                  dropPurplePixelDone = true;
             } else if (teamPropLocations.equals("Center")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
-                sleep(2000);//test
                 moveBackward(0.3, 46);
                 //put arms down
                 //dropped the pixel, and move to backdrop
-                moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
-                moveBackward(0.3, 10);
-                strafeRight(0.3, 32);
+                moveBackward(0.3, 20);
+                strafeRight(0.3, 22);
                 dropPurplePixelDone = true;
             }
         }
@@ -463,19 +463,16 @@ public class AutonomousV3 extends LinearOpMode {
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(2000);//test
         } else if (teamPropLocations.equals("Center")) {
             DESIRED_TAG_ID = 2;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(2000);//test
         } else if (teamPropLocations.equals("Right")) {
             DESIRED_TAG_ID = 3;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(2000);//test
         }
     }
     public void stopMotors(double p){
@@ -533,11 +530,9 @@ public class AutonomousV3 extends LinearOpMode {
         robot.LBMotor.setPower(0);
     }
     private void initVisionPortal() {
-
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,30,25), new Scalar(130, 255, 255) );
-
 /*
         //346/2=173 -+10 -> 163,180 54 56
         //207/2=103-+10=93 113
@@ -600,30 +595,15 @@ public class AutonomousV3 extends LinearOpMode {
         }
     }
     public void moveRobot(double x, double y, double yaw) {
-//testing rear camera
         telemetry.addData("x", x);
         telemetry.addData("y", y);
         telemetry.addData("yaw", yaw);
         telemetry.update();
-        sleep(6000);
+
         double leftFrontPower    =  x -y +yaw;
         double rightFrontPower   =  x +y -yaw;
         double leftBackPower     =  x +y +yaw;
         double rightBackPower    =  x -y -yaw;
-
-/*        good for front camera
-        double leftFrontPower    =  -x +y +yaw;
-        double rightFrontPower   =  -x -y -yaw;
-        double leftBackPower     =  -x -y +yaw;
-        double rightBackPower    =  -x +y -yaw;
-*/
-
-//original set up
-//        double leftFrontPower    =  x -y -yaw;
-//        double rightFrontPower   =  x +y +yaw;
-//        double leftBackPower     =  x +y -yaw;
-//        double rightBackPower    =  x -y +yaw;
-//original set up
 
         // Normalize wheel powers to be less than 1.0
         double max = Math.max(abs(leftFrontPower), abs(rightFrontPower));
@@ -650,7 +630,7 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("leftBackPower", leftBackPower);
         telemetry.addData("rightBackPower", rightBackPower);
         telemetry.update();
-        sleep(6000);
+
         robot.LFMotor.setPower(leftFrontPower);
         robot.RFMotor.setPower(rightFrontPower);
         robot.LBMotor.setPower(leftBackPower);
