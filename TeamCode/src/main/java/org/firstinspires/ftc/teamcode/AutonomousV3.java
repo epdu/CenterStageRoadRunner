@@ -166,7 +166,7 @@ public class AutonomousV3 extends LinearOpMode {
             aprilTagOmni();
 //            dropYellowPixel();
 //            autoParking();
-//            if(autoParkingDone=true){
+//            if(autoParkingDone==true){
 //                break;
 //            }
         }
@@ -252,7 +252,7 @@ public class AutonomousV3 extends LinearOpMode {
         return teamPropLocations;
     }
     public boolean  dropPurplePixel() {
-        if(dropPurplePixelDone = false){
+        if(dropPurplePixelDone == false){
             if ( teamPropLocations.equals("Left")) {
                 moveBackward(0.3, 40);
                 //put arms down
@@ -286,12 +286,12 @@ public class AutonomousV3 extends LinearOpMode {
     }
 
     public void  dropYellowPixel(){
-        if(dropYellowPixelDone = false){
+        if(dropYellowPixelDone == false){
             //move arma and open right side claw only
             //sleep
             //close claw down the arms and wrist
             dropYellowPixelDone=true;
-        }else if (dropYellowPixelDone=true){
+        }else if (dropYellowPixelDone==true){
             //it`s done
         }// move arms and then open claw
     }
