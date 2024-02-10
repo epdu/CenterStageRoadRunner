@@ -599,7 +599,6 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("y", y);
         telemetry.addData("yaw", yaw);
         telemetry.update();
-
         double leftFrontPower    =  x -y +yaw;
         double rightFrontPower   =  x +y -yaw;
         double leftBackPower     =  x +y +yaw;
