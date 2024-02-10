@@ -403,23 +403,20 @@ public class AutonomousV3 extends LinearOpMode {
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
         } else if (teamPropLocations.equals("Center")) {
-//          DESIRED_TAG_ID = 2;
-//          lookfortag(DESIRED_TAG_ID);
+            DESIRED_TAG_ID = 2;
+            lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
         } else if (teamPropLocations.equals("Right")) {
-//          DESIRED_TAG_ID = 3;
-//          lookfortag(DESIRED_TAG_ID);
+            DESIRED_TAG_ID = 3;
+            lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
         }
     }
-
     public void stopMotors(double p){
         robot.setAllPower(p);
     }
-
-
     public void moveForward(double power, double distanceInInch) {
         movement(power, -distanceInInch,-distanceInInch,-distanceInInch,-distanceInInch) ;
     }
@@ -438,10 +435,7 @@ public class AutonomousV3 extends LinearOpMode {
     public void strafeLeft(double power, double distanceInInch) {
         movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
     }
- /*
-            distanceInInch=24;//number in unit of inch
-            distanceInInchDouble=(double)(distanceInInch*537/(Math.PI * wheelDiameterInInches));
- */
+
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
 //input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafeRight and strafeLeft"
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
@@ -511,7 +505,6 @@ public class AutonomousV3 extends LinearOpMode {
                 .build();
         setManualExposure(6, 250);
     }
-
     private void    setManualExposure(int exposureMS, int gain) {
         // Wait for the camera to be open, then use the controls
 
@@ -566,7 +559,6 @@ public class AutonomousV3 extends LinearOpMode {
 //        double rightBackPower    =  x -y +yaw;
 //original set up
 
-
         // Normalize wheel powers to be less than 1.0
         double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
@@ -578,7 +570,6 @@ public class AutonomousV3 extends LinearOpMode {
             leftBackPower /= max;
             rightBackPower /= max;
         }
-
         robot.LFMotor.setPower(leftFrontPower);
         robot.RFMotor.setPower(rightFrontPower);
         robot.LBMotor.setPower(leftBackPower);
@@ -589,7 +580,4 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("rightBackPower", rightBackPower);
         telemetry.update();
     }
-
-
-
 }
