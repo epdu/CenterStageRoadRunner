@@ -554,7 +554,6 @@ public class AutonomousV3 extends LinearOpMode {
             sleep(20);
         }
     }
-//    public void initOpenCV() {    }
     public void moveRobot(double x, double y, double yaw) {
 //testing rear camera
         double leftFrontPower    =  x -y +yaw;
