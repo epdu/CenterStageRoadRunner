@@ -175,27 +175,7 @@ public class AutonomousV3 extends LinearOpMode {
             dropPurplePixel();
             aprilTagOmni();
 
-            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double headingError = desiredTag.ftcPose.bearing;
-            double yawError = desiredTag.ftcPose.yaw;
-            while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05)) {
-                    // Use the speed and turn "gains" to calculate how we want the robot to move.
-                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-                    strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-                    telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
-                    telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
-                    telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
-                    telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
-                    telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
-                    telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
-                    telemetry.addData("drive ",drive);
-                    telemetry.addData("turn ",turn);
-                    telemetry.addData("strafe",strafe);
-                    telemetry.update();
-                }
-            moveRobot(drive, strafe, turn);
-            sleep(10);
+
 //            dropYellowPixel();
 //            autoParking();
 //            if(autoParkingDone==true){
@@ -243,6 +223,32 @@ public class AutonomousV3 extends LinearOpMode {
             }
         }
 /*
+        double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+        double headingError = desiredTag.ftcPose.bearing;
+        double yawError = desiredTag.ftcPose.yaw;
+//        while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05))
+
+            // Use the speed and turn "gains" to calculate how we want the robot to move.
+            drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+            telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
+            telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+            telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
+            telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
+            telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
+            telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+            telemetry.addData("drive ",drive);
+            telemetry.addData("turn ",turn);
+            telemetry.addData("strafe",strafe);
+            telemetry.update();
+
+        moveRobot(drive, strafe, turn);
+        sleep(10);
+
+ */
+
+
         if (targetFound) {
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double headingError = desiredTag.ftcPose.bearing;
@@ -261,11 +267,11 @@ public class AutonomousV3 extends LinearOpMode {
             telemetry.addData("turn ",turn);
             telemetry.addData("strafe",strafe);
             telemetry.update();
-            sleep(6000);//test
+            sleep(3000);//test
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
-*/
+
     }
     private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
