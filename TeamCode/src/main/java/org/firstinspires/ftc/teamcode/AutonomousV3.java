@@ -223,6 +223,7 @@ public class AutonomousV3 extends LinearOpMode {
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
             telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
             telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+            telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
             telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
             telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
             telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
@@ -230,7 +231,7 @@ public class AutonomousV3 extends LinearOpMode {
             telemetry.addData("turn ",turn);
             telemetry.addData("strafe",strafe);
             telemetry.update();
-            sleep(200);//test
+            sleep(6000);//test
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
@@ -573,7 +574,6 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("x", x);
         telemetry.addData("y", y);
         telemetry.addData("yaw", yaw);
-
         telemetry.update();
         sleep(6000);
 
