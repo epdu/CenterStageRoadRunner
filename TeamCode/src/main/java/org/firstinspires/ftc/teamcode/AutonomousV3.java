@@ -143,6 +143,7 @@ public class AutonomousV3 extends LinearOpMode {
                 telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                 telemetry.addData("Distance in Inch", (getDistance(width)));
                 telemetry.update();
+                sleep(1000);//test
                 PurplePixel="NOTDONE";
             }else if(allianceColor.equals("blue")){
                 Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
@@ -292,7 +293,7 @@ public class AutonomousV3 extends LinearOpMode {
                 moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 10);
-                strafeRight(0.3, 20);
+                strafeRight(0.3, 12);
                 dropPurplePixelDone = true;
             }
         }
