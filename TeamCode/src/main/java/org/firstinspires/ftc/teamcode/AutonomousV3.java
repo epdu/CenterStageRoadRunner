@@ -40,6 +40,7 @@ public class AutonomousV3 extends LinearOpMode {
     public boolean autoParkingDone=false;
    public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
+    public boolean targetFound = false;
 //    public boolean targetFound = false;
 //    public double drive = 0;
 //    public double turn = 0;
@@ -128,8 +129,8 @@ public class AutonomousV3 extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
-
-        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
+        targetFound     = false;
+//        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1)
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
@@ -172,11 +173,11 @@ public class AutonomousV3 extends LinearOpMode {
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
-            if (targetFound) {
+
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double headingError = desiredTag.ftcPose.bearing;
             double yawError = desiredTag.ftcPose.yaw;
-            while (abs(rangeError)<0.05||abs(headingError)<0.05||abs(yawError)<0.05) {
+            while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05)) {
                     // Use the speed and turn "gains" to calculate how we want the robot to move.
                     drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                     turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
@@ -193,8 +194,6 @@ public class AutonomousV3 extends LinearOpMode {
                     telemetry.update();
                     moveRobot(drive, strafe, turn);
                 }
-            }
-
             sleep(10);
 //            dropYellowPixel();
 //            autoParking();
@@ -207,7 +206,8 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public void lookfortag(int tag){
         DESIRED_TAG_ID = tag;
-        boolean targetFound = false;
+        targetFound     = false;
+//        boolean targetFound = false;
         double drive = 0;
         double turn = 0;
         double strafe = 0;
@@ -272,25 +272,26 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public String  findteamPropLocations(){
         telemetry.addData("cX", cX);
+        telemetry.addData("cY", cY);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
-        sleep(2000);//test
+        sleep(6000);//test
 
-        if(cX > 0 && cX < 184 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
+        if(cX > 0 && cX < 184 && cY <400 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
             teamPropLocations="Left";
             found=true;
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
             sleep(2000);//test
-        } else if ( cX > 184 && cX < 457) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
+        } else if ( cX > 184 && cX < 457 && cY <400 ) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
             sleep(2000);//test
-        } else if( cX > 457 && cX < 640) {// cX > 915 && cX < 1280
+        } else if( cX > 457 && cX < 640 && cY <400 ) {// cX > 915 && cX < 1280
             teamPropLocations = "Right";
             found=true;
             telemetry.addData("Right",cX);
