@@ -570,6 +570,12 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public void moveRobot(double x, double y, double yaw) {
 //testing rear camera
+        telemetry.addData("x", x);
+        telemetry.addData("y", y);
+        telemetry.addData("yaw", yaw);
+
+        telemetry.update();
+        sleep(6000);
         double leftFrontPower    =  +x +y -yaw;
         double rightFrontPower   =  +x -y +yaw;
         double leftBackPower     =  +x -y -yaw;
