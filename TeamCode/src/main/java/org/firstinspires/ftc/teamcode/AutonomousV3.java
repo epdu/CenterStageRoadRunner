@@ -8,6 +8,8 @@
 //537 per revolution 11.87374348 inch
 */
 package org.firstinspires.ftc.teamcode;
+import static java.lang.Math.abs;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -174,7 +176,7 @@ public class AutonomousV3 extends LinearOpMode {
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double headingError = desiredTag.ftcPose.bearing;
             double yawError = desiredTag.ftcPose.yaw;
-            while (rangeError<0.05||headingError<0.05||yawError<0.05) {
+            while (abs(rangeError)<0.05||abs(headingError)<0.05||abs(yawError)<0.05) {
                     // Use the speed and turn "gains" to calculate how we want the robot to move.
                     drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                     turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
@@ -624,9 +626,9 @@ public class AutonomousV3 extends LinearOpMode {
 //original set up
 
         // Normalize wheel powers to be less than 1.0
-        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
+        double max = Math.max(abs(leftFrontPower), abs(rightFrontPower));
+        max = Math.max(max, abs(leftBackPower));
+        max = Math.max(max, abs(rightBackPower));
 
         if (max > 1.0) {
             leftFrontPower /= max;
