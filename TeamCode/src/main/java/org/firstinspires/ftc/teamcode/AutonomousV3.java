@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
+//    public String allianceColor="blue";
     public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public boolean autoParkingDone=false;
@@ -132,22 +133,22 @@ public class AutonomousV3 extends LinearOpMode {
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
 
-            if(allianceColor=="red"){
+            if(allianceColor.equals("red")){
                 Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
                 cX = teamPropCentroid.x;
                 cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0 ? true : false;
+                found= cX != 0.0 || cY != 0.0;
                 telemetry.addData("allianceColor", allianceColor);
                 telemetry.addData("Find team prop or not", found);
                 telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                 telemetry.addData("Distance in Inch", (getDistance(width)));
                 telemetry.update();
                 PurplePixel="NOTDONE";
-            }else if(allianceColor=="blue"){
+            }else if(allianceColor.equals("blue")){
                 Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
                 cX = teamPropCentroid.x;
                 cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0 ? true : false;
+                found= cX != 0.0 || cY != 0.0;
                 telemetry.addData("allianceColor", allianceColor);
                 telemetry.addData("Find team prop or not", found);
                 telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
@@ -252,7 +253,7 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public boolean  dropPurplePixel() {
         if(dropPurplePixelDone = false){
-            if (teamPropLocations == "Left") {
+            if ( teamPropLocations.equals("Left")) {
                 moveBackward(0.3, 40);
                 //put arms down
                 strafeRight(0.3, 12);
@@ -261,14 +262,14 @@ public class AutonomousV3 extends LinearOpMode {
                 moveBackward(0.3, 8);
                 strafeRight(0.3, 24);
                 dropPurplePixelDone = true;
-            } else if (teamPropLocations == "Right") {
+            } else if (teamPropLocations.equals("Right")) {
                 moveBackward(0.3, 28);
                 //put arms down
                 turnLeft(0.3, 14.5);
                 //dropped the pixel, and move to backdrop
                 moveBackward(0.3, 8);
                  dropPurplePixelDone = true;
-            } else if (teamPropLocations == "Center") {
+            } else if (teamPropLocations.equals("Center")) {
                 moveBackward(0.3, 46);
                 //put arms down
                 //dropped the pixel, and move to backdrop
@@ -295,42 +296,42 @@ public class AutonomousV3 extends LinearOpMode {
         }// move arms and then open claw
     }
     public boolean autoParking(){
-        if(allianceColor=="red") {
-            if (parkingSide == "left") {
-                if (teamPropLocations == "Left") {
+        if(allianceColor.equals("red")) {
+            if (parkingSide.equals("left")) {
+                if (teamPropLocations.equals("Left")) {
                     telemetry.addData("parkingSide", allianceColor,parkingSide,teamPropLocations);
                     telemetry.update();moveForward(0.3, 5);
                     strafeRight(0.3, 12);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Right") {
+                } else if (teamPropLocations.equals("Right")) {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 40);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Center") {
+                } else if (teamPropLocations.equals("Center")) {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 30);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
                 }
-            } else if (parkingSide == "right") {
-                if (teamPropLocations == "Left") {
+            } else if (parkingSide.equals("right")) {
+                if (teamPropLocations.equals("Left")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 40);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Right") {
+                } else if (teamPropLocations.equals("Right")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 12);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Center") {
+                } else if (teamPropLocations.equals("Center")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 30);
                     moveBackward(0.3, 10);
@@ -342,41 +343,41 @@ public class AutonomousV3 extends LinearOpMode {
                 }
             }
 
-        }else if (allianceColor=="blue"){
-            if (parkingSide == "left") {
-                if (teamPropLocations == "Left") {
+        }else if (allianceColor.equals("blue")){
+            if (parkingSide.equals("left")) {
+                if (teamPropLocations.equals("Left")) {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 12);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Right") {
+                } else if (teamPropLocations.equals("Right")) {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 40);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Center") {
+                } else if (teamPropLocations.equals("Center")) {
                     moveForward(0.3, 5);
                     strafeRight(0.3, 30);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
                 }
-            } else if (parkingSide == "right") {
-                if (teamPropLocations == "Left") {
+            } else if (parkingSide.equals("right")) {
+                if (teamPropLocations.equals("Left")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 40);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Right") {
+                } else if (teamPropLocations.equals("Right")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 12);
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else if (teamPropLocations == "Center") {
+                } else if (teamPropLocations.equals("Center")) {
                     moveForward(0.3, 5);
                     strafeLeft(0.3, 30);
                     moveBackward(0.3, 10);
@@ -393,18 +394,18 @@ public class AutonomousV3 extends LinearOpMode {
     //work here
 
     public void  aprilTagOmni(){
-        if (teamPropLocations == "Left")
+        if (teamPropLocations.equals("Left"))
         {
             DESIRED_TAG_ID = 1;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-        } else if (teamPropLocations == "Center") {
+        } else if (teamPropLocations.equals("Center")) {
 //          DESIRED_TAG_ID = 2;
 //          lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-        } else if (teamPropLocations == "Right") {
+        } else if (teamPropLocations.equals("Right")) {
 //          DESIRED_TAG_ID = 3;
 //          lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
