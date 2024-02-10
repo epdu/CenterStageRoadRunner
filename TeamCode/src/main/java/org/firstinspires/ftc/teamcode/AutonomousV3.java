@@ -274,7 +274,7 @@ public class AutonomousV3 extends LinearOpMode {
             }
             moveRobot(drive, strafe, turn);
             sleep(10);
-            if((targetFound=true)&&(abs(drive)>0.005||abs(strafe)>0.005||abs(turn)>0.005)){break;}  // don't look any further
+            if( targetFound=true && abs(drive)<0.05 && abs(strafe)<0.05 && abs(turn)<0.05 ){break;}  // don't look any further
         }
 //////////////////////
     }
@@ -289,21 +289,21 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.update();
         sleep(6000);//test
 
-        if(cX > 0 && cX < 184 && cY <350 && cY > 100 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
+        if(cX > 0 && cX < 184 && cY <400 && cY > 100 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
             teamPropLocations="Left";
             found=true;
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
 
-        } else if ( cX > 184 && cX < 457  && cY <350 && cY > 100) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
+        } else if ( cX > 184 && cX < 457  && cY <400 && cY > 100) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
 
-        } else if( cX > 457 && cX < 640 && cY <350 && cY > 100) {// cX > 915 && cX < 1280
+        } else if( cX > 457 && cX < 640 && cY <400 && cY > 100) {// cX > 915 && cX < 1280
             teamPropLocations = "Right";
             found=true;
             telemetry.addData("Right",cX);
@@ -349,6 +349,7 @@ public class AutonomousV3 extends LinearOpMode {
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 20);
                 strafeRight(0.3, 22);
+                moveForward(0.3, 10);
                 dropPurplePixelDone = true;
             }
         }
