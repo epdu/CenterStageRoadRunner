@@ -274,7 +274,7 @@ public class AutonomousV3 extends LinearOpMode {
             }
             moveRobot(drive, strafe, turn);
             sleep(10);
-            if(targetFound=true)&&(abs(drive)>0.005||abs(strafe)>0.005||abs(turn)>0.005)){break;}  // don't look any further
+            if((targetFound=true)&&(abs(drive)>0.005||abs(strafe)>0.005||abs(turn)>0.005)){break;}  // don't look any further
         }
 //////////////////////
     }
