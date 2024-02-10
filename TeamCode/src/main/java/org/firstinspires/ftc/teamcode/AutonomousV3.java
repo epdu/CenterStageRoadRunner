@@ -89,7 +89,8 @@ public class AutonomousV3 extends LinearOpMode {
        private static final int CAMERA_HEIGHT = 360; // height of wanted camera resolution
     */
     // Calculate the distance using the formula
-    public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
+    public static final double objectWidthInRealWorldUnits = 3.9;  // Replace with the actual width of the object in real-world units
+//    public static final double objectWidthInRealWorldUnits = 3.75;  // original value Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
@@ -132,35 +133,35 @@ public class AutonomousV3 extends LinearOpMode {
 
         while (opModeIsActive()) {
             // TODO: Need to do red or blue according to alliance color.
+            while (found==false) {
+                if (allianceColor.equals("red")) {
+                    Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
+                    cX = teamPropCentroid.x;
+                    cY = teamPropCentroid.y;
+                    found = cX != 0.0 || cY != 0.0;
+                    telemetry.addData("allianceColor", allianceColor);
+                    telemetry.addData("Find team prop or not", found);
+                    telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+                    telemetry.addData("Distance in Inch", (getDistance(width)));
+                    telemetry.update();
+                    sleep(1000);//test
 
-            if(allianceColor.equals("red")){
-                Point teamPropCentroid = redTeamPropOpenCv.getTeamPropCentroid();
-                cX = teamPropCentroid.x;
-                cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0;
-                telemetry.addData("allianceColor", allianceColor);
-                telemetry.addData("Find team prop or not", found);
-                telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-                telemetry.addData("Distance in Inch", (getDistance(width)));
-                telemetry.update();
-                sleep(1000);//test
-                PurplePixel="NOTDONE";
-            }else if(allianceColor.equals("blue")){
-                Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
-                cX = teamPropCentroid.x;
-                cY = teamPropCentroid.y;
-                found= cX != 0.0 || cY != 0.0;
-                telemetry.addData("allianceColor", allianceColor);
-                telemetry.addData("Find team prop or not", found);
-                telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
-                telemetry.addData("Distance in Inch", (getDistance(width)));
-                telemetry.update();
-                PurplePixel="NOTDONE";
-            }else{
-                telemetry.addData("something wrong,allianceColor", allianceColor);
-                telemetry.update();
+                } else if (allianceColor.equals("blue")) {
+                    Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
+                    cX = teamPropCentroid.x;
+                    cY = teamPropCentroid.y;
+                    found = cX != 0.0 || cY != 0.0;
+                    telemetry.addData("allianceColor", allianceColor);
+                    telemetry.addData("Find team prop or not", found);
+                    telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
+                    telemetry.addData("Distance in Inch", (getDistance(width)));
+                    telemetry.update();
+
+                } else {
+                    telemetry.addData("something wrong,allianceColor", allianceColor);
+                    telemetry.update();
+                }
             }
-
 
             findteamPropLocations();
             dropPurplePixel();
