@@ -576,10 +576,12 @@ public class AutonomousV3 extends LinearOpMode {
 
         telemetry.update();
         sleep(6000);
-        double leftFrontPower    =  +x +y -yaw;
-        double rightFrontPower   =  +x -y +yaw;
-        double leftBackPower     =  +x -y -yaw;
-        double rightBackPower    =  +x +y +yaw;
+
+        double leftFrontPower    =  x -y +yaw;
+        double rightFrontPower   =  x +y -yaw;
+        double leftBackPower     =  x +y +yaw;
+        double rightBackPower    =  x -y -yaw;
+
 /*        good for front camera
         double leftFrontPower    =  -x +y +yaw;
         double rightFrontPower   =  -x -y -yaw;
