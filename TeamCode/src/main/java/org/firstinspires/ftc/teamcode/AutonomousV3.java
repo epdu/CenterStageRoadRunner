@@ -468,7 +468,6 @@ public class AutonomousV3 extends LinearOpMode {
     public void strafeLeft(double power, double distanceInInch) {
         movement(power, -distanceInInch,+distanceInInch,+distanceInInch,-distanceInInch);
     }
-
     public void movement(double power, double distanceRF,double distanceRB,double distanceLF,double distanceLB) {
 //input distance in inches, robot will finish movement "moveForward moveBackward ,turnRight turnLeft  strafeRight and strafeLeft"
         distanceRFMotor=(double)(distanceRF*537/(Math.PI * wheelDiameterInInches));
