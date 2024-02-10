@@ -194,14 +194,20 @@ public class AutonomousV3 extends LinearOpMode {
                     targetFound = true;
                     desiredTag = detection;
                     telemetry.addData("test", targetFound);
+                    telemetry.update();
+                    sleep(200);//test
                     break;  // don't look any further.
                 } else {
                     // This tag is in the library, but we do not want to track it right now.
                     telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                    telemetry.update();
+                    sleep(200);//test
                 }
             } else {
                 // This tag is NOT in the library, so we don't have enough information to track to it.
                 telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
+                telemetry.update();
+                sleep(200);//test
             }
         }
 
@@ -213,10 +219,16 @@ public class AutonomousV3 extends LinearOpMode {
             drive = com.qualcomm.robotcore.util.Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn = com.qualcomm.robotcore.util.Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+            telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
+            telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+            telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
+            telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
+            telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
             telemetry.addData("drive ",drive);
             telemetry.addData("turn ",turn);
             telemetry.addData("strafe",strafe);
             telemetry.update();
+            sleep(200);//test
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
@@ -230,6 +242,7 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
+        sleep(200);//test
 
         if(cX > 0 && cX < 365 ){
             teamPropLocations="Left";
@@ -402,16 +415,19 @@ public class AutonomousV3 extends LinearOpMode {
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
+            sleep(200);//test
         } else if (teamPropLocations.equals("Center")) {
             DESIRED_TAG_ID = 2;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
+            sleep(200);//test
         } else if (teamPropLocations.equals("Right")) {
             DESIRED_TAG_ID = 3;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
+            sleep(200);//test
         }
     }
     public void stopMotors(double p){
