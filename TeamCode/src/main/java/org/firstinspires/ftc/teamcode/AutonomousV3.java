@@ -591,6 +591,11 @@ public class AutonomousV3 extends LinearOpMode {
         robot.LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        robot.LFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.RFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.RBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         robot.LFMotor.setPower(leftFrontPower);
         robot.RFMotor.setPower(rightFrontPower);
         robot.LBMotor.setPower(leftBackPower);
