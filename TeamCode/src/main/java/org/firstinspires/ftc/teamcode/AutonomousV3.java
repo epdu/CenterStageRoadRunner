@@ -96,7 +96,7 @@ public class AutonomousV3 extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
-    final double DESIRED_DISTANCE = 2.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 3.0; //  this is how close the camera should get to the target (inches)
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
@@ -292,7 +292,7 @@ public class AutonomousV3 extends LinearOpMode {
                 moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 10);
-                strafeRight(0.3, 28);
+                strafeRight(0.3, 20);
                 dropPurplePixelDone = true;
             }
         }
