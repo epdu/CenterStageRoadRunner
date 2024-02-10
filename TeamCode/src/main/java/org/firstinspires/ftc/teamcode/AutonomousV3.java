@@ -213,7 +213,10 @@ public class AutonomousV3 extends LinearOpMode {
             drive = com.qualcomm.robotcore.util.Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn = com.qualcomm.robotcore.util.Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-            telemetry.addData("drive turn strafe","%d",drive, turn, strafe);
+            telemetry.addData("drive ",drive);
+            telemetry.addData("turn ",turn);
+            telemetry.addData("strafe",strafe);
+            telemetry.update();
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
@@ -392,7 +395,6 @@ public class AutonomousV3 extends LinearOpMode {
         return autoParkingDone;
     }
     //work here
-
     public void  aprilTagOmni(){
         if (teamPropLocations.equals("Left"))
         {
