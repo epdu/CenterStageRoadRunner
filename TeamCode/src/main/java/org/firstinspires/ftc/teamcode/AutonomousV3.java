@@ -38,10 +38,10 @@ public class AutonomousV3 extends LinearOpMode {
     public boolean autoParkingDone=false;
    public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
-    public boolean targetFound = false;
-    public double drive = 0;
-    public double turn = 0;
-    public double strafe = 0;
+//    public boolean targetFound = false;
+//    public double drive = 0;
+//    public double turn = 0;
+//    public double strafe = 0;
     DistanceSensor LeftSensor;
     DistanceSensor RightSensor;
     IMU imu;
@@ -170,6 +170,31 @@ public class AutonomousV3 extends LinearOpMode {
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
+            if (targetFound) {
+            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+            double headingError = desiredTag.ftcPose.bearing;
+            double yawError = desiredTag.ftcPose.yaw;
+            while (rangeError<0.05||headingError<0.05||yawError<0.05) {
+                    // Use the speed and turn "gains" to calculate how we want the robot to move.
+                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                    strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+                    telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
+                    telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+                    telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
+                    telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
+                    telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
+                    telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+                    telemetry.addData("drive ",drive);
+                    telemetry.addData("turn ",turn);
+                    telemetry.addData("strafe",strafe);
+                    telemetry.update();
+                    moveRobot(drive, strafe, turn);
+                }
+
+            }
+
+            sleep(10);
 //            dropYellowPixel();
 //            autoParking();
 //            if(autoParkingDone==true){
@@ -181,10 +206,11 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public void lookfortag(int tag){
         DESIRED_TAG_ID = tag;
-/*        double drive = 0;
+        boolean targetFound = false;
+        double drive = 0;
         double turn = 0;
         double strafe = 0;
-*/
+
         desiredTag  = null;
 
         // Step through the list of detected tags and look for a matching tag
@@ -214,7 +240,7 @@ public class AutonomousV3 extends LinearOpMode {
                 sleep(2000);//test
             }
         }
-
+/*
         if (targetFound) {
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double headingError = desiredTag.ftcPose.bearing;
@@ -237,7 +263,7 @@ public class AutonomousV3 extends LinearOpMode {
         }
         moveRobot(drive, strafe, turn);
         sleep(10);
-
+*/
     }
     private static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
@@ -256,7 +282,7 @@ public class AutonomousV3 extends LinearOpMode {
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
             sleep(2000);//test
-        } else if ( cX > 230 && cX < 410) {//cX > 460 && cX < 820
+        } else if ( cX > 184 && cX < 457) {//    cX > 230 && cX < 410 work, cX > 460 && cX < 820
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
