@@ -193,7 +193,6 @@ public class AutonomousV3 extends LinearOpMode {
                     telemetry.update();
                     moveRobot(drive, strafe, turn);
                 }
-
             }
 
             sleep(10);
