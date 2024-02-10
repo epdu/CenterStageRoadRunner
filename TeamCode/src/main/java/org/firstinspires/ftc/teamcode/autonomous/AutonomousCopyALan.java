@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.firstinspires.ftc.teamcode.autonomous.Camera;
+import org.firstinspires.ftc.teamcode.autonomous.Pipeline;
 
 @Autonomous(name = "Autonomous of alan")
 public class AutonomousCopyALan extends LinearOpMode {

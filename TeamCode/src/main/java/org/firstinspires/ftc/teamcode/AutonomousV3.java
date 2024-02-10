@@ -193,8 +193,8 @@ public class AutonomousV3 extends LinearOpMode {
                     telemetry.addData("turn ",turn);
                     telemetry.addData("strafe",strafe);
                     telemetry.update();
-                    moveRobot(drive, strafe, turn);
                 }
+            moveRobot(drive, strafe, turn);
             sleep(10);
 //            dropYellowPixel();
 //            autoParking();
