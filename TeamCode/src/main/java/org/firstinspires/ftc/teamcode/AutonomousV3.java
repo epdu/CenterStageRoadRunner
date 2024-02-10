@@ -186,7 +186,6 @@ public class AutonomousV3 extends LinearOpMode {
         double turn = 0;
         double strafe = 0;
 */
-
         desiredTag  = null;
 
         // Step through the list of detected tags and look for a matching tag
