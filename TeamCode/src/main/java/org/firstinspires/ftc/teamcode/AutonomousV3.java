@@ -244,7 +244,7 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("cX", cX);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
-        sleep(200);//test
+        sleep(2000);//test
 
         if(cX > 0 && cX < 365 ){
             teamPropLocations="Left";
@@ -252,18 +252,21 @@ public class AutonomousV3 extends LinearOpMode {
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
+            sleep(2000);//test
         } else if ( cX > 460 && cX < 820) {
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
+            sleep(2000);//test
         } else if( cX > 915 && cX < 1280) {
             teamPropLocations = "Right";
             found=true;
             telemetry.addData("Right",cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
+            sleep(2000);//test
         }
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
@@ -272,6 +275,9 @@ public class AutonomousV3 extends LinearOpMode {
     public boolean  dropPurplePixel() {
         if(dropPurplePixelDone == false){
             if ( teamPropLocations.equals("Left")) {
+                telemetry.addData("teamPropLocations", teamPropLocations);
+                telemetry.update();
+                sleep(2000);//test
                 moveBackward(0.3, 40);
                 //put arms down
                 strafeRight(0.3, 12);
@@ -281,6 +287,9 @@ public class AutonomousV3 extends LinearOpMode {
                 strafeRight(0.3, 24);
                 dropPurplePixelDone = true;
             } else if (teamPropLocations.equals("Right")) {
+                telemetry.addData("teamPropLocations", teamPropLocations);
+                telemetry.update();
+                sleep(2000);//test
                 moveBackward(0.3, 28);
                 //put arms down
                 turnLeft(0.3, 14.5);
@@ -288,6 +297,9 @@ public class AutonomousV3 extends LinearOpMode {
                 moveBackward(0.3, 8);
                  dropPurplePixelDone = true;
             } else if (teamPropLocations.equals("Center")) {
+                telemetry.addData("teamPropLocations", teamPropLocations);
+                telemetry.update();
+                sleep(2000);//test
                 moveBackward(0.3, 46);
                 //put arms down
                 //dropped the pixel, and move to backdrop
@@ -355,10 +367,10 @@ public class AutonomousV3 extends LinearOpMode {
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else {
-                    telemetry.addData("something wrong,parkingSide", parkingSide);
-                    telemetry.update();
                 }
+            } else {
+                telemetry.addData("something wrong,parkingSide", parkingSide);
+                telemetry.update();
             }
 
         }else if (allianceColor.equals("blue")){
@@ -401,11 +413,14 @@ public class AutonomousV3 extends LinearOpMode {
                     moveBackward(0.3, 10);
                     autoParkingDone = true;
 
-                } else {
-                    telemetry.addData("something wrong,parkingSide", parkingSide);
-                    telemetry.update();
                 }
+            }else {
+                telemetry.addData("something wrong,parkingSide", parkingSide);
+                telemetry.update();
             }
+        }else {
+            telemetry.addData("something wrong,allianceColor", allianceColor);
+            telemetry.update();
         }
         return autoParkingDone;
     }
@@ -417,19 +432,19 @@ public class AutonomousV3 extends LinearOpMode {
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(200);//test
+            sleep(2000);//test
         } else if (teamPropLocations.equals("Center")) {
             DESIRED_TAG_ID = 2;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(200);//test
+            sleep(2000);//test
         } else if (teamPropLocations.equals("Right")) {
             DESIRED_TAG_ID = 3;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
-            sleep(200);//test
+            sleep(2000);//test
         }
     }
     public void stopMotors(double p){
