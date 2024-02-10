@@ -97,7 +97,7 @@ public class AutonomousV3 extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;
     private OpenCvVisionProcessor redTeamPropOpenCv;
     private OpenCvVisionProcessor blueTeamPropOpenCv;
-    final double DESIRED_DISTANCE = 3.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
@@ -105,7 +105,7 @@ public class AutonomousV3 extends LinearOpMode {
     final double STRAFE_GAIN =  0.015 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
     final double TURN_GAIN   =  0.01  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
+    final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)move
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static int DESIRED_TAG_ID = -1;
     private VisionPortal visionPortal;
@@ -246,21 +246,21 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.update();
         sleep(2000);//test
 
-        if(cX > 0 && cX < 365 ){
+        if(cX > 0 && cX < 184 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
             teamPropLocations="Left";
             found=true;
             telemetry.addData("Left", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
             sleep(2000);//test
-        } else if ( cX > 460 && cX < 820) {
+        } else if ( cX > 230 && cX < 410) {//cX > 460 && cX < 820
             teamPropLocations = "Center";
             found=true;
             telemetry.addData("Center", cX);
             telemetry.addData("teamPropLocations", teamPropLocations);
             telemetry.update();
             sleep(2000);//test
-        } else if( cX > 915 && cX < 1280) {
+        } else if( cX > 457 && cX < 640) {// cX > 915 && cX < 1280
             teamPropLocations = "Right";
             found=true;
             telemetry.addData("Right",cX);
@@ -306,7 +306,7 @@ public class AutonomousV3 extends LinearOpMode {
                 moveBackward(0.3, 10);
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 10);
-                strafeRight(0.3, 12);
+                strafeRight(0.3, 32);
                 dropPurplePixelDone = true;
             }
         }
@@ -570,10 +570,10 @@ public class AutonomousV3 extends LinearOpMode {
     }
     public void moveRobot(double x, double y, double yaw) {
 //testing rear camera
-        double leftFrontPower    =  x -y +yaw;
-        double rightFrontPower   =  x +y -yaw;
-        double leftBackPower     =  x +y +yaw;
-        double rightBackPower    =  x -y -yaw;
+        double leftFrontPower    =  +x +y -yaw;
+        double rightFrontPower   =  +x -y +yaw;
+        double leftBackPower     =  +x -y -yaw;
+        double rightBackPower    =  +x +y +yaw;
 /*        good for front camera
         double leftFrontPower    =  -x +y +yaw;
         double rightFrontPower   =  -x -y -yaw;
@@ -608,15 +608,16 @@ public class AutonomousV3 extends LinearOpMode {
         robot.RFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.RBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.LFMotor.setPower(leftFrontPower);
-        robot.RFMotor.setPower(rightFrontPower);
-        robot.LBMotor.setPower(leftBackPower);
-        robot.RBMotor.setPower(rightBackPower);
         telemetry.addData("leftFrontPower", leftFrontPower);
         telemetry.addData("rightFrontPower", rightFrontPower);
         telemetry.addData("leftBackPower", leftBackPower);
         telemetry.addData("rightBackPower", rightBackPower);
         telemetry.update();
+        sleep(6000);
+        robot.LFMotor.setPower(leftFrontPower);
+        robot.RFMotor.setPower(rightFrontPower);
+        robot.LBMotor.setPower(leftBackPower);
+        robot.RBMotor.setPower(rightBackPower);
+
     }
 }
