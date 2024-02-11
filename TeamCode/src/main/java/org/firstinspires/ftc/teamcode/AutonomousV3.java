@@ -10,7 +10,6 @@
 */
 package org.firstinspires.ftc.teamcode;
 import static java.lang.Math.abs;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -33,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 //HSV need claw and wrist
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
+//works well except controlHubCam.stopStreaming();
 @Autonomous(name = "Auto VisionPortal V3 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
