@@ -47,8 +47,8 @@ public class TeleOpCode extends OpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
+//        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+//        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
         liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
 
@@ -56,16 +56,16 @@ public class TeleOpCode extends OpMode {
 
 //*********without servo on robot please Comment these lines for debuging
 
-        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
-
-        servo = hardwareMap.get(Servo.class, "Servo");
-        motor = hardwareMap.get(DcMotorEx.class, "Motor");
-        servo.setPosition(0.5);
-
-        Intake = hardwareMap.get(DcMotor.class, "Intake");
-        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
-        LauncherServo.setPosition(0);
-        IntakeServo.setPosition(0);
+//        LauncherServo = hardwareMap.get(Servo.class, "LauncherServo");
+//
+//        servo = hardwareMap.get(Servo.class, "Servo");
+//        motor = hardwareMap.get(DcMotorEx.class, "Motor");
+//        servo.setPosition(0.5);
+//
+//        Intake = hardwareMap.get(DcMotor.class, "Intake");
+//        IntakeServo = hardwareMap.get(Servo.class, "IntakeServo");
+//        LauncherServo.setPosition(0);
+//        IntakeServo.setPosition(0);
 //**************
     }
 
