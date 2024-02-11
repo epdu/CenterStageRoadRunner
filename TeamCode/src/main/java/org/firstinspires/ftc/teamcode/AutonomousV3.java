@@ -1,5 +1,6 @@
-// Blue left setup  use hardware init Red Alliance works, add blue still need to adjust hsv range, contours either too big or too small
-// set the distanct from frot of robot to the block of game element
+//Alan taught me a nice way to debug code, each time he will make a new file with mame-AutonomousCopyALan from Autonomous
+//Blue left setup  use hardware init Red Alliance works, add blue still need to adjust hsv range, contours either too big or too small
+//set the distance from front of robot to the block of game element
 /*  Using the specs from the motor, you would need to find the encoder counts per revolution (of the output shaft).
      Then, you know that corresponds to 360 degrees of wheel rotation, which means the distance travelled is the circumference
       of the wheel (2 * pi * r_wheel). To figure out how many encoder ticks correspond to the distance you wanna go,
