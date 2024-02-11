@@ -547,7 +547,7 @@ public class AutonomousV3 extends LinearOpMode {
         //346/2=173 -+10 -> 163,180 54 56
         //207/2=103-+10=93 113
         red cube 346 54 56 blue tape 204 85 59 blue cube 207 90 39
-                redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(160,40,50), new Scalar(180, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(0,40,50), new Scalar(30, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(180, 8, 24), new Scalar(230, 255, 255));
