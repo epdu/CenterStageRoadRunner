@@ -288,7 +288,7 @@ https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_det
                 sleep(3000);//test
             }
             moveRobot(drive, strafe, turn);
-            sleep(10);
+            sleep(100);
             if( targetFound=true && abs(drive)<0.05 && abs(strafe)<0.05 && abs(turn)<0.05 ){break;}  // don't look any further
         }
 //////////////////////
