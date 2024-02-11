@@ -42,8 +42,8 @@ public class AutonomousV4 extends LinearOpMode {
     //    public String parkingSide="left";
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public boolean autoParkingDone=false;
-    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
-    private static final double[] blueBlobColorThresholds = {20.0, 250.0, 40.0, 250.0, 160.0, 240.0};
+//    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
+//    private static final double[] blueBlobColorThresholds = {20.0, 250.0, 40.0, 250.0, 160.0, 240.0};
     public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
     //    public boolean targetFound = false;
@@ -525,10 +525,10 @@ public class AutonomousV4 extends LinearOpMode {
     }
     private void initVisionPortal() {
         aprilTag = new AprilTagProcessor.Builder().build();
-//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(20, 40, 160), new Scalar(250, 250, 240) );
 /*
+//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );//good
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,70,25), new Scalar(130, 255, 255) );//good
