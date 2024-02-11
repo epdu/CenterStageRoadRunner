@@ -209,19 +209,19 @@ public class AutonomousV3 extends LinearOpMode {
                         desiredTag = detection;
                         telemetry.addData("test", targetFound);
                         telemetry.update();
-                        sleep(2000);//test
+    //                    sleep(2000);//test
                         break;  // don't look any further.
                     } else {
                         // This tag is in the library, but we do not want to track it right now.
                         telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
                         telemetry.update();
-                        sleep(2000);//test
+//                        sleep(2000);//test
                     }
                 } else {
                     // This tag is NOT in the library, so we don't have enough information to track to it.
                     telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                     telemetry.update();
-                    sleep(2000);//test
+  //                  sleep(2000);//test
                 }
             }
 
@@ -253,11 +253,14 @@ https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_det
                 telemetry.addData("turn ", turn);
                 telemetry.addData("strafe", strafe);
                 telemetry.update();
-                sleep(3000);//test
+ //               sleep(6000);//test
             }
             moveRobot(drive, strafe, turn);
-            sleep(100);
-            if( targetFound=true && abs(drive)<0.01 && abs(strafe)<0.01 && abs(turn)<0.01 ){break;}  // don't look any further
+            sleep(10);
+            if( targetFound=true && abs(drive)<0.01 && abs(strafe)<0.01 && abs(turn)<0.01 ){
+                telemetry.addData("if for break drive", drive);
+                telemetry.update();
+                break;}  // don't look any further
         }
 //////////////////////
     }
