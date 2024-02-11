@@ -30,7 +30,9 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 //HSV need claw and wrist
-@Autonomous(name = "Auto VisionPortal init V3 ")
+//OpenCvVisionProcessor
+//HardwarePowerpuffs
+@Autonomous(name = "Auto VisionPortal V3 ")
 public class AutonomousV3 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
     public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
