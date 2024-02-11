@@ -156,7 +156,6 @@ public class AutonomousV3 extends LinearOpMode {
                     telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
                     telemetry.addData("Distance in Inch", (getDistance(width)));
                     telemetry.update();
-                    sleep(3000);//test
 
                 } else if (allianceColor.equals("blue")) {
                     Point teamPropCentroid = blueTeamPropOpenCv.getTeamPropCentroid();
@@ -209,40 +208,31 @@ public class AutonomousV3 extends LinearOpMode {
                         desiredTag = detection;
                         telemetry.addData("test", targetFound);
                         telemetry.update();
-    //                    sleep(2000);//test
+
                         break;  // don't look any further.
                     } else {
                         // This tag is in the library, but we do not want to track it right now.
                         telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
                         telemetry.update();
-//                        sleep(2000);//test
+
                     }
                 } else {
                     // This tag is NOT in the library, so we don't have enough information to track to it.
                     telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                     telemetry.update();
-  //                  sleep(2000);//test
+
                 }
             }
 
-            if (targetFound) {
+            if (targetFound==true) {
                 double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                 double headingError = desiredTag.ftcPose.bearing;
                 double yawError = desiredTag.ftcPose.yaw;
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                strafe= Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-                turn = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-/*
-turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-As described at the previous page FTC Reference Frame, position is expressed as (X, Y, Z).
-Orientation is expressed as rotation about (X, Y, Z), called Pitch, Roll and Yaw respectively.
-    Range, direct (point-to-point) distance to the tag center
-    Bearing, the angle the camera must turn (left/right) to point directly at the tag center
-    Elevation, the angle the camera must tilt (up/down) to point directly at the tag center
-https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_detection_values/understanding-apriltag-detection-values.html
-*/
+                turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+
                 telemetry.addData("\n>", "HOLD Left-Bumper to Drive to Target\n");
                 telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
                 telemetry.addData("DESIRED_DISTANCE", DESIRED_DISTANCE);
@@ -253,7 +243,7 @@ https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_det
                 telemetry.addData("turn ", turn);
                 telemetry.addData("strafe", strafe);
                 telemetry.update();
- //               sleep(6000);//test
+
             }
             moveRobot(drive, strafe, turn);
             sleep(10);
@@ -318,7 +308,6 @@ https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_det
             } else if (teamPropLocations.equals("Right")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
-                sleep(2000);//test
                 moveBackward(0.3, 28);
                 //put arms down
                 turnLeft(0.3, 14.5);
