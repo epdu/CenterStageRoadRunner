@@ -192,7 +192,7 @@ public class AutonomousV3 extends LinearOpMode {
     public void lookfortag(int tag){
 
 ///////////////////////
-        while (opModeIsActive()) {
+        while (true) {//////////while (opModeIsActive()
             //while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05))
             DESIRED_TAG_ID = tag;
             desiredTag = null;
@@ -224,31 +224,6 @@ public class AutonomousV3 extends LinearOpMode {
                     sleep(2000);//test
                 }
             }
-/*
-        double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-        double headingError = desiredTag.ftcPose.bearing;
-        double yawError = desiredTag.ftcPose.yaw;
-//        while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05))
-
-            // Use the speed and turn "gains" to calculate how we want the robot to move.
-            drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-            strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-            telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
-            telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
-            telemetry.addData("DESIRED_DISTANCE",DESIRED_DISTANCE);
-            telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
-            telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
-            telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
-            telemetry.addData("drive ",drive);
-            telemetry.addData("turn ",turn);
-            telemetry.addData("strafe",strafe);
-            telemetry.update();
-
-        moveRobot(drive, strafe, turn);
-        sleep(10);
-
- */
 
             if (targetFound) {
                 double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
@@ -258,20 +233,13 @@ public class AutonomousV3 extends LinearOpMode {
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 strafe= Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                 turn = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-
 /*
-                drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-
-
-
 As described at the previous page FTC Reference Frame, position is expressed as (X, Y, Z).
 Orientation is expressed as rotation about (X, Y, Z), called Pitch, Roll and Yaw respectively.
     Range, direct (point-to-point) distance to the tag center
-
     Bearing, the angle the camera must turn (left/right) to point directly at the tag center
-
     Elevation, the angle the camera must tilt (up/down) to point directly at the tag center
 https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_detection_values/understanding-apriltag-detection-values.html
 */
@@ -289,7 +257,7 @@ https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_det
             }
             moveRobot(drive, strafe, turn);
             sleep(100);
-            if( targetFound=true && abs(drive)<0.05 && abs(strafe)<0.05 && abs(turn)<0.05 ){break;}  // don't look any further
+            if( targetFound=true && abs(drive)<0.01 && abs(strafe)<0.01 && abs(turn)<0.01 ){break;}  // don't look any further
         }
 //////////////////////
     }
