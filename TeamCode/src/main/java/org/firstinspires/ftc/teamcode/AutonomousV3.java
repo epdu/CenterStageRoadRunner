@@ -40,7 +40,11 @@ public class AutonomousV3 extends LinearOpMode {
     public boolean autoParkingDone=false;
    public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
-    public boolean targetFound = false;
+//    public boolean targetFound = false;
+    boolean targetFound     = false;    // Set to true when an AprilTag target is detected
+    double  drive           = 0;        // Desired forward power/speed (-1 to +1)
+    double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
+    double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 //    public boolean targetFound = false;
 //    public double drive = 0;
 //    public double turn = 0;
@@ -129,12 +133,12 @@ public class AutonomousV3 extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
-        targetFound     = false;
-//        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
+//        targetFound     = false;
+/*        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1)
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
-
+*/
         initVisionPortal() ;
         waitForStart();
 
@@ -191,12 +195,6 @@ public class AutonomousV3 extends LinearOpMode {
         while (opModeIsActive()) {
             //while ((targetFound=true)&&(abs(rangeError)>0.05||abs(headingError)>0.05||abs(yawError)>0.05))
             DESIRED_TAG_ID = tag;
-            targetFound = false;
-//        boolean targetFound = false;
-            double drive = 0;
-            double turn = 0;
-            double strafe = 0;
-
             desiredTag = null;
 
             // Step through the list of detected tags and look for a matching tag
@@ -574,6 +572,8 @@ public class AutonomousV3 extends LinearOpMode {
                 .addProcessor(blueTeamPropOpenCv)
                 .build();
         setManualExposure(6, 250);
+        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
+        telemetry.update();
     }
     private void    setManualExposure(int exposureMS, int gain) {
         // Wait for the camera to be open, then use the controls
@@ -617,9 +617,9 @@ public class AutonomousV3 extends LinearOpMode {
         double rightBackPower    =  x -y -yaw;
 
         // Normalize wheel powers to be less than 1.0
-        double max = Math.max(abs(leftFrontPower), abs(rightFrontPower));
-        max = Math.max(max, abs(leftBackPower));
-        max = Math.max(max, abs(rightBackPower));
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
 
         if (max > 1.0) {
             leftFrontPower /= max;
