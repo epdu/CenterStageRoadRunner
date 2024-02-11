@@ -20,11 +20,11 @@ public class ArmTesting extends OpMode {
     public void loop() {
         if (gamepad2.dpad_down && !move) { //down
             ArmR.setPosition(0);
-            ArmL.setPosition(0);
+            ArmL.setPosition(0.001);
         }
         if (gamepad2.dpad_up && !move) { //up
-            ArmL.setPosition(0.9);
-            ArmR.setPosition(0.9);
+            ArmL.setPosition(1);
+            ArmR.setPosition(1);
         }
     }
 }
