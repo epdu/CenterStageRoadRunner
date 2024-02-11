@@ -248,7 +248,7 @@ public class AutonomousV3 extends LinearOpMode {
             }
             moveRobot(drive, strafe, turn);
             sleep(10);
-            if( targetFound==true && abs(drive)<0.01 && abs(strafe)<0.01 && abs(turn)<0.01 ){
+            if( targetFound==true && abs(drive)<0.1 && abs(strafe)<0.05 && abs(turn)<0.05 ){
                 telemetry.addData("if for break drive", drive);
                 telemetry.update();
                 break;}  // don't look any further
