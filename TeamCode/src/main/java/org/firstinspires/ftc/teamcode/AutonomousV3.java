@@ -137,6 +137,7 @@ public class AutonomousV3 extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+
 //        targetFound     = false;
 /*        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1)
@@ -189,8 +190,9 @@ public class AutonomousV3 extends LinearOpMode {
                 break;
             }
         }
+        dashboard.stopCameraStream();
+//        controlHubCam.stopStreaming();
 
-        controlHubCam.stopStreaming();
     }
     public void lookfortag(int tag){
 
