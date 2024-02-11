@@ -256,8 +256,25 @@ public class AutonomousV3 extends LinearOpMode {
                 double yawError = desiredTag.ftcPose.yaw;
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                strafe= Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                turn = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+
+/*
+                drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+
+
+
+As described at the previous page FTC Reference Frame, position is expressed as (X, Y, Z).
+Orientation is expressed as rotation about (X, Y, Z), called Pitch, Roll and Yaw respectively.
+    Range, direct (point-to-point) distance to the tag center
+
+    Bearing, the angle the camera must turn (left/right) to point directly at the tag center
+
+    Elevation, the angle the camera must tilt (up/down) to point directly at the tag center
+https://ftc-docs.firstinspires.org/en/latest/apriltag/understanding_apriltag_detection_values/understanding-apriltag-detection-values.html
+*/
                 telemetry.addData("\n>", "HOLD Left-Bumper to Drive to Target\n");
                 telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
                 telemetry.addData("DESIRED_DISTANCE", DESIRED_DISTANCE);
