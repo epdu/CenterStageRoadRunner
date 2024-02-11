@@ -36,6 +36,7 @@ public class AutonomousV3 extends LinearOpMode {
     public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
 //    public String allianceColor="blue";
     public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
+//    public String parkingSide="left";
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public boolean autoParkingDone=false;
    public float speedMultiplier=0.5f;
@@ -179,11 +180,11 @@ public class AutonomousV3 extends LinearOpMode {
             aprilTagOmni();
 
 
-//            dropYellowPixel();
-//            autoParking();
-//            if(autoParkingDone==true){
-//                break;
-//            }
+            dropYellowPixel();
+            autoParking();
+            if(autoParkingDone==true){
+                break;
+            }
         }
 
         controlHubCam.stopStreaming();
@@ -247,7 +248,7 @@ public class AutonomousV3 extends LinearOpMode {
             }
             moveRobot(drive, strafe, turn);
             sleep(10);
-            if( targetFound==true && abs(drive)<0.05 && abs(strafe)<0.05 && abs(turn)<0.05 ){
+            if( targetFound==true && abs(drive)<0.01 && abs(strafe)<0.01 && abs(turn)<0.01 ){
                 telemetry.addData("if for break drive", drive);
                 telemetry.update();
                 break;}  // don't look any further
@@ -263,7 +264,6 @@ public class AutonomousV3 extends LinearOpMode {
         telemetry.addData("cY", cY);
         telemetry.addData("teamPropLocations", teamPropLocations);
         telemetry.update();
-        sleep(6000);//test
 
         if(cX > 0 && cX < 184 && cY <400 && cY > 100 ){// if(cX > 0 && cX < 365 )0 183   230-410 407-640365-320 640
             teamPropLocations="Left";
