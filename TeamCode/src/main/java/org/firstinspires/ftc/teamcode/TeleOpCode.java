@@ -50,9 +50,9 @@ public class TeleOpCode extends OpMode {
 //        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
 //        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
-        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+//
+//        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //*********without servo on robot please Comment these lines for debuging
 
