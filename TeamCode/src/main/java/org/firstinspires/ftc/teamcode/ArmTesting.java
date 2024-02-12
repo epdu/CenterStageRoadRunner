@@ -23,8 +23,8 @@ public class ArmTesting extends OpMode {
             ArmL.setPosition(0);
         }
         if (gamepad2.dpad_up && !move) { //up
-            ArmL.setPosition(1);
-            ArmR.setPosition(1);
+            ArmL.setPosition(0.95);
+            ArmR.setPosition(0.95);
         }
     }
 }

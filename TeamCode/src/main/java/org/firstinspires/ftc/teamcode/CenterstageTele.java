@@ -166,8 +166,8 @@ public class CenterstageTele extends OpMode {
             ArmL.setPosition(0);
         }
         if (gamepad2.dpad_up && !move) { //up
-            ArmL.setPosition(0.9);
-            ArmR.setPosition(0.9);
+            ArmL.setPosition(0.95);
+            ArmR.setPosition(0.95);
         }
         if (gamepad2.b && !move) { //up
             Wrist.setPosition(1);
