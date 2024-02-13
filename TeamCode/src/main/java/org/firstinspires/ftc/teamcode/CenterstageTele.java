@@ -125,7 +125,6 @@ public class CenterstageTele extends OpMode {
         liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotorL.setPower(y);
         liftMotorR.setPower(y);
-
     }
 
     private void moveSlideToPosition(int targetPosition) {
