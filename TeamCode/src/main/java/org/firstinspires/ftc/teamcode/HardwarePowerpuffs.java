@@ -125,24 +125,21 @@ public class HardwarePowerpuffs
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 /*
-        Wrist = hwMap.get(Servo.class, "wrist");
+         //Wrist = hardwareMap.get(Servo.class, "wrist");//control hub port 5
         Wrist.setPosition(0.34);
-
-        ClawR = hwMap.get(Servo.class, "ClawR");
-        ClawL = hwMap.get(Servo.class, "ClawL");
+        //drone expansion hub port 5
+       //ClawR = hardwareMap.get(Servo.class, "ClawR");//control hub port 2
+        //ClawL = hardwareMap.get(Servo.class, "ClawL");//control hub port 3
         ClawR.setPosition(0.78);
         ClawL.setPosition(0.018);
         ClawL.setDirection(Servo.Direction.REVERSE);
 
-        ArmL = hwMap.get(Servo.class, "ArmL");
-        ArmR = hwMap.get(Servo.class, "ArmR");
-
-        ArmL.setPosition(0.5);
-        ArmR.setPosition(0.5);
+        //ArmL = hardwareMap.get(Servo.class, "ArmL");//control hub port 1
+        //ArmR = hardwareMap.get(Servo.class, "ArmR");//control hub port 0
 
 */
-//        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port ?
-//        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port ?
+//        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port 1
+//        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port 0
 
         imu = hwMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
