@@ -54,6 +54,7 @@ public class SlideTest extends OpMode {
     }
 
     private void moveSlideToPosition(int targetPosition) {
+
         liftMotorL.setTargetPosition(targetPosition);
         liftMotorR.setTargetPosition(targetPosition);
         liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);

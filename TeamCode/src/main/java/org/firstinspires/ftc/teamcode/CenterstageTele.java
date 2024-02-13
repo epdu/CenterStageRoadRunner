@@ -57,22 +57,22 @@ public class CenterstageTele extends OpMode {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        Drone = hardwareMap.get(Servo.class, "Drone");
-        Drone.setPosition(0);
+//        Drone = hardwareMap.get(Servo.class, "Drone");
+//        Drone.setPosition(0);
 
-        Wrist = hardwareMap.get(Servo.class, "wrist");
-        Wrist.setDirection(Servo.Direction.REVERSE);
-        Wrist.setPosition(1);
-
-        ClawR = hardwareMap.get(Servo.class, "ClawR");
-        ClawL = hardwareMap.get(Servo.class, "ClawL");
-        ClawR.setPosition(0.71);
-        ClawL.setPosition(0.505);
-        ClawL.setDirection(Servo.Direction.REVERSE);
-
-        ArmL = hardwareMap.get(Servo.class, "ArmL");
-        ArmR = hardwareMap.get(Servo.class, "ArmR");
-        ArmL.setDirection(Servo.Direction.REVERSE);
+//        Wrist = hardwareMap.get(Servo.class, "wrist");
+//        Wrist.setDirection(Servo.Direction.REVERSE);
+//        Wrist.setPosition(1);
+//
+//        ClawR = hardwareMap.get(Servo.class, "ClawR");
+//        ClawL = hardwareMap.get(Servo.class, "ClawL");
+//        ClawR.setPosition(0.71);
+//        ClawL.setPosition(0.505);
+//        ClawL.setDirection(Servo.Direction.REVERSE);
+//
+//        ArmL = hardwareMap.get(Servo.class, "ArmL");
+//        ArmR = hardwareMap.get(Servo.class, "ArmR");
+//        ArmL.setDirection(Servo.Direction.REVERSE);
     }
 
     public void FieldCentricDriveTrain() {
@@ -120,7 +120,9 @@ public class CenterstageTele extends OpMode {
     }
 
     public void liftArmHigh() {
-        double y = -gamepad1.left_stick_y;
+        double y = gamepad2.left_stick_y;
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotorL.setPower(y);
         liftMotorR.setPower(y);
     }
