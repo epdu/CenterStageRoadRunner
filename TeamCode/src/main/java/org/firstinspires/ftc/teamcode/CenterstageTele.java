@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,20 +12,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp
+@TeleOp(name = "Centerstage Tele ")
 public class CenterstageTele extends OpMode {
-    DcMotor RFMotor;
-    DcMotor LFMotor;
-    DcMotor RBMotor;
-    DcMotor LBMotor;
-    DcMotor liftMotorL;
-    DcMotor liftMotorR;
-    Servo ClawR;
-    Servo ClawL;
-    Servo Wrist;
-    Servo ArmR;
-    Servo ArmL;
-    Servo Drone;
+    HardwarePowerpuffs robot = new HardwarePowerpuffs();
+    public String fieldOrRobotCentric="field";// pick up the centric
+    //   public String fieldOrRobotCentric="robot";
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.05f;
     boolean move = false;
@@ -34,46 +26,58 @@ public class CenterstageTele extends OpMode {
 
     @Override
     public void init() {
-        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
-        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
-        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
-        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
+        robot.init(hardwareMap);
 
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
-        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
-        int positionL = liftMotorL.getCurrentPosition();
-        int positionR = liftMotorR.getCurrentPosition();
-        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-//        Drone = hardwareMap.get(Servo.class, "Drone");
-//        Drone.setPosition(0);
-
-//        Wrist = hardwareMap.get(Servo.class, "wrist");
-//        Wrist.setDirection(Servo.Direction.REVERSE);
-//        Wrist.setPosition(1);
-//
-//        ClawR = hardwareMap.get(Servo.class, "ClawR");
-//        ClawL = hardwareMap.get(Servo.class, "ClawL");
-//        ClawR.setPosition(0.71);
-//        ClawL.setPosition(0.505);
-//        ClawL.setDirection(Servo.Direction.REVERSE);
-//
-//        ArmL = hardwareMap.get(Servo.class, "ArmL");
-//        ArmR = hardwareMap.get(Servo.class, "ArmR");
-//        ArmL.setDirection(Servo.Direction.REVERSE);
     }
+
+    @Override
+    public void loop() {
+        if(fieldOrRobotCentric.equals("field")) {
+            FieldCentricDriveTrain();
+        }else if (fieldOrRobotCentric.equals("robot")){
+            RobotCentricDriveTrain();
+        }
+
+        liftArmHigh();
+        if (gamepad1.right_trigger > 0.3) { //close
+            robot.ClawR.setPosition(0.71);
+        }
+        if (gamepad1.left_trigger > 0.3) { //close
+            robot.ClawL.setPosition(0.505);
+        }
+        if (gamepad1.left_bumper && !move) { //open
+            robot.ClawL.setPosition(0.2);
+        }
+        if (gamepad1.right_bumper && !move) { //open
+            robot.ClawR.setPosition(0.5);
+        }
+        if (gamepad2.dpad_down && !move) { //down
+            robot.ArmR.setPosition(0);
+            robot.ArmL.setPosition(0);
+        }
+        if (gamepad2.dpad_up && !move) { //up
+            robot.ArmL.setPosition(0.95);
+            robot.ArmR.setPosition(0.95);
+        }
+        if (gamepad2.b && !move) { //up
+            robot.Wrist.setPosition(1);
+        }
+        if (gamepad2.x && !move) { //down
+            robot.Wrist.setPosition(0.6);
+
+        }
+        if (gamepad2.left_bumper && !move) { //shoot
+            robot.Drone.setPosition(1);
+        }
+        if (gamepad2.a && !move) { //all the way down
+            moveSlideToPosition(POSITION_A);
+        }
+        if (gamepad2.y && !move) { //up controlled
+            moveSlideToPosition(POSITION_Y);
+        }
+    }
+
+
 
     public void FieldCentricDriveTrain() {
         //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
@@ -113,80 +117,65 @@ public class CenterstageTele extends OpMode {
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        LFMotor.setPower(0.75*frontLeftPower);
-        LBMotor.setPower(0.75*backLeftPower);
-        RFMotor.setPower(0.75*frontRightPower);
-        RBMotor.setPower(0.75*backRightPower);
+        robot.LFMotor.setPower(0.75*frontLeftPower);
+        robot.LBMotor.setPower(0.75*backLeftPower);
+        robot.RFMotor.setPower(0.75*frontRightPower);
+        robot.RBMotor.setPower(0.75*backRightPower);
+    }
+
+    public void RobotCentricDriveTrain(){
+        double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x;
+        double rx = gamepad1.right_stick_x;
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+        imu.initialize(parameters);
+        if (gamepad1.options) {
+            imu.resetYaw();
+        }
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        double fl = y - x - rx;
+        double bl = y + x - rx;
+        double fr = y + x + rx;
+        double br = y - x + rx;
+
+        robot.LFMotor.setPower(fl*speedMultiplier);
+        robot.LBMotor.setPower(bl*speedMultiplier);
+        robot.RFMotor.setPower(fr*speedMultiplier);
+        robot.RBMotor.setPower(br*speedMultiplier);
+
     }
 
     public void liftArmHigh() {
         double y = gamepad2.left_stick_y;
-        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotorL.setPower(y);
-        liftMotorR.setPower(y);
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftMotorL.setPower(y);
+        robot.liftMotorR.setPower(y);
 
     }
 
     private void moveSlideToPosition(int targetPosition) {
-        liftMotorL.setTargetPosition(targetPosition);
-        liftMotorR.setTargetPosition(targetPosition);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorR.setPower(SLIDE_POWER);
-        liftMotorL.setPower(SLIDE_POWER);
+        robot.liftMotorL.setTargetPosition(targetPosition);
+        robot.liftMotorR.setTargetPosition(targetPosition);
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotorR.setPower(SLIDE_POWER);
+        robot.liftMotorL.setPower(SLIDE_POWER);
         move=true;
 //        while (liftMotorR.isBusy() && move) {
-        while (liftMotorL.isBusy() && liftMotorR.isBusy() && move) {
+        while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
             // Wait until the motor reaches the target position
         }
 
-        liftMotorL.setPower(0);
-        liftMotorR.setPower(0);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotorL.setPower(0);
+        robot.liftMotorR.setPower(0);
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         move=false;
     }
 
-    @Override
-    public void loop() {
-        FieldCentricDriveTrain();
-        liftArmHigh();
-        if (gamepad1.right_trigger > 0.3) { //close
-            ClawR.setPosition(0.71);
-        }
-        if (gamepad1.left_trigger > 0.3) { //close
-            ClawL.setPosition(0.505);
-        }
-        if (gamepad1.left_bumper && !move) { //open
-            ClawL.setPosition(0.2);
-        }
-        if (gamepad1.right_bumper && !move) { //open
-            ClawR.setPosition(0.5);
-        }
-        if (gamepad2.dpad_down && !move) { //down
-            ArmR.setPosition(0);
-            ArmL.setPosition(0);
-        }
-        if (gamepad2.dpad_up && !move) { //up
-            ArmL.setPosition(0.95);
-            ArmR.setPosition(0.95);
-        }
-        if (gamepad2.b && !move) { //up
-            Wrist.setPosition(1);
-        }
-        if (gamepad2.x && !move) { //down
-            Wrist.setPosition(0.6);
-
-        }
-        if (gamepad2.left_bumper && !move) { //shoot
-            Drone.setPosition(1);
-        }
-        if (gamepad2.a && !move) { //all the way down
-            moveSlideToPosition(POSITION_A);
-        }
-        if (gamepad2.y && !move) { //up controlled
-            moveSlideToPosition(POSITION_Y);
-        }
-    }
 }

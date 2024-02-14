@@ -116,6 +116,19 @@ public class HardwarePowerpuffs
         LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        liftMotorL = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port 1
+        liftMotorR = hwMap.get(DcMotor.class, "liftMotorR");//02022024 control hub? port 0
+
+        int positionL = liftMotorL.getCurrentPosition();
+        int positionR = liftMotorR.getCurrentPosition();
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         // Set all motors to zero power
         setAllPower(0);
         // Set all motors to run without encoders.
@@ -124,6 +137,24 @@ public class HardwarePowerpuffs
         LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        //        Drone = hardwareMap.get(Servo.class, "Drone");
+//        Drone.setPosition(0);
+
+//        Wrist = hardwareMap.get(Servo.class, "wrist");
+//        Wrist.setDirection(Servo.Direction.REVERSE);
+//        Wrist.setPosition(1);
+//
+//        ClawR = hardwareMap.get(Servo.class, "ClawR");
+//        ClawL = hardwareMap.get(Servo.class, "ClawL");
+//        ClawR.setPosition(0.71);
+//        ClawL.setPosition(0.505);
+//        ClawL.setDirection(Servo.Direction.REVERSE);
+//
+//        ArmL = hardwareMap.get(Servo.class, "ArmL");
+//        ArmR = hardwareMap.get(Servo.class, "ArmR");
+//        ArmL.setDirection(Servo.Direction.REVERSE);
 /*
          //Wrist = hardwareMap.get(Servo.class, "wrist");//control hub port 5
         Wrist.setPosition(0.34);
@@ -138,8 +169,7 @@ public class HardwarePowerpuffs
         //ArmR = hardwareMap.get(Servo.class, "ArmR");//control hub port 0
 
 */
-//        liftMotorL   = hwMap.get(DcMotor.class, "liftMotorL");//02022024 control hub? port 1
-//        liftMotorR  = hwMap.get(DcMotor.class, "liftMotorR"); //02022024 control hub? port 0
+
 
         imu = hwMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
