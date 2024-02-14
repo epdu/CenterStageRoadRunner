@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class CenterstageTele extends OpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();
     public String fieldOrRobotCentric="field";// pick up the centric
-    //   public String fieldOrRobotCentric="robot";
+    //public String fieldOrRobotCentric="robot";
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.05f;
     boolean move = false;
@@ -27,7 +27,6 @@ public class CenterstageTele extends OpMode {
     @Override
     public void init() {
         robot.init(hardwareMap);
-
     }
 
     @Override
@@ -77,8 +76,33 @@ public class CenterstageTele extends OpMode {
         }
     }
 
+    public void liftArmHigh() {
+        double y = gamepad2.left_stick_y;
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftMotorL.setPower(y);
+        robot.liftMotorR.setPower(y);
 
+    }
 
+    private void moveSlideToPosition(int targetPosition) {
+        robot.liftMotorL.setTargetPosition(targetPosition);
+        robot.liftMotorR.setTargetPosition(targetPosition);
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotorR.setPower(SLIDE_POWER);
+        robot.liftMotorL.setPower(SLIDE_POWER);
+        move=true;
+        while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
+            // Wait until the motor reaches the target position
+        }
+
+        robot.liftMotorL.setPower(0);
+        robot.liftMotorR.setPower(0);
+        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        move=false;
+    }
     public void FieldCentricDriveTrain() {
         //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -147,35 +171,6 @@ public class CenterstageTele extends OpMode {
         robot.RFMotor.setPower(fr*speedMultiplier);
         robot.RBMotor.setPower(br*speedMultiplier);
 
-    }
-
-    public void liftArmHigh() {
-        double y = gamepad2.left_stick_y;
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftMotorL.setPower(y);
-        robot.liftMotorR.setPower(y);
-
-    }
-
-    private void moveSlideToPosition(int targetPosition) {
-        robot.liftMotorL.setTargetPosition(targetPosition);
-        robot.liftMotorR.setTargetPosition(targetPosition);
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotorR.setPower(SLIDE_POWER);
-        robot.liftMotorL.setPower(SLIDE_POWER);
-        move=true;
-//        while (liftMotorR.isBusy() && move) {
-        while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
-            // Wait until the motor reaches the target position
-        }
-
-        robot.liftMotorL.setPower(0);
-        robot.liftMotorR.setPower(0);
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        move=false;
     }
 
 }
