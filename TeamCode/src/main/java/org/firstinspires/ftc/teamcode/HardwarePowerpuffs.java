@@ -192,7 +192,6 @@ public class HardwarePowerpuffs
     }
     //Set power to all motors
 
-
     public void setMotorPower(double lF, double rF, double lB, double rB){
         LFMotor.setPower(lF);
         LBMotor.setPower(lB);
