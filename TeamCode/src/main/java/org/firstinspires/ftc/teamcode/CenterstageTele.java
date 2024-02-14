@@ -12,11 +12,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "Centerstage Tele either field or robot")
+@TeleOp(name = "A Centerstage Tele either field or robot")
 public class CenterstageTele extends OpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();
-    public String fieldOrRobotCentric="field";// pick up the centric
-    //public String fieldOrRobotCentric="robot";
+   // public String fieldOrRobotCentric="field";// pick up the centri
+    public String fieldOrRobotCentric="robot";
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.05f;
     boolean move = false;
