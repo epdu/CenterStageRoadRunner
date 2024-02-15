@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
@@ -13,13 +10,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainCon
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-
-
-
 
 /* Copyright (c) 2023 FIRST. All rights reserved.
  *
@@ -49,25 +41,6 @@ import java.util.concurrent.TimeUnit;
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
-        import com.qualcomm.robotcore.util.Range;
-
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-        import org.firstinspires.ftc.vision.VisionPortal;
-        import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-        import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
-        import java.util.List;
-        import java.util.ResourceBundle;
-        import java.util.concurrent.TimeUnit;
 
 /*
  * This OpMode illustrates using a camera to locate and drive towards a specific AprilTag.
@@ -114,6 +87,7 @@ import java.util.concurrent.TimeUnit;
 public class AprilTagOmniCameraRear extends LinearOpMode
 {
     // Adjust these numbers to suit your robot.
+    HardwarePowerpuffs robot = new HardwarePowerpuffs();
     final double DESIRED_DISTANCE = 2.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
@@ -126,11 +100,6 @@ public class AprilTagOmniCameraRear extends LinearOpMode
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
-
-    private DcMotor RFMotor  = null;
-    private DcMotor RBMotor = null;
-    private DcMotor LBMotor   = null;
-    private DcMotor LFMotor   = null;
 
     private static final boolean USE_WEBCAM = true;
     private static final int DESIRED_TAG_ID = -1;
@@ -146,20 +115,9 @@ public class AprilTagOmniCameraRear extends LinearOpMode
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
         // Initialize the Apriltag Detection process
+
+        robot.init(hardwareMap);
         initAprilTag();
-
-        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
-        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
-        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
-        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
-
-        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        LFMotor.setDirection(DcMotor.Direction.FORWARD);
-        LBMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         if (USE_WEBCAM)
@@ -204,17 +162,6 @@ public class AprilTagOmniCameraRear extends LinearOpMode
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
                 telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
-// set id here
-/*
-
-                if(desiredTag.id==LEFT){
-                    //move to LEFT
-                } else if (desiredTag.id==RIGHT){
-                    // move to RIGHT
-                } else {
-                    //move to middle
-                }
-*/
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
@@ -266,18 +213,6 @@ public class AprilTagOmniCameraRear extends LinearOpMode
         double leftBackPower     =  x +y +yaw;
         double rightBackPower    =  x -y -yaw;
 
- /*tested does not work trun the right way but do not stop
-        double leftFrontPower    =  x +y -yaw;
-        double rightFrontPower   =  x -y +yaw;
-        double leftBackPower     =  x -y -yaw;
-        double rightBackPower    =  x +y +yaw;
-        */
- /*tested does not work right to lest
-        double leftFrontPower    =  x -y -yaw;
-        double rightFrontPower   =  x +y +yaw;
-        double leftBackPower     =  x +y -yaw;
-        double rightBackPower    =  x -y +yaw;
-*/
         /*        good for front camera
         double leftFrontPower    =  -x +y +yaw;
         double rightFrontPower   =  -x -y -yaw;
@@ -310,10 +245,10 @@ public class AprilTagOmniCameraRear extends LinearOpMode
             rightBackPower /= max;
         }
 
-        LFMotor.setPower(leftFrontPower);
-        RFMotor.setPower(rightFrontPower);
-        LBMotor.setPower(leftBackPower);
-        RBMotor.setPower(rightBackPower);
+        robot.LFMotor.setPower(leftFrontPower);
+        robot.RFMotor.setPower(rightFrontPower);
+        robot.LBMotor.setPower(leftBackPower);
+        robot.RBMotor.setPower(rightBackPower);
     }
 
     /**
