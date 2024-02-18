@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "A Centerstage Tele CenterstageTeleLinearOpMode ")
-public class CenterstageTeleLinearOpMode  extends OpMode {
+public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();
     public String fieldOrRobotCentric="field";// pick up the centric
     //   public String fieldOrRobotCentric="robot";
@@ -25,57 +26,91 @@ public class CenterstageTeleLinearOpMode  extends OpMode {
     private static final int POSITION_A = 0;
     private static final double SLIDE_POWER = 0.05; // Adjust as needed
 
-    @Override
-    public void init() {
+    @Override public void runOpMode(){
         robot.init(hardwareMap);
 
-    }
-
-    @Override
-    public void loop() {
-        if(fieldOrRobotCentric.equals("field")) {
-            FieldCentricDriveTrain();
-        }else if (fieldOrRobotCentric.equals("robot")){
-            RobotCentricDriveTrain();
+        waitForStart();
+        while (opModeIsActive()) {
+            if(fieldOrRobotCentric.equals("field")) {
+                FieldCentricDriveTrain();
+                liftArmHigh();
+                if (gamepad1.right_trigger > 0.3) { //close
+                    robot.ClawR.setPosition(0.71);
+                }
+                if (gamepad1.left_trigger > 0.3) { //close
+                    robot.ClawL.setPosition(0.505);
+                }
+                if (gamepad1.left_bumper && !move) { //open
+                    robot.ClawL.setPosition(0.2);
+                }
+                if (gamepad1.right_bumper && !move) { //open
+                    robot.ClawR.setPosition(0.5);
+                }
+                if (gamepad2.dpad_down && !move) { //down
+                    robot.ArmR.setPosition(0);
+                    robot.ArmL.setPosition(0);
+                }
+                if (gamepad2.dpad_up && !move) { //up
+                    robot.ArmL.setPosition(0.95);
+                    robot.ArmR.setPosition(0.95);
+                }
+                if (gamepad2.b && !move) { //up
+                    robot.Wrist.setPosition(1);
+                }
+                if (gamepad2.x && !move) { //down
+                    robot.Wrist.setPosition(0.6);
+                }
+                if (gamepad2.left_bumper && !move) { //shoot
+                    robot.Drone.setPosition(1);
+                }
+                if (gamepad2.a && !move) { //all the way down
+                    moveSlideToPosition(POSITION_A);
+                }
+                if (gamepad2.y && !move) { //up controlled
+                    moveSlideToPosition(POSITION_Y);
+                }
+            }else if (fieldOrRobotCentric.equals("robot")){
+                RobotCentricDriveTrain();
+                liftArmHigh();
+                if (gamepad1.right_trigger > 0.3) { //close
+                    robot.ClawR.setPosition(0.71);
+                }
+                if (gamepad1.left_trigger > 0.3) { //close
+                    robot.ClawL.setPosition(0.505);
+                }
+                if (gamepad1.left_bumper && !move) { //open
+                    robot.ClawL.setPosition(0.2);
+                }
+                if (gamepad1.right_bumper && !move) { //open
+                    robot.ClawR.setPosition(0.5);
+                }
+                if (gamepad2.dpad_down && !move) { //down
+                    robot.ArmR.setPosition(0);
+                    robot.ArmL.setPosition(0);
+                }
+                if (gamepad2.dpad_up && !move) { //up
+                    robot.ArmL.setPosition(0.95);
+                    robot.ArmR.setPosition(0.95);
+                }
+                if (gamepad2.b && !move) { //up
+                    robot.Wrist.setPosition(1);
+                }
+                if (gamepad2.x && !move) { //down
+                    robot.Wrist.setPosition(0.6);
+                }
+                if (gamepad2.left_bumper && !move) { //shoot
+                    robot.Drone.setPosition(1);
+                }
+                if (gamepad2.a && !move) { //all the way down
+                    moveSlideToPosition(POSITION_A);
+                }
+                if (gamepad2.y && !move) { //up controlled
+                    moveSlideToPosition(POSITION_Y);
+                }
+            }
         }
 
-        liftArmHigh();
-        if (gamepad1.right_trigger > 0.3) { //close
-            robot.ClawR.setPosition(0.71);
-        }
-        if (gamepad1.left_trigger > 0.3) { //close
-            robot.ClawL.setPosition(0.505);
-        }
-        if (gamepad1.left_bumper && !move) { //open
-            robot.ClawL.setPosition(0.2);
-        }
-        if (gamepad1.right_bumper && !move) { //open
-            robot.ClawR.setPosition(0.5);
-        }
-        if (gamepad2.dpad_down && !move) { //down
-            robot.ArmR.setPosition(0);
-            robot.ArmL.setPosition(0);
-        }
-        if (gamepad2.dpad_up && !move) { //up
-            robot.ArmL.setPosition(0.95);
-            robot.ArmR.setPosition(0.95);
-        }
-        if (gamepad2.b && !move) { //up
-            robot.Wrist.setPosition(1);
-        }
-        if (gamepad2.x && !move) { //down
-            robot.Wrist.setPosition(0.6);
 
-        }
-        if (gamepad2.left_bumper && !move) { //shoot
-            robot.Drone.setPosition(1);
-        }
-        if (gamepad2.a && !move) { //all the way down
-            moveSlideToPosition(POSITION_A);
-        }
-        if (gamepad2.y && !move) { //up controlled
-            moveSlideToPosition(POSITION_Y);
-        }
     }
 
 
