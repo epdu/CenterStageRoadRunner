@@ -99,8 +99,13 @@ public class CenterstageTele extends LinearOpMode {
 
 
             if (fieldOrRobotCentric.equals("field")) {
-                FieldCentricDriveTrain();
+
+                telemetry.addData("fieldOrRobotCentric", fieldOrRobotCentric);
+
                 liftArmHigh();
+                if ((gamepad1.left_stick_y>=-1 && gamepad1.left_stick_y<=1)||(gamepad1.left_stick_x>=-1 && gamepad1.left_stick_x<=1)||(gamepad1.right_stick_x>=-1 && gamepad1.right_stick_x<=1)){
+                    FieldCentricDriveTrain();
+                }
                 if (gamepad1.right_trigger > 0.3) { //close
                     robot.ClawR.setPosition(0.71);
                 }
