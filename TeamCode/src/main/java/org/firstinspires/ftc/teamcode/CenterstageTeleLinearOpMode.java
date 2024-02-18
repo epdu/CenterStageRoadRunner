@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "A Centerstage Tele CenterstageTeleLinearOpMode ")
+@TeleOp(name = "A CenterstageTele LinearOpMode ")
 public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();
     public String fieldOrRobotCentric="field";// pick up the centric
@@ -69,6 +69,10 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                 if (gamepad2.y && !move) { //up controlled
                     moveSlideToPosition(POSITION_Y);
                 }
+
+
+
+
             }else if (fieldOrRobotCentric.equals("robot")){
                 RobotCentricDriveTrain();
                 liftArmHigh();
@@ -107,6 +111,10 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                 if (gamepad2.y && !move) { //up controlled
                     moveSlideToPosition(POSITION_Y);
                 }
+
+
+
+
             }
         }
 
