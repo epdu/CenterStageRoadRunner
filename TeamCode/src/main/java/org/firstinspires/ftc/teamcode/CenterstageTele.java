@@ -100,52 +100,96 @@ public class CenterstageTele extends LinearOpMode {
 
             if (fieldOrRobotCentric.equals("field")) {
                 FieldCentricDriveTrain();
+                liftArmHigh();
+                if (gamepad1.right_trigger > 0.3) { //close
+                    robot.ClawR.setPosition(0.71);
+                }
+                if (gamepad1.left_trigger > 0.3) { //close
+                    robot.ClawL.setPosition(0.505);
+                }
+                if (gamepad1.left_bumper && !move) { //open
+                    robot.ClawL.setPosition(0.2);
+                }
+                if (gamepad1.right_bumper && !move) { //open
+                    robot.ClawR.setPosition(0.5);
+                }
+                if (gamepad2.dpad_down && !move) { //down
+                    robot.ArmR.setPosition(0);
+                    robot.ArmL.setPosition(0);
+                }
+                if (gamepad2.dpad_up && !move) { //up
+                    robot.ArmL.setPosition(0.95);
+                    robot.ArmR.setPosition(0.95);
+                }
+                if (gamepad2.b && !move) { //up
+                    robot.Wrist.setPosition(1);
+                }
+                if (gamepad2.x && !move) { //down
+                    robot.Wrist.setPosition(0.6);
+
+                }
+                if (gamepad2.left_bumper && !move) { //shoot
+                    robot.Drone.setPosition(1);
+                }
+                if (gamepad2.a && !move) { //all the way down
+                    moveSlideToPosition(POSITION_A);
+                }
+                if (gamepad2.y && !move) { //up controlled
+                    moveSlideToPosition(POSITION_Y);
+                }
+                if (gamepad1.left_bumper && targetFound) {
+                    AprilTagOmniCameraRear();
+                }
+                moveRobot(drive, strafe, turn);
+                sleep(10);
             } else if (fieldOrRobotCentric.equals("robot")) {
                 RobotCentricDriveTrain();
+                liftArmHigh();
+                if (gamepad1.right_trigger > 0.3) { //close
+                    robot.ClawR.setPosition(0.71);
+                }
+                if (gamepad1.left_trigger > 0.3) { //close
+                    robot.ClawL.setPosition(0.505);
+                }
+                if (gamepad1.left_bumper && !move) { //open
+                    robot.ClawL.setPosition(0.2);
+                }
+                if (gamepad1.right_bumper && !move) { //open
+                    robot.ClawR.setPosition(0.5);
+                }
+                if (gamepad2.dpad_down && !move) { //down
+                    robot.ArmR.setPosition(0);
+                    robot.ArmL.setPosition(0);
+                }
+                if (gamepad2.dpad_up && !move) { //up
+                    robot.ArmL.setPosition(0.95);
+                    robot.ArmR.setPosition(0.95);
+                }
+                if (gamepad2.b && !move) { //up
+                    robot.Wrist.setPosition(1);
+                }
+                if (gamepad2.x && !move) { //down
+                    robot.Wrist.setPosition(0.6);
+
+                }
+                if (gamepad2.left_bumper && !move) { //shoot
+                    robot.Drone.setPosition(1);
+                }
+                if (gamepad2.a && !move) { //all the way down
+                    moveSlideToPosition(POSITION_A);
+                }
+                if (gamepad2.y && !move) { //up controlled
+                    moveSlideToPosition(POSITION_Y);
+                }
+                if (gamepad1.left_bumper && targetFound) {
+                    AprilTagOmniCameraRear();
+                }
+                moveRobot(drive, strafe, turn);
+                sleep(10);
             }
 
-//            liftArmHigh();
-            if (gamepad1.right_trigger > 0.3) { //close
-                robot.ClawR.setPosition(0.71);
-            }
-            if (gamepad1.left_trigger > 0.3) { //close
-                robot.ClawL.setPosition(0.505);
-            }
-            if (gamepad1.left_bumper && !move) { //open
-                robot.ClawL.setPosition(0.2);
-            }
-            if (gamepad1.right_bumper && !move) { //open
-                robot.ClawR.setPosition(0.5);
-            }
-            if (gamepad2.dpad_down && !move) { //down
-                robot.ArmR.setPosition(0);
-                robot.ArmL.setPosition(0);
-            }
-            if (gamepad2.dpad_up && !move) { //up
-                robot.ArmL.setPosition(0.95);
-                robot.ArmR.setPosition(0.95);
-            }
-            if (gamepad2.b && !move) { //up
-                robot.Wrist.setPosition(1);
-            }
-            if (gamepad2.x && !move) { //down
-                robot.Wrist.setPosition(0.6);
+//
 
-            }
-            if (gamepad2.left_bumper && !move) { //shoot
-                robot.Drone.setPosition(1);
-            }
-            if (gamepad2.a && !move) { //all the way down
-                moveSlideToPosition(POSITION_A);
-            }
-            if (gamepad2.y && !move) { //up controlled
-                moveSlideToPosition(POSITION_Y);
-            }
-            if (gamepad1.left_bumper && targetFound) {
-                AprilTagOmniCameraRear();
-            }
-            moveRobot(drive, strafe, turn);
-            sleep(10);
         }
     }
 
