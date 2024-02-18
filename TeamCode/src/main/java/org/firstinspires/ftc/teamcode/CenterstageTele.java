@@ -104,7 +104,7 @@ public class CenterstageTele extends LinearOpMode {
                 RobotCentricDriveTrain();
             }
 
-            liftArmHigh();
+//            liftArmHigh();
             if (gamepad1.right_trigger > 0.3) { //close
                 robot.ClawR.setPosition(0.71);
             }
@@ -219,15 +219,6 @@ public class CenterstageTele extends LinearOpMode {
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        imu.initialize(parameters);
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         double fl = y - x - rx;
         double bl = y + x - rx;
