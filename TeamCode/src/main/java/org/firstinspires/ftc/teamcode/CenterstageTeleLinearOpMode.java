@@ -45,27 +45,27 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     private static final int POSITION_A = 0;
     private static final double SLIDE_POWER = 0.05; // Adjust as needed
     //apriltag related
-    @Override public void runOpMode(){
+    @Override public void runOpMode() {
         robot.init(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()) {
-            if(fieldOrRobotCentric.equals("field")) {
+            if (fieldOrRobotCentric.equals("field")) {
                 FieldCentricDriveTrain();
                 liftArmHigh();
                 if (gamepad1.left_bumper && targetFound) {
 
                     // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-                    double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-                    double  headingError    = desiredTag.ftcPose.bearing;
-                    double  yawError        = desiredTag.ftcPose.yaw;
+                    double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+                    double headingError = desiredTag.ftcPose.bearing;
+                    double yawError = desiredTag.ftcPose.yaw;
 
                     // Use the speed and turn "gains" to calculate how we want the robot to move.
-                    drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                    turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                     strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
-                    telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                    telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
                 }
                 if (gamepad1.right_trigger > 0.3) { //close
                     robot.ClawR.setPosition(0.71);
@@ -106,75 +106,73 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                 sleep(10);
 
 
-
-            }else if (fieldOrRobotCentric.equals("robot")){
+            } else if (fieldOrRobotCentric.equals("robot")) {
                 RobotCentricDriveTrain();
                 liftArmHigh();
                 if (gamepad1.left_bumper && targetFound) {
 
                     // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-                    double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-                    double  headingError    = desiredTag.ftcPose.bearing;
-                    double  yawError        = desiredTag.ftcPose.yaw;
+                    double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+                    double headingError = desiredTag.ftcPose.bearing;
+                    double yawError = desiredTag.ftcPose.yaw;
 
                     // Use the speed and turn "gains" to calculate how we want the robot to move.
-                    drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                    turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                     strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
-                    telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
-                if (gamepad1.right_trigger > 0.3) { //close
-                    robot.ClawR.setPosition(0.71);
-                }
-                if (gamepad1.left_trigger > 0.3) { //close
-                    robot.ClawL.setPosition(0.505);
-                }
-                if (gamepad1.left_bumper && !move) { //open
-                    robot.ClawL.setPosition(0.2);
-                }
-                if (gamepad1.right_bumper && !move) { //open
-                    robot.ClawR.setPosition(0.5);
-                }
-                if (gamepad2.dpad_down && !move) { //down
-                    robot.ArmR.setPosition(0);
-                    robot.ArmL.setPosition(0);
-                }
-                if (gamepad2.dpad_up && !move) { //up
-                    robot.ArmL.setPosition(0.95);
-                    robot.ArmR.setPosition(0.95);
-                }
-                if (gamepad2.b && !move) { //up
-                    robot.Wrist.setPosition(1);
-                }
-                if (gamepad2.x && !move) { //down
-                    robot.Wrist.setPosition(0.6);
-                }
-                if (gamepad2.left_bumper && !move) { //shoot
-                    robot.Drone.setPosition(1);
-                }
-                if (gamepad2.a && !move) { //all the way down
-                    moveSlideToPosition(POSITION_A);
-                }
-                if (gamepad2.y && !move) { //up controlled
-                    moveSlideToPosition(POSITION_Y);
-                }
-                moveRobot(drive, strafe, turn);
-                sleep(10);
+                    telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                    if (gamepad1.right_trigger > 0.3) { //close
+                        robot.ClawR.setPosition(0.71);
+                    }
+                    if (gamepad1.left_trigger > 0.3) { //close
+                        robot.ClawL.setPosition(0.505);
+                    }
+                    if (gamepad1.left_bumper && !move) { //open
+                        robot.ClawL.setPosition(0.2);
+                    }
+                    if (gamepad1.right_bumper && !move) { //open
+                        robot.ClawR.setPosition(0.5);
+                    }
+                    if (gamepad2.dpad_down && !move) { //down
+                        robot.ArmR.setPosition(0);
+                        robot.ArmL.setPosition(0);
+                    }
+                    if (gamepad2.dpad_up && !move) { //up
+                        robot.ArmL.setPosition(0.95);
+                        robot.ArmR.setPosition(0.95);
+                    }
+                    if (gamepad2.b && !move) { //up
+                        robot.Wrist.setPosition(1);
+                    }
+                    if (gamepad2.x && !move) { //down
+                        robot.Wrist.setPosition(0.6);
+                    }
+                    if (gamepad2.left_bumper && !move) { //shoot
+                        robot.Drone.setPosition(1);
+                    }
+                    if (gamepad2.a && !move) { //all the way down
+                        moveSlideToPosition(POSITION_A);
+                    }
+                    if (gamepad2.y && !move) { //up controlled
+                        moveSlideToPosition(POSITION_Y);
+                    }
+                    moveRobot(drive, strafe, turn);
+                    sleep(10);
 
 
-
+                }
             }
+
+
         }
-
-
     }
+        public void moveRobot ( double moveRobot_x, double moveRobot_y, double moveRobot_yaw){
 
-        public void moveRobot(double moveRobot_x, double moveRobot_y, double moveRobot_yaw) {
-
-            double leftFrontPower    =  moveRobot_x -moveRobot_y + moveRobot_yaw;
-            double rightFrontPower   =  moveRobot_x +moveRobot_y -moveRobot_yaw;
-            double leftBackPower     =  moveRobot_x +moveRobot_y +moveRobot_yaw;
-            double rightBackPower    =  moveRobot_x -moveRobot_y -moveRobot_yaw;
+            double leftFrontPower = moveRobot_x - moveRobot_y + moveRobot_yaw;
+            double rightFrontPower = moveRobot_x + moveRobot_y - moveRobot_yaw;
+            double leftBackPower = moveRobot_x + moveRobot_y + moveRobot_yaw;
+            double rightBackPower = moveRobot_x - moveRobot_y - moveRobot_yaw;
 
             // Normalize wheel powers to be less than 1.0
             double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -194,104 +192,103 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
             robot.RBMotor.setPower(rightBackPower);
         }
 
-    public void FieldCentricDriveTrain() {
-        //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
-        double field_y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double field_x = -gamepad1.left_stick_x;
-        double field_rx = -gamepad1.right_stick_x;
+        public void FieldCentricDriveTrain () {
+            //for gobilda motor with REV hub and Frist SDK, we need reverse all control signals
+            double field_y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double field_x = -gamepad1.left_stick_x;
+            double field_rx = -gamepad1.right_stick_x;
 
-        // Retrieve the IMU from the hardware map
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
-        // This button choice was made so that it is hard to hit on accident,
-        // it can be freely changed based on preference.
-        // The equivalent button is start on Xbox-style controllers.
-        if (gamepad1.options) {
-            imu.resetYaw();
+            // Retrieve the IMU from the hardware map
+            IMU imu = hardwareMap.get(IMU.class, "imu");
+            // Adjust the orientation parameters to match your robot
+            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
+            // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+            imu.initialize(parameters);
+            // This button choice was made so that it is hard to hit on accident,
+            // it can be freely changed based on preference.
+            // The equivalent button is start on Xbox-style controllers.
+            if (gamepad1.options) {
+                imu.resetYaw();
+            }
+
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            // Rotate the movement direction counter to the bot's rotation
+            double rotX = field_x * Math.cos(-botHeading) - field_y * Math.sin(-botHeading);
+            double rotY = field_x * Math.sin(-botHeading) + field_y * Math.cos(-botHeading);
+
+            rotX = rotX * 1.1;  // Counteract imperfect strafing
+
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(field_rx), 1);
+            double frontLeftPower = (rotY + rotX + field_rx) / denominator;
+            double backLeftPower = (rotY - rotX + field_rx) / denominator;
+            double frontRightPower = (rotY - rotX - field_rx) / denominator;
+            double backRightPower = (rotY + rotX - field_rx) / denominator;
+
+            robot.LFMotor.setPower(0.75 * frontLeftPower);
+            robot.LBMotor.setPower(0.75 * backLeftPower);
+            robot.RFMotor.setPower(0.75 * frontRightPower);
+            robot.RBMotor.setPower(0.75 * backRightPower);
         }
 
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        public void RobotCentricDriveTrain () {
+            double robot_y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double robot_x = gamepad1.left_stick_x;
+            double robot_rx = gamepad1.right_stick_x;
+            IMU imu = hardwareMap.get(IMU.class, "imu");
+            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
+            imu.initialize(parameters);
+            if (gamepad1.options) {
+                imu.resetYaw();
+            }
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        // Rotate the movement direction counter to the bot's rotation
-        double rotX = field_x * Math.cos(-botHeading) - field_y * Math.sin(-botHeading);
-        double rotY = field_x * Math.sin(-botHeading) + field_y * Math.cos(-botHeading);
+            double fl = robot_y - robot_x - robot_rx;
+            double bl = robot_y + robot_x - robot_rx;
+            double fr = robot_y + robot_x + robot_rx;
+            double br = robot_y - robot_x + robot_rx;
 
-        rotX = rotX * 1.1;  // Counteract imperfect strafing
+            robot.LFMotor.setPower(fl * speedMultiplier);
+            robot.LBMotor.setPower(bl * speedMultiplier);
+            robot.RFMotor.setPower(fr * speedMultiplier);
+            robot.RBMotor.setPower(br * speedMultiplier);
 
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio,
-        // but only if at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(field_rx), 1);
-        double frontLeftPower = (rotY + rotX + field_rx) / denominator;
-        double backLeftPower = (rotY - rotX + field_rx) / denominator;
-        double frontRightPower = (rotY - rotX - field_rx) / denominator;
-        double backRightPower = (rotY + rotX - field_rx) / denominator;
-
-        robot.LFMotor.setPower(0.75*frontLeftPower);
-        robot.LBMotor.setPower(0.75*backLeftPower);
-        robot.RFMotor.setPower(0.75*frontRightPower);
-        robot.RBMotor.setPower(0.75*backRightPower);
-    }
-
-    public void RobotCentricDriveTrain(){
-        double robot_y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double robot_x = gamepad1.left_stick_x;
-        double robot_rx = gamepad1.right_stick_x;
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        imu.initialize(parameters);
-        if (gamepad1.options) {
-            imu.resetYaw();
         }
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        double fl = robot_y - robot_x - robot_rx;
-        double bl = robot_y + robot_x - robot_rx;
-        double fr = robot_y + robot_x + robot_rx;
-        double br = robot_y - robot_x + robot_rx;
+        public void liftArmHigh () {
+            double liftArm_y = gamepad2.left_stick_y;
+            robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.liftMotorL.setPower(liftArm_y);
+            robot.liftMotorR.setPower(liftArm_y);
 
-        robot.LFMotor.setPower(fl*speedMultiplier);
-        robot.LBMotor.setPower(bl*speedMultiplier);
-        robot.RFMotor.setPower(fr*speedMultiplier);
-        robot.RBMotor.setPower(br*speedMultiplier);
+        }
 
-    }
-
-    public void liftArmHigh() {
-        double liftArm_y = gamepad2.left_stick_y;
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftMotorL.setPower(liftArm_y);
-        robot.liftMotorR.setPower(liftArm_y);
-
-    }
-
-    private void moveSlideToPosition(int targetPosition) {
-        robot.liftMotorL.setTargetPosition(targetPosition);
-        robot.liftMotorR.setTargetPosition(targetPosition);
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotorR.setPower(SLIDE_POWER);
-        robot.liftMotorL.setPower(SLIDE_POWER);
-        move=true;
+        private void moveSlideToPosition ( int targetPosition){
+            robot.liftMotorL.setTargetPosition(targetPosition);
+            robot.liftMotorR.setTargetPosition(targetPosition);
+            robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotorR.setPower(SLIDE_POWER);
+            robot.liftMotorL.setPower(SLIDE_POWER);
+            move = true;
 //        while (liftMotorR.isBusy() && move) {
-        while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
-            // Wait until the motor reaches the target position
+            while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
+                // Wait until the motor reaches the target position
+            }
+
+            robot.liftMotorL.setPower(0);
+            robot.liftMotorR.setPower(0);
+            robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            move = false;
         }
-
-        robot.liftMotorL.setPower(0);
-        robot.liftMotorR.setPower(0);
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        move=false;
-    }
-
 }
 
