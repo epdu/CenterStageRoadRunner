@@ -267,6 +267,8 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
             robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.liftMotorL.setPower(liftArm_y);
             robot.liftMotorR.setPower(liftArm_y);
+            //up joystick makes the slides rotate clockwise on the out right side
+            //when looking at the robots right side from the outside wall the slide pulley spins clockwise/to the right when the joystick is pushed up
 
         }
 
