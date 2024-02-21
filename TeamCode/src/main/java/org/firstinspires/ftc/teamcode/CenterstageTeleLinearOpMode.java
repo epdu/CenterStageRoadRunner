@@ -40,12 +40,12 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     public float speedMultiplier = 0.5f;
     public float speedLimiter = 0.05f;
     boolean move = false;
-    private static final int POSITION_Y = 5;
-
+//    private static final int POSITION_Y = -600;
+    private static final int POSITION_Y = 2200;//1322 //1000 one stage
     private static final int POSITION_A = 0;
-    private static final int POSITION_PrepareForHing = 20;
+    private static final int POSITION_PrepareForHing = 1000;
     private static final int POSITION_ForHing = 1;
-    private static final double SLIDE_POWER = 0.05; // Adjust as needed
+    private static final double SLIDE_POWER = 0.4; // Adjust as needed
     //apriltag related
     @Override public void runOpMode() {
         robot.init(hardwareMap);
@@ -165,6 +165,12 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                     if (gamepad2.y && !move) { //up controlled
                         moveSlideToPosition(POSITION_Y);
                     }
+                    if (gamepad2.dpad_left && !move) { //up controlled
+                        moveSlideToPosition(POSITION_PrepareForHing);
+                    }
+                    if (gamepad2.dpad_right && !move) { //up controlled
+                        moveSlideToPosition(POSITION_ForHing);
+                    }
                     moveRobot(drive, strafe, turn);
                     sleep(10);
 
@@ -282,12 +288,20 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
         }
 
         private void moveSlideToPosition ( int targetPosition){
-            robot.liftMotorL.setTargetPosition(targetPosition);
-            robot.liftMotorR.setTargetPosition(targetPosition);
+//            robot.liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            robot.liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            telemetry.addData("targetPosition", targetPosition);
+            telemetry.addData("liftMotorR.getCurrentPosition()",robot.liftMotorR.getCurrentPosition());
+            telemetry.addData("liftMotorL.getCurrentPosition()",robot.liftMotorL.getCurrentPosition());
+            telemetry.update();
+            robot.liftMotorL.setTargetPosition(-targetPosition);
+            robot.liftMotorR.setTargetPosition(-targetPosition);
             robot.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.liftMotorR.setPower(SLIDE_POWER);
-            robot.liftMotorL.setPower(SLIDE_POWER);
+            robot.liftMotorR.setPower(+SLIDE_POWER);
+            robot.liftMotorL.setPower(+SLIDE_POWER);
             move = true;
 //        while (liftMotorR.isBusy() && move) {
             while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
