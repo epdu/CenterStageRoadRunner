@@ -303,7 +303,7 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
             robot.liftMotorR.setPower(+SLIDE_POWER);
             robot.liftMotorL.setPower(+SLIDE_POWER);
             move = true;
-//        while (liftMotorR.isBusy() && move) {
+
             while (robot.liftMotorL.isBusy() && robot.liftMotorR.isBusy() && move) {
                 // Wait until the motor reaches the target position
             }
