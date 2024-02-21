@@ -41,7 +41,10 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     public float speedLimiter = 0.05f;
     boolean move = false;
     private static final int POSITION_Y = 5;
+
     private static final int POSITION_A = 0;
+    private static final int POSITION_PrepareForHing = 20;
+    private static final int POSITION_ForHing = 1;
     private static final double SLIDE_POWER = 0.05; // Adjust as needed
     //apriltag related
     @Override public void runOpMode() {
@@ -100,6 +103,12 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                 }
                 if (gamepad2.y && !move) { //up controlled
                     moveSlideToPosition(POSITION_Y);
+                }
+                if (gamepad2.dpad_left && !move) { //up controlled
+                    moveSlideToPosition(POSITION_PrepareForHing);
+                }
+                if (gamepad2.dpad_right && !move) { //up controlled
+                    moveSlideToPosition(POSITION_ForHing);
                 }
                 moveRobot(drive, strafe, turn);
                 sleep(10);
