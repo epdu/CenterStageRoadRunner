@@ -43,8 +43,8 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
 //    private static final int POSITION_Y = -600;
     private static final int POSITION_Y = 2200;//1322 //1000 one stage
     private static final int POSITION_A = 0;
-    private static final int POSITION_PrepareForHing = 1000;
-    private static final int POSITION_ForHing = 1;
+    private static final int POSITION_PrepareForHing = 2100;
+    private static final int POSITION_ForHing = 100;
     private static final double SLIDE_POWER = 0.4; // Adjust as needed
     //apriltag related
     @Override public void runOpMode() {
