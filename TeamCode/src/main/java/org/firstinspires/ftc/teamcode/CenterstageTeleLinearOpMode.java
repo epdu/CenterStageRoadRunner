@@ -177,8 +177,6 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
 
                 }
             }
-
-
         }
     }
         public void moveRobot ( double moveRobot_x, double moveRobot_y, double moveRobot_yaw){
