@@ -19,8 +19,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "A CenterstageTele LinearOpMode ")
 public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();
-    public String fieldOrRobotCentric="field";// pick up the centric
-    //   public String fieldOrRobotCentric="robot";
+//    public String fieldOrRobotCentric="field";// pick up the centric
+    public String fieldOrRobotCentric="robot";
     final double DESIRED_DISTANCE = 4.0; //  this is how close the camera should get to the target (inches)
     final double SPEED_GAIN  =  0.02  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
     final double STRAFE_GAIN =  0.015 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
@@ -41,34 +41,34 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
     public float speedLimiter = 0.05f;
     boolean move = false;
 //    private static final int POSITION_Y = -600;
-    private static final int POSITION_Y = 2200;//1322 //1000 one stage
+    private static final int POSITION_Y = 2100;//1322 //1000 one stage
     private static final int POSITION_A = 0;
     private static final int POSITION_PrepareForHing = 2100;
-    private static final int POSITION_ForHing = 100;
+    private static final int POSITION_ForHing = 600;
     private static final double SLIDE_POWER = 0.4; // Adjust as needed
     //apriltag related
     @Override public void runOpMode() {
         robot.init(hardwareMap);
-
         waitForStart();
+
         while (opModeIsActive()) {
             if (fieldOrRobotCentric.equals("field")) {
                 FieldCentricDriveTrain();
                 liftArmHigh();
-                if (gamepad1.left_bumper && targetFound) {
-
-                    // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-                    double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-                    double headingError = desiredTag.ftcPose.bearing;
-                    double yawError = desiredTag.ftcPose.yaw;
-
-                    // Use the speed and turn "gains" to calculate how we want the robot to move.
-                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-                    strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-
-                    telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
-                }
+//                if (gamepad1.left_bumper && targetFound) {
+//
+//                    // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
+//                    double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+//                    double headingError = desiredTag.ftcPose.bearing;
+//                    double yawError = desiredTag.ftcPose.yaw;
+//
+//                    // Use the speed and turn "gains" to calculate how we want the robot to move.
+//                    drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+//                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+//                    strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+//
+//                    telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+//                }
 //                if (gamepad1.right_trigger > 0.3) { //close
 //                    robot.ClawR.setPosition(0.71);
 //                }
@@ -111,15 +111,11 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                     moveSlideToPosition(POSITION_ForHing);
                 }
                 moveRobot(drive, strafe, turn);
-                sleep(10);
+
 
 
             } else if (fieldOrRobotCentric.equals("robot")) {
-                RobotCentricDriveTrain();
-                liftArmHigh();
                 if (gamepad1.left_bumper && targetFound) {
-
-                    // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
                     double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                     double headingError = desiredTag.ftcPose.bearing;
                     double yawError = desiredTag.ftcPose.yaw;
@@ -130,6 +126,13 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                     strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
                     telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                }
+                RobotCentricDriveTrain();
+
+
+                liftArmHigh();
+
+
 //                    if (gamepad1.right_trigger > 0.3) { //close
 //                        robot.ClawR.setPosition(0.71);
 //                    }
@@ -172,13 +175,13 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
                         moveSlideToPosition(POSITION_ForHing);
                     }
                     moveRobot(drive, strafe, turn);
-                    sleep(10);
+//                    sleep(10);
 
 
                 }
             }
         }
-    }
+
         public void moveRobot ( double moveRobot_x, double moveRobot_y, double moveRobot_yaw){
 
             double leftFrontPower = moveRobot_x - moveRobot_y + moveRobot_yaw;
@@ -202,6 +205,7 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
             robot.RFMotor.setPower(rightFrontPower);
             robot.LBMotor.setPower(leftBackPower);
             robot.RBMotor.setPower(rightBackPower);
+            sleep(10);
         }
 
         public void FieldCentricDriveTrain () {
@@ -252,15 +256,15 @@ public class CenterstageTeleLinearOpMode  extends LinearOpMode {
             double robot_y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double robot_x = gamepad1.left_stick_x;
             double robot_rx = gamepad1.right_stick_x;
-            IMU imu = hardwareMap.get(IMU.class, "imu");
-            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
-            imu.initialize(parameters);
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+//            IMU imu = hardwareMap.get(IMU.class, "imu");
+//            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                    RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+//                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
+//            imu.initialize(parameters);
+//            if (gamepad1.options) {
+//                imu.resetYaw();
+//            }
+//            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             double fl = robot_y - robot_x - robot_rx;
             double bl = robot_y + robot_x - robot_rx;
