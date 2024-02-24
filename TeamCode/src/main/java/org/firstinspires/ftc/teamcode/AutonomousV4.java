@@ -108,7 +108,7 @@ public class AutonomousV4 extends LinearOpMode {
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 3.9;  // Replace with the actual width of the object in real-world units
     //    public static final double objectWidthInRealWorldUnits = 3.75;  // original value Replace with the actual width of the object in real-world units
-    public static final double focalLength = 1430;  //Logitech C270  Replace with the focal length of the camera in pixels
+    public static final double focalLength = 922;  //Logitech C920 3.67mm pixel Size (µm): 3.98 pixel  C270  Replace with the focal length of the camera in pixels
 //    public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
 
     private static final boolean USE_WEBCAM = true;
