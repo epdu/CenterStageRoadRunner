@@ -184,8 +184,6 @@ public class AutonomousV4 extends LinearOpMode {
             findteamPropLocations();
             dropPurplePixel();
             aprilTagOmni();
-
-
             dropYellowPixel();
             autoParking();
             if(autoParkingDone==true){
@@ -305,20 +303,29 @@ public class AutonomousV4 extends LinearOpMode {
                 telemetry.update();
 
                 moveBackward(0.3, 40);
-                //put arms down
+                robot.Wrist.setPosition(0.08);//down
                 strafeRight(0.3, 12);
-                //dropped the pixel, arms up, and move to backdrop
+                robot.ClawL.setPosition(0.2);//open
+                sleep(20);
+                robot.Wrist.setPosition(0.5);//up
+                robot.ClawL.setPosition(0.505);//close
+                robot.Wrist.setPosition(0.8);//up
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 8);
                 strafeRight(0.3, 24);
                 dropPurplePixelDone = true;
+
             } else if (teamPropLocations.equals("Right")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
                 moveBackward(0.3, 28);
-                //put arms down
+                robot.Wrist.setPosition(0.08);//down
                 turnLeft(0.3, 14.5);
-                //dropped the pixel, and move to backdrop
+                robot.ClawL.setPosition(0.2);//open
+                sleep(20);
+                robot.Wrist.setPosition(0.5);//up
+                robot.ClawL.setPosition(0.505);//close
+                robot.Wrist.setPosition(0.8);//up
                 moveBackward(0.3, 8);
                 strafeLeft(0.3, 4);
                 dropPurplePixelDone = true;
@@ -326,8 +333,13 @@ public class AutonomousV4 extends LinearOpMode {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
                 moveBackward(0.3, 46);
-                //put arms down
-                //dropped the pixel, and move to backdrop
+                robot.Wrist.setPosition(0.08);//down
+                robot.ClawL.setPosition(0.2);//open
+                sleep(20);
+                robot.Wrist.setPosition(0.5);//up
+                robot.ClawL.setPosition(0.505);//close
+                robot.Wrist.setPosition(0.8);//up
+
                 turnLeft(0.3, 14.5);
                 moveBackward(0.3, 20);
                 strafeRight(0.3, 22);
@@ -342,9 +354,22 @@ public class AutonomousV4 extends LinearOpMode {
 
     public void  dropYellowPixel(){
         if(dropYellowPixelDone == false){
-            //move arma and open right side claw only
-            //sleep
-            //close claw down the arms and wrist
+            robot.Wrist.setPosition(0.08);//down
+            robot.ArmL.setPosition(0.5);
+            robot.ArmR.setPosition(0.5);
+            robot.Wrist.setPosition(0.95);//up
+            robot.ArmL.setPosition(0.95);
+            robot.ArmR.setPosition(0.95);
+            robot.ClawR.setPosition(0.2);//open
+            sleep(20);
+            moveForward(0.3, 4);
+            robot.ClawR.setPosition(0.505);//close
+            robot.ArmL.setPosition(0.5);
+            robot.ArmR.setPosition(0.5);
+            robot.Wrist.setPosition(0.8);//up
+            robot.ArmL.setPosition(0);
+            robot.ArmR.setPosition(0);
+            moveForward(0.3, 4);
             dropYellowPixelDone=true;
         }else if (dropYellowPixelDone==true){
             //it`s done
