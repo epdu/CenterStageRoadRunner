@@ -109,6 +109,7 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                 if (gamepad2.dpad_right && !move) { //up controlled
                     moveSlideToPosition(POSITION_ForHing);
                 }
+
 //                moveRobot(drive, strafe, turn);
 //                    sleep(10);
 //
