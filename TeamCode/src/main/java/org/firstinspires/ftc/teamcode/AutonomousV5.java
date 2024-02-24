@@ -33,16 +33,16 @@ import java.util.concurrent.TimeUnit;
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
 //works well except controlHubCam.stopStreaming();
-@Autonomous(name = "Auto VisionPortal V4 try YCrCb ")
-public class AutonomousV4 extends LinearOpMode {
+@Autonomous(name = "Auto VisionPortal V5 recover HSV")
+public class AutonomousV5 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-//    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
-    public String allianceColor="blue";
+    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
+    //    public String allianceColor="blue";
     public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
     //    public String parkingSide="left";
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public boolean autoParkingDone=false;
-//    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
+    //    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
 //    private static final double[] blueBlobColorThresholds = {20.0, 250.0, 40.0, 250.0, 160.0, 240.0};
     public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
@@ -552,14 +552,6 @@ public class AutonomousV4 extends LinearOpMode {
         aprilTag = new AprilTagProcessor.Builder().build();
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
         blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(20, 40, 160), new Scalar(250, 250, 240) );
-//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
-//        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(79,172,82), new Scalar(100, 255, 140) );
-        //(79,192,82)
-//        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
-        //213 100 91
-        // 96,201, 71
-        //41 110 240
-        //blueTeamPropOpenCv
 /*
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
