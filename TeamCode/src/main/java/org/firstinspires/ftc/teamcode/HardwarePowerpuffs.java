@@ -135,8 +135,7 @@ public class HardwarePowerpuffs
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-        //        Drone = hardwareMap.get(Servo.class, "Drone");
+        //Drone = hardwareMap.get(Servo.class, "Drone");
 //        Drone.setPosition(0);
 
 //        Wrist = hardwareMap.get(Servo.class, "wrist");
