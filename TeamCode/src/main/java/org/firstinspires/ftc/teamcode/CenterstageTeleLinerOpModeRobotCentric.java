@@ -44,7 +44,8 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
     private static final int POSITION_A = 100;
     private static final int POSITION_PrepareForHing = 1600;
     private static final int POSITION_ForHing = 400;
-    private static final double SLIDE_POWER = 0.4; // Adjust as needed
+    private static final double SLIDE_POWER = 0.6; // Adjust as needed
+
     //apriltag related
     @Override public void runOpMode() {
         robot.init(hardwareMap);
@@ -72,10 +73,10 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                         robot.ClawR.setPosition(0.71);
                     }
                     if (gamepad1.left_trigger > 0.3) { //close
-                        robot.ClawL.setPosition(0.505);
+                        robot.ClawL.setPosition(0.08);
                     }
                     if (gamepad1.left_bumper && !move) { //open
-                        robot.ClawL.setPosition(0.2);
+                        robot.ClawL.setPosition(0.3);//0.2
                     }
                     if (gamepad1.right_bumper && !move) { //open
                         robot.ClawR.setPosition(0.5);
@@ -88,6 +89,11 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                         robot.ArmL.setPosition(0.95);
                         robot.ArmR.setPosition(0.95);
                     }
+                    if (gamepad2.dpad_up && gamepad2.back && !move) { //up
+                        robot.ArmL.setPosition(0.45);
+                        robot.ArmR.setPosition(0.45);
+                    }
+
                     if (gamepad2.b && !move) { //up
                         robot.Wrist.setPosition(0.8);
                     }
@@ -95,20 +101,20 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                         robot.Wrist.setPosition(0.08);
                     }
                     if (gamepad2.left_bumper && !move) { //shoot
-                        robot.Drone.setPosition(1);
+                        robot.Drone.setPosition(0.4);
                     }
-                if (gamepad2.a && !move) { //all the way down
-                    moveSlideToPosition(POSITION_A);
-                }
-                if (gamepad2.y && !move) { //up controlled
-                    moveSlideToPosition(POSITION_Y);
-                }
-                if (gamepad2.dpad_left && !move) { //up controlled
-                    moveSlideToPosition(POSITION_PrepareForHing);
-                }
-                if (gamepad2.dpad_right && !move) { //up controlled
-                    moveSlideToPosition(POSITION_ForHing);
-                }
+                    if (gamepad2.a && !move) { //all the way down
+                        moveSlideToPosition(POSITION_A);
+                    }
+                    if (gamepad2.y && !move) { //up controlled
+                        moveSlideToPosition(POSITION_Y);
+                    }
+                    if (gamepad2.dpad_left && !move) { //up controlled
+                        moveSlideToPosition(POSITION_PrepareForHing);
+                    }
+                    if (gamepad2.dpad_right && !move) { //up controlled
+                        moveSlideToPosition(POSITION_ForHing);
+                    }
 
 //                moveRobot(drive, strafe, turn);
 //                    sleep(10);
@@ -248,10 +254,11 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
 
         robot.liftMotorL.setPower(0);
         robot.liftMotorR.setPower(0);
-        robot.liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-        robot.liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+
         robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        robot.liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
         move = false;
     }
 }
