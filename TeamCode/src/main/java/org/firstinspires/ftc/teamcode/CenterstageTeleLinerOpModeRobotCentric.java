@@ -88,27 +88,27 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                         robot.ArmL.setPosition(0.95);
                         robot.ArmR.setPosition(0.95);
                     }
-//                    if (gamepad2.b && !move) { //up
-//                        robot.Wrist.setPosition(1);
-//                    }
-//                    if (gamepad2.x && !move) { //down
-//                        robot.Wrist.setPosition(0.6);
-//                    }
-//                    if (gamepad2.left_bumper && !move) { //shoot
-//                        robot.Drone.setPosition(1);
-//                    }
-//                if (gamepad2.a && !move) { //all the way down
-//                    moveSlideToPosition(POSITION_A);
-//                }
-//                if (gamepad2.y && !move) { //up controlled
-//                    moveSlideToPosition(POSITION_Y);
-//                }
-//                if (gamepad2.dpad_left && !move) { //up controlled
-//                    moveSlideToPosition(POSITION_PrepareForHing);
-//                }
-//                if (gamepad2.dpad_right && !move) { //up controlled
-//                    moveSlideToPosition(POSITION_ForHing);
-//                }
+                    if (gamepad2.b && !move) { //up
+                        robot.Wrist.setPosition(0.8);
+                    }
+                    if (gamepad2.x && !move) { //down
+                        robot.Wrist.setPosition(0.08);
+                    }
+                    if (gamepad2.left_bumper && !move) { //shoot
+                        robot.Drone.setPosition(1);
+                    }
+                if (gamepad2.a && !move) { //all the way down
+                    moveSlideToPosition(POSITION_A);
+                }
+                if (gamepad2.y && !move) { //up controlled
+                    moveSlideToPosition(POSITION_Y);
+                }
+                if (gamepad2.dpad_left && !move) { //up controlled
+                    moveSlideToPosition(POSITION_PrepareForHing);
+                }
+                if (gamepad2.dpad_right && !move) { //up controlled
+                    moveSlideToPosition(POSITION_ForHing);
+                }
 //                moveRobot(drive, strafe, turn);
 //                    sleep(10);
 //

@@ -138,17 +138,20 @@ public class HardwarePowerpuffs
         //Drone = hardwareMap.get(Servo.class, "Drone");
 //        Drone.setPosition(0);
 
-//        Wrist = hwMap.get(Servo.class, "wrist");
-//        Wrist.setDirection(Servo.Direction.REVERSE);
-//        Wrist.setPosition(1);
+
 //
 //        ClawR = hawMap.get(Servo.class, "ClawR");
 //        ClawL = hwMap.get(Servo.class, "ClawL");
 //        ClawR.setPosition(0.71);
 //        ClawL.setPosition(0.505);
 //        ClawL.setDirection(Servo.Direction.REVERSE);
-//
-         //Wrist = hwMap.get(Servo.class, "wrist");//control hub port 5
+
+//        Wrist = hwMap.get(Servo.class, "wrist");
+//        Wrist.setDirection(Servo.Direction.REVERSE);
+//        Wrist.setPosition(1);
+
+        Wrist = hwMap.get(Servo.class, "wrist");//control hub port 5
+        Wrist.setPosition(0.8);
 //        Wrist.setPosition(0.34);
         //drone expansion hub port 5
        //ClawR = hwMap.get(Servo.class, "ClawR");//control hub port 2
@@ -159,7 +162,7 @@ public class HardwarePowerpuffs
 
         ArmL = hwMap.get(Servo.class, "ArmL");
         //control hub port 1
-        ArmR = hwMap.get(Servo.class, "ArmR");//control hub port
+        ArmR = hwMap.get(Servo.class, "ArmR");//control hub port 0
         ArmL.setDirection(Servo.Direction.REVERSE);
 
 //
