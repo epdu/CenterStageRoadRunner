@@ -146,9 +146,6 @@ public class HardwarePowerpuffs
 //        ClawL.setPosition(0.505);
 //        ClawL.setDirection(Servo.Direction.REVERSE);
 
-//        Wrist = hwMap.get(Servo.class, "wrist");
-//        Wrist.setDirection(Servo.Direction.REVERSE);
-//        Wrist.setPosition(1);
 
         Wrist = hwMap.get(Servo.class, "wrist");//control hub port 5
         Wrist.setPosition(0.8);

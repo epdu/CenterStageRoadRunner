@@ -248,6 +248,8 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
 
         robot.liftMotorL.setPower(0);
         robot.liftMotorR.setPower(0);
+        robot.liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        robot.liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
         robot.liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         move = false;
