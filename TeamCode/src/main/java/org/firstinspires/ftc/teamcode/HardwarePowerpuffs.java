@@ -138,33 +138,31 @@ public class HardwarePowerpuffs
         //Drone = hardwareMap.get(Servo.class, "Drone");
 //        Drone.setPosition(0);
 
-//        Wrist = hardwareMap.get(Servo.class, "wrist");
+//        Wrist = hwMap.get(Servo.class, "wrist");
 //        Wrist.setDirection(Servo.Direction.REVERSE);
 //        Wrist.setPosition(1);
 //
-//        ClawR = hardwareMap.get(Servo.class, "ClawR");
-//        ClawL = hardwareMap.get(Servo.class, "ClawL");
+//        ClawR = hawMap.get(Servo.class, "ClawR");
+//        ClawL = hwMap.get(Servo.class, "ClawL");
 //        ClawR.setPosition(0.71);
 //        ClawL.setPosition(0.505);
 //        ClawL.setDirection(Servo.Direction.REVERSE);
 //
-//        ArmL = hardwareMap.get(Servo.class, "ArmL");
-//        ArmR = hardwareMap.get(Servo.class, "ArmR");
-//        ArmL.setDirection(Servo.Direction.REVERSE);
-/*
-         //Wrist = hardwareMap.get(Servo.class, "wrist");//control hub port 5
-        Wrist.setPosition(0.34);
+         //Wrist = hwMap.get(Servo.class, "wrist");//control hub port 5
+//        Wrist.setPosition(0.34);
         //drone expansion hub port 5
-       //ClawR = hardwareMap.get(Servo.class, "ClawR");//control hub port 2
-        //ClawL = hardwareMap.get(Servo.class, "ClawL");//control hub port 3
-        ClawR.setPosition(0.78);
-        ClawL.setPosition(0.018);
-        ClawL.setDirection(Servo.Direction.REVERSE);
+       //ClawR = hwMap.get(Servo.class, "ClawR");//control hub port 2
+        //ClawL = hwMap.get(Servo.class, "ClawL");//control hub port 3
+//        ClawR.setPosition(0.78);
+//        ClawL.setPosition(0.018);
+//        ClawL.setDirection(Servo.Direction.REVERSE);
 
-        //ArmL = hardwareMap.get(Servo.class, "ArmL");//control hub port 1
-        //ArmR = hardwareMap.get(Servo.class, "ArmR");//control hub port 0
+        ArmL = hwMap.get(Servo.class, "ArmL");
+        //control hub port 1
+        ArmR = hwMap.get(Servo.class, "ArmR");//control hub port
+        ArmL.setDirection(Servo.Direction.REVERSE);
 
-*/
+//
 
 
         imu = hwMap.get(IMU.class, "imu");
