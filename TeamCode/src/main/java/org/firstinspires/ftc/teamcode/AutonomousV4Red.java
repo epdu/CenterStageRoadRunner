@@ -1,3 +1,4 @@
+
 //Alan taught me a nice way to debug code, each time he will make a new file with mame-AutonomousCopyALan from Autonomous
 //Blue left setup  use hardware init Red Alliance works, add blue still need to adjust hsv range, contours either too big or too small
 //set the distance from front of robot to the block of game element
@@ -8,7 +9,7 @@
 // 11.87374348
 //537 per revolution 11.87374348 inch
 */
-package org.firstinspires.ftc.teamcode;
+        package org.firstinspires.ftc.teamcode;
 import static java.lang.Math.abs;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -21,6 +22,8 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.teamcode.HardwarePowerpuffs;
+import org.firstinspires.ftc.teamcode.OpenCvVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -33,16 +36,16 @@ import java.util.concurrent.TimeUnit;
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
 //works well except controlHubCam.stopStreaming();
-@Autonomous(name = "Auto VisionPortal V4 blue ")
-public class AutonomousV4 extends LinearOpMode {
+@Autonomous(name = "Auto VisionPortal V4 red ")
+public class AutonomousV4Red extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
-//    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
-    public String allianceColor="blue";
+    //    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
+    public String allianceColor="red";
     public String parkingSide="right";// "null" for init  set to be "left" or "right" for each match
     //    public String parkingSide="left";
     public double sleepingTime=0.0;// set to be any number if need to avoid collision with alliance
     public boolean autoParkingDone=false;
-//    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
+    //    private static final double[] redBlobColorThresholds = {20.0, 120.0, 180.0, 240.0, 90.0, 120.0};
 //    private static final double[] blueBlobColorThresholds = {20.0, 250.0, 40.0, 250.0, 160.0, 240.0};
     public float speedMultiplier=0.5f;
     public float speedLimiter =0.5f;
@@ -298,34 +301,34 @@ public class AutonomousV4 extends LinearOpMode {
     }
     public boolean  dropPurplePixel() {
         if(dropPurplePixelDone == false){
-            if ( teamPropLocations.equals("Left")) {
+            if ( teamPropLocations.equals("Right")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
 
                 moveBackward(0.3, 40);
                 robot.Wrist.setPosition(0.08);//down
-                strafeRight(0.3, 12);
+                strafeLeft(0.3, 12);
                 robot.ClawL.setPosition(0.3);//open
                 sleep(20);
                 robot.Wrist.setPosition(0.4);//up
                 robot.ClawL.setPosition(0.08);//close
-                turnLeft(0.3, 14.5);
+                turnRight(0.3, 14.5);
                 moveBackward(0.3, 8);
-                strafeRight(0.3, 24);
+                strafeLeft(0.3, 24);
                 dropPurplePixelDone = true;
 
-            } else if (teamPropLocations.equals("Right")) {
+            } else if (teamPropLocations.equals("Left")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
                 telemetry.update();
                 moveBackward(0.3, 28);
                 robot.Wrist.setPosition(0.08);//down
-                turnLeft(0.3, 14.5);
+                turnRight(0.3, 14.5);
                 robot.ClawL.setPosition(0.3);//open
                 sleep(20);
                 robot.Wrist.setPosition(0.4);//up
                 robot.ClawL.setPosition(0.08);//close
                 moveBackward(0.3, 8);
-                strafeLeft(0.3, 4);
+                strafeRight(0.3, 4);
                 dropPurplePixelDone = true;
             } else if (teamPropLocations.equals("Center")) {
                 telemetry.addData("teamPropLocations", teamPropLocations);
@@ -334,12 +337,12 @@ public class AutonomousV4 extends LinearOpMode {
                 robot.Wrist.setPosition(0.08);//down
                 robot.ClawL.setPosition(0.3);//open
                 sleep(20);
-                robot.Wrist.setPosition(0.5);//up
+                robot.Wrist.setPosition(0.4);//up
                 robot.ClawL.setPosition(0.08);//close
 
-                turnLeft(0.3, 14.5);
+                turnRight(0.3, 14.5);
                 moveBackward(0.3, 20);
-                strafeRight(0.3, 22);
+                strafeLeft(0.3, 22);
                 moveForward(0.3, 10);
                 dropPurplePixelDone = true;
             }
@@ -471,17 +474,17 @@ public class AutonomousV4 extends LinearOpMode {
     public void  aprilTagOmni(){
         if (teamPropLocations.equals("Left"))
         {
-            DESIRED_TAG_ID = 1;
+            DESIRED_TAG_ID = 4;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
         } else if (teamPropLocations.equals("Center")) {
-            DESIRED_TAG_ID = 2;
+            DESIRED_TAG_ID = 5;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
         } else if (teamPropLocations.equals("Right")) {
-            DESIRED_TAG_ID = 3;
+            DESIRED_TAG_ID = 6;
             lookfortag(DESIRED_TAG_ID);
             telemetry.addData("aprilTagOmni, DESIRED_TAG_ID", DESIRED_TAG_ID);
             telemetry.update();
@@ -548,7 +551,7 @@ public class AutonomousV4 extends LinearOpMode {
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );//good
 //        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,70,25), new Scalar(130, 255, 255) );//good
 
-                //below for 2YCrCb
+        //below for 2YCrCb
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
 //        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(20, 40, 160), new Scalar(250, 250, 240) );
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
