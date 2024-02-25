@@ -29,10 +29,10 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-//HSV need claw and wrist
+//HSV
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
-//works well except controlHubCam.stopStreaming();
+//works well except controlHubCam.stopStreaming(); check this 0225morning
 @Autonomous(name = "Auto VisionPortal V5 recover HSV")
 public class AutonomousV5 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
@@ -550,9 +550,14 @@ public class AutonomousV5 extends LinearOpMode {
     }
     private void initVisionPortal() {
         aprilTag = new AprilTagProcessor.Builder().build();
-        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
-        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(20, 40, 160), new Scalar(250, 250, 240) );
+        //Below isYCrCb That means for RED, lowColorThresholds should be new Scalar(20, 180, 90) and highColorThresholds should be new Scalar(120, 240, 120)
+        //For BLUE, low should be new Scalar(20, 40, 160) and high should be new Scalar(250, 250, 240)
+ //below is HSV
+        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,70,25), new Scalar(130, 255, 255) );
 /*
+        //346/2=173 -+10 -> 163,180 54 56
+        //207/2=103-+10=93 113
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
 //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(140,25,35), new Scalar(179, 255, 255) );
         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );//good

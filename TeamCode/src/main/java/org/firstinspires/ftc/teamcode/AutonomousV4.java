@@ -29,7 +29,7 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-//HSV need claw and wrist
+//double check
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
 //works well except controlHubCam.stopStreaming();
