@@ -141,8 +141,15 @@ public class OpenCvVisionProcessor implements VisionProcessor {
     }   //onDrawFrame
 
     private void preprocessFrame(Mat frame) {
-//        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV); //V5
-        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2YCrCb); //V6
+        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2HSV); //V4
+        /*
+        *         redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(1, 98, 34), new Scalar(30, 255, 255) );//good
+        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(93,70,25), new Scalar(130, 255, 255) );//good
+        * */
+//        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_RGB2YCrCb); //V4
+//        //        redTeamPropOpenCv= new OpenCvVisionProcessor("Red", new Scalar(20, 180, 90), new Scalar(120, 240, 120) );
+////        blueTeamPropOpenCv= new OpenCvVisionProcessor("Blue", new Scalar(20, 40, 160), new Scalar(250, 250, 240) );
+//
         Core.inRange(hsvFrame, lowHSV, highHSV, yellowMask);
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_OPEN, kernel);
         Imgproc.morphologyEx(yellowMask, yellowMask, Imgproc.MORPH_CLOSE, kernel);
