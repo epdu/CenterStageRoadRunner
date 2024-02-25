@@ -89,9 +89,9 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                         robot.ArmL.setPosition(0.95);
                         robot.ArmR.setPosition(0.95);
                     }
-                    if (gamepad2.dpad_up && gamepad2.back && !move) { //up
-                        robot.ArmL.setPosition(0.45);
-                        robot.ArmR.setPosition(0.45);
+                    if (gamepad1.b  && !move) { // move top the middle a little bit pass center
+                        robot.ArmL.setPosition(0.3);
+                        robot.ArmR.setPosition(0.3);
                     }
 
                     if (gamepad2.b && !move) { //up
