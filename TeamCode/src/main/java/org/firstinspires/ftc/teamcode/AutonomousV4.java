@@ -29,11 +29,11 @@ import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-//HSV need claw and wrist
+//double check
 //OpenCvVisionProcessor
 //HardwarePowerpuffs
 //works well except controlHubCam.stopStreaming();
-@Autonomous(name = "Auto VisionPortal V4 try YCrCb ")
+@Autonomous(name = "Auto VisionPortal V4 blue ")
 public class AutonomousV4 extends LinearOpMode {
     HardwarePowerpuffs robot = new HardwarePowerpuffs();   // Use a Powerpuffs's hardware
 //    public String allianceColor="red";// "null" for init set to be "red" or "blue" for each match
