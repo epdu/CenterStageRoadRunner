@@ -44,7 +44,7 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
     private static final int POSITION_A = 100;
     private static final int POSITION_PrepareForHing = 1600;
     private static final int POSITION_ForHing = 400;
-    private static final double SLIDE_POWER = 0.6; // Adjust as needed
+    private static final double SLIDE_POWER = 0.8; // Adjust as needed
 
     //apriltag related
     @Override public void runOpMode() {
