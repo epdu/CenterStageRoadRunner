@@ -29,22 +29,23 @@ public class FtcOrientationTele extends OpMode {
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Claw = hardwareMap.servo.get("Claw"); // expansion hub servo port 2
+        Claw.setPosition(0.7);
     }
 
     @Override
     public void loop() {
         moveDriveTrain();
             if (gamepad1.right_trigger > 0.3) { //open
-                Claw.setPosition(0);
+                Claw.setPosition(0.5);
             }if (gamepad1.left_trigger > 0.3) { //close
-                Claw.setPosition(0.3);
+                Claw.setPosition(0.7);
         }
     }
 
     public void moveDriveTrain() {
-            double y = gamepad1.left_stick_y*0.8;
+            double y = gamepad1.left_stick_y;
             double x =- gamepad1.left_stick_x;
-            double rx = -gamepad1.right_stick_x*0.5;
+            double rx = -gamepad1.right_stick_x;
 
 
             double fl = y + x + rx;
@@ -52,10 +53,10 @@ public class FtcOrientationTele extends OpMode {
             double fr = y - x - rx;
             double br = y + x - rx;
 
-            LFMotor.setPower(fl);
-            LBMotor.setPower(bl);
-            RFMotor.setPower(fr);
-            RBMotor.setPower(br);
+            LFMotor.setPower(fl*0.5);
+            LBMotor.setPower(bl*0.5);
+            RFMotor.setPower(fr*0.5);
+            RBMotor.setPower(br*0.5);
 
         }
 }
