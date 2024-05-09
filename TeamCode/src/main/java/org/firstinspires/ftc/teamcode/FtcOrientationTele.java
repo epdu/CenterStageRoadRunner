@@ -30,7 +30,7 @@ public class FtcOrientationTele extends LinearOpMode {
         RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL");
+        liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL"); //control hub ort 2
 //        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
         int positionL = liftMotorL.getCurrentPosition();
