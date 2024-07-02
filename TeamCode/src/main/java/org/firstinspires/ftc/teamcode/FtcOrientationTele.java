@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class FtcOrientationTele extends LinearOpMode {
-    HardwarePowerpuffs robot = new HardwarePowerpuffs();
 
     DcMotor LFMotor;
     DcMotor LBMotor;
@@ -16,8 +15,13 @@ public class FtcOrientationTele extends LinearOpMode {
     DcMotor RBMotor;
 
     DcMotor liftMotorL;
+    DcMotor liftMotorR;
 
     Servo Claw;
+    Servo ArmR;
+    Servo ArmL;
+    Servo Wirst;
+
 
     boolean move = false;
 
@@ -31,32 +35,52 @@ public class FtcOrientationTele extends LinearOpMode {
         RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotorL = hardwareMap.get(DcMotor.class, "liftMotorL"); //control hub ort 2
-//        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
+        liftMotorR = hardwareMap.get(DcMotor.class, "liftMotorR");
 
         int positionL = liftMotorL.getCurrentPosition();
-//        int positionR = liftMotorR.getCurrentPosition();
-//
-//        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        int positionR = liftMotorR.getCurrentPosition();
+
+        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
         liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-//
-//        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Claw = hardwareMap.servo.get("Claw"); // expansion hub servo port 2
         Claw.setPosition(0.7);
+//        ArmR = hardwareMap.servo.get("ArmR"); // expansion hub servo port 0
+        ArmL = hardwareMap.servo.get("ArmL"); // expansion hub servo port 1
+        ArmL.setDirection(Servo.Direction.REVERSE);
+        ArmL.setPosition(0.95);
+        Wirst = hardwareMap.servo.get("Wirst"); // expansion hub servo port 3
+        Wirst.setDirection(Servo.Direction.REVERSE);
         waitForStart();
 
         while (opModeIsActive()) {
             moveDriveTrain();
-            liftArmHigh();
             if (gamepad1.right_trigger > 0.3) { //open
                 Claw.setPosition(0.5);
+            }if (gamepad1.left_trigger > 0.3) { //close
+                Claw.setPosition(0.82);
+
+            }if (gamepad2.a  && !move) { //down
+                ArmL.setPosition(0.95);
             }
-            if (gamepad1.left_trigger > 0.3) { //close
-                Claw.setPosition(0.7);
+            if (gamepad2.y && !move) { //up
+                ArmL.setPosition(0);
             }
+            if (gamepad2.b && !move) { //up
+                Wirst.setPosition(0);
+            }
+            if (gamepad2.x && !move) { //down
+                Wirst.setPosition(1);
+            }
+            //for up
+
+
+            //for down
         }
     }
     public void moveDriveTrain() {
@@ -78,10 +102,12 @@ public class FtcOrientationTele extends LinearOpMode {
         }
     public void liftArmHigh () {
         double liftArm_y = gamepad2.left_stick_y;
-        robot.liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        robot.liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftMotorL.setPower(liftArm_y);
-//        robot.liftMotorR.setPower(liftArm_y);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorL.setPower(liftArm_y*0.5);
+        liftMotorR.setPower(liftArm_y*0.5);
+        liftMotorR.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
+        liftMotorL.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
         //up joystick makes the slides rotate clockwise on the out right side
         //when looking at the robots right side from the outside wall the slide pulley spins clockwise/to the right when the joystick is pushed up
 
