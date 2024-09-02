@@ -33,7 +33,7 @@ public class Gyro extends LinearOpMode{
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+//actions or stuff to do in the program
 //        final int STAGE = 1;
           final int STAGE = 2;
         if (STAGE == 1) {
@@ -49,6 +49,7 @@ public class Gyro extends LinearOpMode{
     public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currAngle = 0;
+        //changes the last angle measureed to 0
     }
 
     public double getAngle() {
@@ -56,10 +57,10 @@ public class Gyro extends LinearOpMode{
         // Get current orientation
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        // Change in angle = current angle - previous angle
+        // Change in angle = current angle - previous angle,     helps it to the angles
         double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
 
-        // Gyro only ranges from -179 to 180
+        // Gyro only ranges from -179 to 179
         // If it turns -1 degree over from -179 to 180, subtract 360 from the 359 to get -1
         if (deltaAngle < -180) {
             deltaAngle += 360;
@@ -68,6 +69,8 @@ public class Gyro extends LinearOpMode{
         }
 
         // Add change in angle to current angle to get current angle
+        //set the last angle to the robots orientattion
+        //show current angle
         currAngle += deltaAngle;
         lastAngles = orientation;
         telemetry.addData("gyro", orientation.firstAngle);
@@ -76,9 +79,17 @@ public class Gyro extends LinearOpMode{
 
     public void turn(double degrees){
         resetAngle();
-
+//sets the degrees listed in the turn to error
         double error = degrees;
 
+/*
+if the absoulute value of error>2 then
+new variable mototPower. if error is smaller than zero the motor power= 0.3 or -0.3
+robot.setMototr is -_0.3, +-0.3, -+0.3. +-0.3 which sets it to turn right or left
+ error's new value = degrees-curr angle
+show error's value
+and then stop
+*/
         while (opModeIsActive() && Math.abs(error) > 2) {
             double motorPower = (error < 0 ? -0.3 : 0.3);
             robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
@@ -93,7 +104,13 @@ public class Gyro extends LinearOpMode{
     public void turnTo(double degrees){
 
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+/*
+new variable error. error = degrees- robots initial angle
+if angle(error)>180 then error=360-angle(error)
+else fi angle(error) <-180 then error=360+error(angle)
 
+turn(degrees=error)
+ */
         System.out.println(orientation.firstAngle);
         double error = degrees - orientation.firstAngle;
 
@@ -107,14 +124,16 @@ public class Gyro extends LinearOpMode{
     }
 
     public double getAbsoluteAngle() {
+/*
+get robots angle and set that to the first angle
+ */
         return robot.imu.getAngularOrientation(
                 AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
         ).firstAngle;
     }
 
-    public void turnPID(double degrees) {
-        turnToPID(degrees + getAbsoluteAngle());
-    }
+    public void turnPID(double degrees) {turnToPID(degrees + getAbsoluteAngle());}
+//new variable degrees, turn to pid(targetangle=degrees +absoulte angle)
 
     void turnToPID(double targetAngle) {
         TurnPIDController pid = new TurnPIDController(targetAngle, 0.01, 0, 0.003);
@@ -123,6 +142,12 @@ public class Gyro extends LinearOpMode{
         while (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pid.getLastSlope() > 0.75) {
             double motorPower = pid.update(getAbsoluteAngle());
             robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+/*
+if the absoulute value of the target angle-the absoulute angle>0.5 AND the last slope >0.75 then
+new varaible mototPower,, pid new value absoulute angle=motor power
+robot.setMototr is -_0.3, +-0.3, -+0.3. +-0.3 which sets it to turn right or left
+lastly stop
+ */
 
             telemetry.addData("Current Angle", getAbsoluteAngle());
             telemetry.addData("Target Angle", targetAngle);
