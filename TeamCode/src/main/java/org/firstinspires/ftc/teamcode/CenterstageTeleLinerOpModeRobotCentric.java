@@ -97,7 +97,6 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                     if (gamepad2.b && !move) { //up
                         robot.Wrist.setPosition(0.8);
                     }
-
                     if (gamepad1.y && !move) { //up
                         robot.Wrist.setPosition(0.4);
                     }
