@@ -68,7 +68,6 @@ public class CenterstageTeleLinerOpModeRobotCentric extends LinearOpMode {
                 RobotCentricDriveTrain();
                 liftArmHigh();
 
-
                     if (gamepad1.right_trigger > 0.3) { //close
                         robot.ClawR.setPosition(0.71);
                     }
