@@ -82,6 +82,8 @@ public class Gyro extends LinearOpMode{
         while (opModeIsActive() && Math.abs(error) > 2) {
             double motorPower = (error < 0 ? -0.3 : 0.3);
             robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+            // for teletubbies
+         //             robot.setMotorPower(-motorPower, -motorPower, +motorPower, +motorPower);
             error = degrees - getAngle();
             telemetry.addData("error", error);
             telemetry.update();
@@ -123,7 +125,8 @@ public class Gyro extends LinearOpMode{
         while (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pid.getLastSlope() > 0.75) {
             double motorPower = pid.update(getAbsoluteAngle());
             robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
-
+            // for teletubbies
+            //robot.setMotorPower(-motorPower, -motorPower, +motorPower, +motorPower);
             telemetry.addData("Current Angle", getAbsoluteAngle());
             telemetry.addData("Target Angle", targetAngle);
             telemetry.addData("Slope", pid.getLastSlope());
